@@ -1,0 +1,67 @@
+<p>edit-product works!</p>
+<mat-toolbar color="primary">
+    <mat-toolbar-row fxLayoutAlign="space-between center">
+        <div>
+            <button mat-button class="button">
+                <div class = "gap">BOOK</div><br>
+                <div class = "sample">STORE</div>
+        </button>
+        </div>
+        <div class="spacer">
+    
+            <button mat-button><mat-icon>shopping_cart</mat-icon>Products</button >
+            <button mat-button><mat-icon> local_shipping</mat-icon>Orders</button >
+        </div>
+        
+        <div fxLayout="row" fxLayoutAlign="end center">
+            
+                    <button mat-button>	
+                        <mat-icon *ngIf="!deviceXs">exit_to_app</mat-icon>
+                    <span *ngIf="!deviceXs">Logout</span>
+                    <mat-icon *ngIf="deviceXs">exit_to_app</mat-icon>
+    
+                </button>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="page">
+    
+            <div class="addproduct">
+                <div class="head">
+                    <p>EDIT PRODUCT</p>
+                </div>
+            <mat-form-field appearance="outline">
+            
+            <input matInput placeholder="Product Name" required name="name" ngModel
+              #username="ngModel">
+           </mat-form-field><br/>
+    
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Product Price" required name="price" ngModel
+              #username="ngModel">
+          </mat-form-field><br/>
+    
+          <mat-form-field appearance="outline">
+            <textarea matInput rows="3" cols="40" placeholder="Product Description" required name="desci" ngModel
+              #username="ngModel"></textarea>
+          </mat-form-field><br/>
+    
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Image URL" required name="img" ngModel
+              #username="ngModel">
+          </mat-form-field><br/>
+    
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Product Quantity" required name="username" ngModel
+              #username="ngModel">
+          </mat-form-field><br/>
+          
+          <button
+                        mat-raised-button
+                        color="primary"
+                        class="add-button">
+                        EDIT
+                      </button>
+        </div>
+    </div>
+    
