@@ -1,0 +1,75 @@
+<div class="login-page" fxFlex="100" fxFlexFill>
+    <form action="">
+      
+       <div class="align" fxFlex="100">
+        <h1 class="head">SIGN UP</h1>
+              <mat-form-field appearance="outline">
+                <input matInput placeholder="Enter Email" required
+                  name="email"
+                  ngModel
+                  #email="ngModel">
+                <mat-error *ngIf="email.invalid">Email is required</mat-error>
+              </mat-form-field><br/>
+
+              <mat-form-field appearance="outline">
+                <input matInput placeholder="Enter Username" required name="username" ngModel
+                  #username="ngModel">
+                <mat-error
+                  *ngIf="username.errors">
+                  Username is required
+                </mat-error>
+              </mat-form-field><br/>
+              
+              <mat-form-field appearance="outline">
+                <input matInput placeholder="Enter Mobile Number" type="tel" required name="ph-number"
+                  ngModel
+                  #tel="ngModel">
+                <mat-error *ngIf="tel.invalid">phone number is required</mat-error>
+              </mat-form-field><br/>
+              
+              <mat-form-field appearance="outline">
+                <input matInput placeholder="Enter Password" type="password" required minlength="6" name="password" ngModel
+                  #password="ngModel">
+                <mat-error *ngIf="password.errors && password.errors.required">
+                  Password is required
+                </mat-error>
+                <mat-error
+                  *ngIf="password.errors && password.errors.minlength">
+                  Password must be of length 6
+                </mat-error>
+              </mat-form-field><br/>
+
+              <mat-form-field appearance="outline">
+                  <input matInput placeholder="Confirm Password" type="password" required 
+                  minlength="6"
+                  name="repassword"
+                  ngModel
+                  #repassword="ngModel">
+                  <mat-error
+                    *ngIf="repassword.errors && repassword.errors.required">
+                    Re-Enter Password is required
+                  </mat-error>
+              </mat-form-field><br/>
+              
+
+              <button
+                mat-raised-button
+                color="primary"
+                class="login-button">
+                Sign Up
+              </button>
+
+              <div class="d">       
+                <p>
+                  Already a member? <a routerLink="/login" routerLinkActive="active">Click here</a>
+               </p>
+              </div>
+
+            </div>
+      </form>
+  </div>
+ 
+
+  
+   
+    

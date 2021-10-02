@@ -1,0 +1,17 @@
+<div class="login" >
+    <h1>LOGIN</h1>
+    <form (ngSubmit) = "onSubmit()">
+    <input class="uId" type="email" [(ngModel)] = "Login.email" name = "email" placeholder="Email">
+    <br>
+    <input class="uId" type="password" [(ngModel)] = "Login.password" name = "password" placeholder="Password">
+    <br>
+    <div class="btn">
+        <button type="submit" mat-raised-button color="primary" class="login-button" id="submitbutton"> Login </button>
+    </div>
+    </form>
+    <div class="d">       
+      <p>
+         New to Bookstore? <a routerLink="/signup" routerLinkActive="active">Click here</a>
+      </p>
+    </div>
+  </div>
