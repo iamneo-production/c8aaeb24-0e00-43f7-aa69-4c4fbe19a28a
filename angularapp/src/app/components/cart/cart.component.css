@@ -1,0 +1,48 @@
+.mat-elevation-z8{
+  margin-top: 30px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.gap {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: left;
+  margin-bottom: -30px;
+    font-weight: bold;
+    font-size: 20px;
+ }
+.sample{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-top:-20px;
+    font-weight: bold;
+    font-size: 20px;
+}
+.spacer{
+  flex: 1 1 auto;
+}
+.full-width-table{
+  width: 100%;
+}
+th{
+  background-color: #ffd344;
+  font-size: large;
+  color: black;
+}
+th:first-of-type {
+  border-top-left-radius: 10px;
+}
+th:last-of-type {
+  border-top-right-radius: 10px;
+}
+td{
+  font-size: large;
+  background-color: #f1f2fb;
+}
+.mat-flat-button.mat-clr{
+  background-color: #ffd344;
+  color: black;
+}
+.btn{
+  padding-top: 25px;
+  padding-left: 20px;
+}
+

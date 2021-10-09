@@ -1,0 +1,19 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { addProduct } from './addProduct';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AddProductService {
+  private baseURL = "http://localhost:8080/admin/addProduct";
+
+  constructor(private httpClient: HttpClient) {
+  }
+
+  addProd(addproduct: addProduct): Observable<Object>{
+    return this.httpClient.post(`${this.baseURL}`,addproduct);
+  }
+}

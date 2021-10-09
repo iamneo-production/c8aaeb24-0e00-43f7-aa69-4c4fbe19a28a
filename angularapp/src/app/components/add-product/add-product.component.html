@@ -29,37 +29,39 @@
             <div class="head">
                 <p>ADD A NEW PRODUCT</p>
             </div>
+         <form (ngSubmit) = "onSubmit()">  
         <mat-form-field appearance="outline">
         
         <input matInput placeholder="Product Name" required name="name" ngModel
-          #username="ngModel">
+          #username="ngModel" [(ngModel)] = "inst.productName">
        </mat-form-field><br/>
 
       <mat-form-field appearance="outline">
         <input matInput placeholder="Product Price" required name="price" ngModel
-          #username="ngModel">
+          #username="ngModel" [(ngModel)] = "inst.price">
       </mat-form-field><br/>
 
       <mat-form-field appearance="outline">
         <textarea matInput rows="3" cols="40" placeholder="Product Description" required name="desci" ngModel
-          #username="ngModel"></textarea>
+          #username="ngModel" [(ngModel)] = "inst.description"></textarea>
       </mat-form-field><br/>
 
       <mat-form-field appearance="outline">
         <input matInput placeholder="Image URL" required name="img" ngModel
-          #username="ngModel">
+          #username="ngModel" [(ngModel)] = "inst.imageURL">
       </mat-form-field><br/>
 
       <mat-form-field appearance="outline">
         <input matInput placeholder="Product Quantity" required name="username" ngModel
-          #username="ngModel">
+          #username="ngModel" [(ngModel)] = "inst.quantity">
       </mat-form-field><br/>
       
-      <button
+      <button type="submit"
                     mat-raised-button
                     color="primary"
                     class="add-button">
                     ADD
                   </button>
+        </form> 
     </div>
 </div>

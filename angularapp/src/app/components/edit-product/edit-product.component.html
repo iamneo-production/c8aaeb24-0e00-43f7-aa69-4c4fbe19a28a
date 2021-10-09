@@ -1,4 +1,4 @@
-<p>edit-product works!</p>
+
 <mat-toolbar color="primary">
     <mat-toolbar-row fxLayoutAlign="space-between center">
         <div>
@@ -30,38 +30,35 @@
                 <div class="head">
                     <p>EDIT PRODUCT</p>
                 </div>
+          <form (ngSubmit) = "onSubmit()">      
             <mat-form-field appearance="outline">
             
-            <input matInput placeholder="Product Name" required name="name" ngModel
-              #username="ngModel">
+            <input matInput value="{{employee.productName}}" [(ngModel)] = "editemployee.productName" name="productName" >
            </mat-form-field><br/>
     
           <mat-form-field appearance="outline">
-            <input matInput placeholder="Product Price" required name="price" ngModel
-              #username="ngModel">
+            <input matInput value="{{employee.price}}" [(ngModel)] = "editemployee.price" name="price">
           </mat-form-field><br/>
     
           <mat-form-field appearance="outline">
-            <textarea matInput rows="3" cols="40" placeholder="Product Description" required name="desci" ngModel
-              #username="ngModel"></textarea>
+            <textarea matInput rows="3" cols="40" value="{{employee.description}}" [(ngModel)] = "editemployee.description" name="description"></textarea>
           </mat-form-field><br/>
     
           <mat-form-field appearance="outline">
-            <input matInput placeholder="Image URL" required name="img" ngModel
-              #username="ngModel">
+            <input matInput value="{{employee.imageUrl}}" [(ngModel)] = "editemployee.imageUrl" name="imageUrl">
           </mat-form-field><br/>
     
           <mat-form-field appearance="outline">
-            <input matInput placeholder="Product Quantity" required name="username" ngModel
-              #username="ngModel">
+            <input matInput value="{{employee.quantity}}" [(ngModel)] = "editemployee.quantity" name="quantity">
           </mat-form-field><br/>
           
-          <button
+          <button type="submit"
                         mat-raised-button
                         color="primary"
                         class="add-button">
                         EDIT
                       </button>
+            </form>
         </div>
     </div>
     

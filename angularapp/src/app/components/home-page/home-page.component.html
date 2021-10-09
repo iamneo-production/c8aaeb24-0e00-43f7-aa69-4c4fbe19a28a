@@ -1,0 +1,74 @@
+<div fxLayout>
+
+<mat-toolbar color="primary">
+    <mat-toolbar-row fxLayoutAlign="space-between center">
+        <div>
+            <button mat-button class="button">
+                <div class="head">
+                BOOK STORE
+            </div>
+            </button>
+        </div>
+        <div class="spacer">
+            <button mat-button><mat-icon>home</mat-icon><span>Home</span></button >
+            <button routerLink="/cart" routerLinkActive="active" mat-button><mat-icon>shopping_cart</mat-icon><span>Cart</span></button >
+            <button routerLink="/orders" routerLinkActive="active" mat-button><mat-icon> local_shipping</mat-icon><span>Orders</span></button >
+        </div>  
+        
+        <div fxLayout="row" fxLayoutAlign="end center">
+            <button mat-button>	
+                        <mat-icon *ngIf="!deviceXs">exit_to_app</mat-icon>
+                    <span *ngIf="!deviceXs">Logout</span>
+                    <mat-icon *ngIf="deviceXs">exit_to_app</mat-icon>
+            </button>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+</div>
+
+
+<div class="parallax"></div>
+
+    <div class="container">
+        <div class="overlay">
+            <div class="text">Welcome to</div>
+            <div class="text1">BOOK STORE</div>
+        </div>
+    </div>
+
+
+    <div class="glay">
+        <div fxLayout="row wrap" fxLayoutGap="16px grid" >
+            <div class="card" fxflex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let item of productList">
+                <mat-card class="example-card">
+                    <img mat-card-image class="uimg" src="https://www.wallpapertip.com/wmimgs/42-425158_high-resolution-books-background.jpg" alt="Photo of a Shiba Inu" width="180" height="140">
+                    
+                    <mat-card-content>
+                        <div class="block1">
+                            <p>{{item.productName}}</p>
+                        </div>
+                        <div class="block2">
+                            <p>${{item.price}}</p>
+                        </div>
+                        </mat-card-content>
+                        <mat-card-actions class="card-action">
+                        <button mat-button class="viewb">View Book</button>
+                    
+                    </mat-card-actions>
+
+                </mat-card>
+            </div>
+        </div>
+    </div>
+<div class="parallax"></div>
+
+
+
+
+
+
+
+
+
+
+

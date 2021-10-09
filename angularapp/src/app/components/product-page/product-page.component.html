@@ -1,0 +1,58 @@
+    <div fxLayout>
+
+    <mat-toolbar color="primary">
+        <mat-toolbar-row fxLayoutAlign="space-between center">
+            <div>
+                <button mat-button class="button">
+                    <div class="head">
+                    BOOK STORE
+                </div>
+                </button>
+            </div>
+            <div class="spacer">
+                <button mat-button><mat-icon>home</mat-icon><span>Home</span></button >
+                <button mat-button><mat-icon>shopping_cart</mat-icon><span>Cart</span></button >
+                <button mat-button><mat-icon> local_shipping</mat-icon><span>Orders</span></button >
+            </div>  
+            
+            <div fxLayout="row" fxLayoutAlign="end center">
+                <button mat-button>	
+                            <mat-icon *ngIf="!deviceXs">exit_to_app</mat-icon>
+                        <span *ngIf="!deviceXs">Logout</span>
+                        <mat-icon *ngIf="deviceXs">exit_to_app</mat-icon>
+                </button>
+            </div>
+          </mat-toolbar-row>
+        </mat-toolbar>
+    </div>
+<!--<div class="block1">
+    <img src= 'https://www.wallpapertip.com/wmimgs/42-425158_high-resolution-books-background.jpg'>
+
+</div>-->
+<div class="block1">
+    <div class="box">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/51myIKX98AL.jpg" alt="Cloudy Sky">
+    </div>
+</div>
+<div class="block2">
+    <mat-card class="card2"><mat-card-content>Product Name</mat-card-content>
+        <mat-card-content>Product price</mat-card-content>
+        <mat-card-actions class="btns">
+            <div class="btn1">
+            <button mat-raised-button class="one">Add to Cart</button>
+        </div>
+        <div class="btn2">
+            <button mat-raised-button class="two">Place Order</button>
+        </div>
+        </mat-card-actions>
+        </mat-card>
+    
+    
+</div>
+<div class="block3">
+    <mat-card class="card3">
+        <mat-card-content>
+    Extra Items
+</mat-card-content> 
+</mat-card>
+</div>

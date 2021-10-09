@@ -1,0 +1,94 @@
+.gap {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: left;
+  margin-bottom: -30px;
+    font-weight: bold;
+    font-size: 20px;
+ }
+.sample{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-top:-20px;
+    font-weight: bold;
+    font-size: 20px;
+}
+.spacer{
+  flex: 1 1 auto;
+}
+.full-width-table {
+  width: 100%;
+  font-weight: 850;
+}
+.mat-elevation-z8{
+  margin-top: 3.5%;
+  margin-right:40%;
+  margin-left: 5%;
+  text-align: start;
+}
+.ali{
+  padding-left: 50%;
+}
+th {
+  height: 50px;
+  font-weight: bold;
+  text-align: center;
+  font-size:10px auto;
+  padding:auto  ;
+}
+img {
+  padding:8%;
+  width: 90px;
+  height: 90px;
+}
+.image{
+  background-image: url("https://thinktalent.co/wp-content/uploads/2021/06/VDC-at-FMCG-tt1.png");
+  background-size: 22%;
+  background-position-x:85% ;
+  background-position-y:4% ;
+  background-repeat: no-repeat;
+}
+.addpro{
+  
+  position: absolute;
+  left: 68%;
+  top: 59%;
+}
+
+.edit{
+  background-color:rgb(253, 207, 0);
+  align-content: center;
+  border-color: rgb(255, 255, 255);
+  border-radius: 10%;
+  width: 19%;
+  border: none;
+
+  padding-top: 2%;
+  color: azure;
+  color: #fff;
+    box-shadow: 0 0 40px 40px rgb(253, 207, 0) inset, 0 0 0 0 rgb(253, 207, 0);
+    -webkit-transition: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
+  }
+  .edit:hover {
+    box-shadow: 0 0 10px 0 rgb(253, 250, 43)inset, 0 0 10px 4px rgb(253, 250, 43);
+  }
+.delete{
+  background-color:rgb(243, 86, 107);
+  align-content: center;
+  margin-left:10% ;
+  border-color: rgb(255, 255, 255);
+  border-radius: 10%;
+  width: 20%;
+  border: none;
+  padding-top: 2%;
+  color: azure;
+    box-shadow: 0 0 40px 40px rgb(243, 86, 107) inset, 0 0 0 0 rgb(243, 86, 107);
+    -webkit-transition: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
+  }
+  .delete:hover {
+    box-shadow: 0 0 10px 0 rgb(243, 86, 107) inset, 0 0 10px 4px rgb(243, 86, 107);
+  }
+td
+{
+align-content: space-around;
+}
