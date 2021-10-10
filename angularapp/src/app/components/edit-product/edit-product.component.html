@@ -33,23 +33,23 @@
           <form (ngSubmit) = "onSubmit()">      
             <mat-form-field appearance="outline">
             
-            <input matInput value="{{employee.productName}}" [(ngModel)] = "editemployee.productName" name="productName" >
+            <input matInput value="{{employee.productName}}" [(ngModel)] = "employee.productName" name="productName" >
            </mat-form-field><br/>
     
           <mat-form-field appearance="outline">
-            <input matInput value="{{employee.price}}" [(ngModel)] = "editemployee.price" name="price">
+            <input matInput value="{{employee.price}}" [(ngModel)] = "employee.price" name="price">
           </mat-form-field><br/>
     
           <mat-form-field appearance="outline">
-            <textarea matInput rows="3" cols="40" value="{{employee.description}}" [(ngModel)] = "editemployee.description" name="description"></textarea>
+            <textarea matInput rows="3" cols="40" value="{{employee.description}}" [(ngModel)] = "employee.description" name="description"></textarea>
           </mat-form-field><br/>
     
           <mat-form-field appearance="outline">
-            <input matInput value="{{employee.imageUrl}}" [(ngModel)] = "editemployee.imageUrl" name="imageUrl">
+            <input matInput value="{{employee.imageUrl}}" [(ngModel)] = "employee.imageUrl" name="imageUrl">
           </mat-form-field><br/>
     
           <mat-form-field appearance="outline">
-            <input matInput value="{{employee.quantity}}" [(ngModel)] = "editemployee.quantity" name="quantity">
+            <input matInput value="{{employee.quantity}}" [(ngModel)] = "employee.quantity" name="quantity">
           </mat-form-field><br/>
           
           <button type="submit"

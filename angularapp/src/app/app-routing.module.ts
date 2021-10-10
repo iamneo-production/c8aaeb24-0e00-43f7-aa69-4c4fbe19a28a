@@ -21,9 +21,8 @@ const routes: Routes = [
   {path: 'home',component: HomePageComponent},
   {path: 'cart',component: CartComponent},
   {path: 'orders',component: MyOrderComponent},
-  {path:'cart/1', component: ProductPageComponent},
+  {path:'view/:id', component: ProductPageComponent},
   {path: '', redirectTo: 'login', pathMatch: 'full'},
-
 ];
 
 @NgModule({

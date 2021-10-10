@@ -1,6 +1,5 @@
 import { Component, Input, OnInit} from '@angular/core';
 import { ProductTableItem } from 'src/app/product_table';
-import {EditProductTableItem} from 'src/app/edit_item';
 import { ProductTableService } from 'src/app/product-table.service';
 import { ActivatedRoute, Router } from '@angular/router';
 @Component({
@@ -12,7 +11,6 @@ export class EditProductComponent implements OnInit{
   @Input() deviceXs: boolean = false;
   id: string='';
   employee: ProductTableItem = new ProductTableItem();
-  editemployee: EditProductTableItem = new EditProductTableItem();
   constructor(private employeeService: ProductTableService,
     private route: ActivatedRoute,
     private router: Router) { }
@@ -26,7 +24,7 @@ export class EditProductComponent implements OnInit{
   }
 
   onSubmit(){
-    this.employeeService.updateEmployee(this.id, this.editemployee).subscribe( data =>{
+    this.employeeService.updateEmployee(this.id, this.employee).subscribe( data =>{
       console.log(data);
       this.goToEmployeeList();
     }

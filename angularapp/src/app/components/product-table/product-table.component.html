@@ -44,7 +44,7 @@
             <td> {{ employee.quantity }} </td>
             <td> {{ employee.price }} </td>
             <td>
-              <button (click) = "editEmployee(employee.productId)" class = "btn btn-info"> edit</button>
+              <button routerLink="/editProduct/{{employee.productId}}" routerLinkActive="active" class = "btn btn-info"> edit</button>
             <button (click) = "deleteEmployee(employee.productId)" class = "btn btn-danger" style="margin-left: 10px"> Delete</button>
             </td>
         </tr>

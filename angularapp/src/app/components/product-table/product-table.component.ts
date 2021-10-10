@@ -46,9 +46,5 @@ export class ProductTableComponent implements AfterViewInit {
     })
   }
 
-  editEmployee(id:any)
-  {
-    this.router.navigate(['/editProduct]']);
-  }
 
 }
