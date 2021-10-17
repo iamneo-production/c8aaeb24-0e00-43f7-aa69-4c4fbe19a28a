@@ -61,6 +61,16 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
+
+
+
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.component';
+import { NavbarUserComponent } from './components/navbar-user/navbar-user.component';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,12 +85,15 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     CartComponent,
     MyOrderComponent,
     ProductPageComponent,
+    NavbarAdminComponent,
+    NavbarUserComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
+    FormsModule,
     BrowserAnimationsModule,
+    FlexLayoutModule,
     CommonModule,
     MatAutocompleteModule,
     MatCheckboxModule,
@@ -118,7 +131,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatSortModule,
     MatTableModule,
     ScrollingModule,
-    FormsModule
+    HttpClientModule,
+     
   ],
   providers: [],
   bootstrap: [AppComponent]

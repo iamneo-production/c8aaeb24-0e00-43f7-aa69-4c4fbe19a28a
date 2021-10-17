@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { ProductTableItem } from './product_table';
 @Injectable({
@@ -7,18 +7,33 @@ import { ProductTableItem } from './product_table';
 })
 export class ProductTableService {
   private baseURL = "http://localhost:8080/admin";
+  
   constructor(private httpClient: HttpClient) { }
   getEmployeesList(): Observable<ProductTableItem[]>{
-    return this.httpClient.get<ProductTableItem[]>(`${this.baseURL}`);
+    let token = localStorage.getItem("token");
+    console.log(token);
+    let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
+    console.log(headers);
+
+    return this.httpClient.get<ProductTableItem[]>(`${this.baseURL}`,{headers});
   }
   deleteEmployee(id: any): Observable<Object>{
-    return this.httpClient.get<Object>(`${"http://localhost:8080/admin/delete"}/${id[0]}`);
+    let token = localStorage.getItem("token");
+    console.log(token);
+    let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
+    return this.httpClient.get<Object>(`${"http://localhost:8080/admin/delete"}/${id}`,{headers});
   }
   getEmployeeById(id: any): Observable<ProductTableItem>{
-    return this.httpClient.get<ProductTableItem>(`${"http://localhost:8080/admin/productEdit"}/${id[0]}`);
+    let token = localStorage.getItem("token");
+    console.log(token);
+    let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
+    return this.httpClient.get<ProductTableItem>(`${"http://localhost:8080/admin/productEdit"}/${id}`,{headers});
   }
   updateEmployee(id: any, employee: ProductTableItem): Observable<Object>{
     console.log(employee);
-    return this.httpClient.post(`${"http://localhost:8080/admin/productEdit"}/${id[0]}`, employee);
+    let token = localStorage.getItem("token");
+    console.log(token);
+    let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
+    return this.httpClient.post(`${"http://localhost:8080/admin/productEdit"}/${id}`, employee,{headers});
   }
 }

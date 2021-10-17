@@ -1,30 +1,4 @@
-<div fxLayout>
-
-<mat-toolbar color="primary">
-    <mat-toolbar-row fxLayoutAlign="space-between center">
-        <div>
-            <button mat-button class="button">
-                <div class="head">
-                BOOK STORE
-            </div>
-            </button>
-        </div>
-        <div class="spacer">
-            <button mat-button><mat-icon>home</mat-icon><span>Home</span></button >
-            <button routerLink="/cart" routerLinkActive="active" mat-button><mat-icon>shopping_cart</mat-icon><span>Cart</span></button >
-            <button routerLink="/orders" routerLinkActive="active" mat-button><mat-icon> local_shipping</mat-icon><span>Orders</span></button >
-        </div>  
-        
-        <div fxLayout="row" fxLayoutAlign="end center">
-            <button mat-button>	
-                        <mat-icon *ngIf="!deviceXs">exit_to_app</mat-icon>
-                    <span *ngIf="!deviceXs">Logout</span>
-                    <mat-icon *ngIf="deviceXs">exit_to_app</mat-icon>
-            </button>
-        </div>
-      </mat-toolbar-row>
-    </mat-toolbar>
-</div>
+<app-navbar-user></app-navbar-user>
 
 
 <div class="parallax"></div>
