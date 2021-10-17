@@ -14,8 +14,10 @@
         <mat-card-content>{{productList.price}}</mat-card-content>
         <mat-card-actions class="btns">
             <div class="btn1">
-            <button mat-raised-button class="one">Add to Cart</button>
-        </div>
+        <form (ngSubmit) = "onaddcart()"  >
+            <button type="submit" mat-raised-button class="one">Add to Cart</button>
+        </form>
+            </div>
         <div class="btn2">
             <button mat-raised-button class="two">Place Order</button>
         </div>

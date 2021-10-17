@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   ans:any;
   go_login(){
     this.loginservice.createLogin(this.Login).subscribe( (data:any) =>{
-      console.log(data);
+      // console.log(data);
       if(data.result==false)
       {
         // console.log("hooo");
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
         catch(Error){
                this.ans= null;
           }
-          console.log(this.ans);
+          // console.log(this.ans);
           if(this.ans.roles[0]=='admin')
           {
             this.router.navigate(['/admin']);

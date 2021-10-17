@@ -11,28 +11,28 @@ export class ProductTableService {
   constructor(private httpClient: HttpClient) { }
   getEmployeesList(): Observable<ProductTableItem[]>{
     let token = localStorage.getItem("token");
-    console.log(token);
+    // console.log(token);
     let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
-    console.log(headers);
+    // console.log(headers);
 
     return this.httpClient.get<ProductTableItem[]>(`${this.baseURL}`,{headers});
   }
   deleteEmployee(id: any): Observable<Object>{
     let token = localStorage.getItem("token");
-    console.log(token);
+    // console.log(token);
     let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
     return this.httpClient.get<Object>(`${"http://localhost:8080/admin/delete"}/${id}`,{headers});
   }
   getEmployeeById(id: any): Observable<ProductTableItem>{
     let token = localStorage.getItem("token");
-    console.log(token);
+    // console.log(token);
     let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
     return this.httpClient.get<ProductTableItem>(`${"http://localhost:8080/admin/productEdit"}/${id}`,{headers});
   }
   updateEmployee(id: any, employee: ProductTableItem): Observable<Object>{
-    console.log(employee);
+    // console.log(employee);
     let token = localStorage.getItem("token");
-    console.log(token);
+    // console.log(token);
     let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
     return this.httpClient.post(`${"http://localhost:8080/admin/productEdit"}/${id}`, employee,{headers});
   }

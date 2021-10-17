@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { addProduct } from './addProduct';
 
@@ -14,6 +14,8 @@ export class AddProductService {
   }
 
   addProd(addproduct: addProduct): Observable<Object>{
-    return this.httpClient.post(`${this.baseURL}`,addproduct);
+    let token = localStorage.getItem("token");
+    let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
+    return this.httpClient.post(`${this.baseURL}`,addproduct,{headers});
   }
 }

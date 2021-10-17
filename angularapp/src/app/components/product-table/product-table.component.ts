@@ -36,12 +36,12 @@ export class ProductTableComponent implements AfterViewInit {
   private get(){
     this.employeeService.getEmployeesList().subscribe(data => {
       this.dat = data;
-      console.log(this.dat);
+      // console.log(this.dat);
     });
   }
   deleteEmployee(id: any){
     this.employeeService.deleteEmployee(id).subscribe( data => {
-      console.log(data);
+      // console.log(data);
       this.get();
     })
   }
