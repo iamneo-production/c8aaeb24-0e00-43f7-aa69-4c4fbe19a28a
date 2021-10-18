@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { ProductTableItem } from './product_table';
+import { admin_reports } from './components/order-table-admin/order-table-admin.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -35,5 +36,11 @@ export class ProductTableService {
     // console.log(token);
     let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
     return this.httpClient.post(`${"http://localhost:8080/admin/productEdit"}/${id}`, employee,{headers});
+  }
+  getallorderadmin(): Observable<admin_reports[]>
+  {
+        let token = localStorage.getItem("token");
+    let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
+    return this.httpClient.get<admin_reports[]>(`${"http://localhost:8080/admin/orders"}`,{headers});
   }
 }

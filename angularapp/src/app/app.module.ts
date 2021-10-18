@@ -69,6 +69,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.component';
 import { NavbarUserComponent } from './components/navbar-user/navbar-user.component';
 
+import { AuthGuard } from './auth.guard';
+
 
 
 @NgModule({
@@ -134,7 +136,7 @@ import { NavbarUserComponent } from './components/navbar-user/navbar-user.compon
     HttpClientModule,
      
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -14,4 +14,8 @@ export class LoginService {
   createLogin(Login: login): Observable<Object>{
     return this.httpClient.post(`${this.baseURL}`,Login);
   }
+  loggedin()
+  {
+    return !!localStorage.getItem('token')
+  }
 }

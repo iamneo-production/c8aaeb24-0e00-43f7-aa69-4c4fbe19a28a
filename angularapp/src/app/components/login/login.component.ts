@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
       // console.log(data);
       if(data.result==false)
       {
-        // console.log("hooo");
+        console.log("hooo");
       }
       else
       {

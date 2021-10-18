@@ -6,6 +6,7 @@ import { AddCart } from './addcart';
 import jwt_decode from 'jwt-decode';
 import { ProductTableItem } from './product_table';
 import { reports } from './components/cart/cart.component';
+import { reports_order } from './components/my-order/my-order.component';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,31 @@ export class HomeApiService {
         }
       return this.http.post(`${"http://localhost:8080/home"}/${ans.user_id}`, data,{headers});
     }
+    deleteitem(var_del: AddCart): Observable<Object>{
+    let token = localStorage.getItem("token");
+    let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
+    return this.http.post<Object>(`${"http://localhost:8080/cart/delete"}`,var_del,{headers});
+  }
 
+     dosaveorder()
+     {
+          let token = localStorage.getItem("token");
+          let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
+          return this.http.get<Object>(`${"http://localhost:8080/saveOrder"}`,{headers});
+     }
+
+     getallorder():Observable<reports_order[]>
+     {
+            let token = localStorage.getItem("token");
+           let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
+           return this.http.get<reports_order[]>(`${"http://localhost:8080/orders"}`,{headers});
+     }
+     placeitem(var_pl: AddCart): Observable<Object>
+     {
+      let token = localStorage.getItem("token");
+      let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
+      return this.http.post<Object>(`${"http://localhost:8080/placeOrder"}`,var_pl,{headers});
+     }
     getcartProduct(): Observable<reports[]>
     {
       let token = localStorage.getItem("token");
@@ -54,4 +79,5 @@ export class HomeApiService {
         }
       return this.http.get<reports[]>(`${"http://localhost:8080/cart"}/${ans.user_id}`,{headers});
     }
+
   } 

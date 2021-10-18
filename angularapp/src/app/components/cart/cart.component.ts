@@ -38,6 +38,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { HomeApiService } from '../../home-api.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { AddCart } from '../../addcart'
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -57,10 +59,11 @@ export class CartComponent implements OnInit {
   paginator!: MatPaginator;
   @ViewChild(MatSort, { static: true })
   sort: MatSort = new MatSort;
+  var_del:AddCart= new AddCart();
 
 
 
-  constructor(private service:HomeApiService){
+  constructor(private service:HomeApiService, private router: Router){
 
   }
 
@@ -78,6 +81,24 @@ export class CartComponent implements OnInit {
       console.log(data);
     })
   }
+
+    deleteEmployee(id: any){
+        this.var_del.productId=id;
+        this.var_del.quantity="40";
+    this.service.deleteitem(this.var_del).subscribe( (data:any) => {
+      console.log(data);
+      this.getallp_cart();
+    })
+  }
+
+  saveorder()
+  {
+        this.service.dosaveorder().subscribe(data => {
+           console.log(data);
+            this.router.navigate(['/home']);
+    })
+  }
+
 }
 export interface reports{
   productId:string;

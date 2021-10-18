@@ -14,6 +14,7 @@ export class ProductPageComponent implements OnInit {
   id: string='';
   productList : ProductTableItem= new ProductTableItem();
   addcart: AddCart = new AddCart();
+  additem: AddCart = new AddCart();
   @Input() deviceXs: boolean = false;
   
   constructor(private api:HomeApiService,private route: ActivatedRoute,private router: Router){}
@@ -38,6 +39,16 @@ export class ProductPageComponent implements OnInit {
     this.addcart.productId=this.productList.productId;
 
     this.api.addcart(this.addcart).subscribe((data:any)=>{
+      console.log(data);
+      this.router.navigate(['/home']);
+    })
+  }
+
+  placeitem()
+  {
+    this.additem.quantity=this.productList.quantity;
+    this.additem.productId=this.productList.productId;
+    this.api.placeitem(this.additem).subscribe((data:any)=>{
       console.log(data);
       this.router.navigate(['/home']);
     })
