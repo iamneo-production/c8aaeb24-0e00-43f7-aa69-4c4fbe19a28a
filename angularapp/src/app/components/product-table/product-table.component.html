@@ -1,6 +1,57 @@
 <app-navbar-admin></app-navbar-admin>
+<div class="image">
+  <button class="addpro" routerLink="/addProduct" routerLinkActive="active" mat-raised-button color="primary"><mat-icon>add_shopping_cart</mat-icon>Add Product</button>
 
-  <table class = "table table-striped">
+
+        <div class="mat-elevation-z8">
+
+          <table mat-table class="full-width-table" matSort [dataSource]="dataSource" aria-label="Elements" >
+            <!-- Image Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef ><div class="ali">Image</div></th>
+              <td mat-cell *matCellDef="let element"><img [src]="element.imageUrl" /></td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 14%;">Book Name</th>
+              <td mat-cell *matCellDef="let row">{{row.productName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 15%;">Price</th>
+              <td mat-cell *matCellDef="let row">{{row.price}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="category">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+              <td mat-cell *matCellDef="let row"style="width: 15%;" >{{row.quantity}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="icon">
+              <th mat-header-cell *matHeaderCellDef ></th>
+              <td mat-cell *matCellDef="let row">
+                  <button routerLink="/editProduct/{{row.productId}}" routerLinkActive="active"  class="edit"><mat-icon >edit</mat-icon></button>
+                  <button (click) = "deleteEmployee(row.productId)" class="delete"><mat-icon>delete</mat-icon></button>
+
+                  </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        <div class="foot">
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+          [pageSize]="4"
+
+                 showFirstLastButtons 
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
+        </div>
+      </div>
+    
+
+</div>
+  <!-- <table class = "table table-striped">
     <thead>
         <tr>
           <th> name</th>
@@ -23,7 +74,7 @@
         </tr>
     </tbody>
 </table>
-<button class="addpro" routerLink="/addProduct" routerLinkActive="active" mat-raised-button color="primary"><mat-icon>add_shopping_cart</mat-icon>Add Product</button>
+<button class="addpro" routerLink="/addProduct" routerLinkActive="active" mat-raised-button color="primary"><mat-icon>add_shopping_cart</mat-icon>Add Product</button> -->
 
 <!-- 
   

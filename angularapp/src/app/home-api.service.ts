@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { AddCart } from './addcart';
 import jwt_decode from 'jwt-decode';
 import { ProductTableItem } from './product_table';
+import { reports } from './components/cart/cart.component';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,20 @@ export class HomeApiService {
             ans= null;
         }
       return this.http.post(`${"http://localhost:8080/home"}/${ans.user_id}`, data,{headers});
+    }
+
+    getcartProduct(): Observable<reports[]>
+    {
+      let token = localStorage.getItem("token");
+      let headers:HttpHeaders = new  HttpHeaders().set("Authorization", "Bearer " + token);
+      let token_dec = localStorage.getItem("token") || '{}';
+      let ans:any;
+      try{
+        ans= jwt_decode(token_dec);
+        }
+      catch(Error){
+            ans= null;
+        }
+      return this.http.get<reports[]>(`${"http://localhost:8080/cart"}/${ans.user_id}`,{headers});
     }
   } 
