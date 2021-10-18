@@ -70,6 +70,8 @@ import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.com
 import { NavbarUserComponent } from './components/navbar-user/navbar-user.component';
 
 import { AuthGuard } from './auth.guard';
+import { AdminGuard } from './admin.guard';
+import { UserGuard } from './user.guard';
 
 
 
@@ -136,7 +138,7 @@ import { AuthGuard } from './auth.guard';
     HttpClientModule,
      
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard,AdminGuard,UserGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

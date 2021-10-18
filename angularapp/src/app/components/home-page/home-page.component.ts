@@ -17,7 +17,7 @@ export class HomePageComponent implements OnInit{
       this.api.getProduct()
       .subscribe((res: any)=>{
         this.productList=res;
-
+        console.log(res);
       })
 
     
