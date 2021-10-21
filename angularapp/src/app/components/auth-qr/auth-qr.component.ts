@@ -37,11 +37,15 @@ export class AuthQrComponent implements OnInit {
 			.subscribe((data: any) => {
 				if (data.status == 200) {
 					this.notificationService.notify(
+						'Success',
 						NotificationType.SUCCESS,
+						'bottom-right',
 						'OTP validation successful'
 					);
 					this.notificationService.notify(
+						'Success',
 						NotificationType.SUCCESS,
+						'bottom-right',
 						'Login successful'
 					);
 					localStorage.setItem('token', data.message);
@@ -49,7 +53,12 @@ export class AuthQrComponent implements OnInit {
 					this.dialogRef.close();
 					// this.router.navigate(['..'], { relativeTo: this.route })
 				} else {
-					this.notificationService.notify(NotificationType.ERROR, data.message);
+					this.notificationService.notify(
+						'Error',
+						NotificationType.DANGER,
+						'bottom-right',
+						data.message
+					);
 				}
 			});
 	}

@@ -45,10 +45,10 @@
 									</div>
 								</nb-card-header>
 								<nb-list>
-									<nb-list-item *ngFor="let cart of cartItems">
+									<nb-list-item>
 										<nb-card-body>
 											<div class="rows">
-												<p class="title">{{ cart.productName }}</p>
+												<!-- <p class="title">{{ cart.productName }}</p> -->
 											</div>
 										</nb-card-body>
 									</nb-list-item>
@@ -85,19 +85,41 @@
 							>
 								Stripe
 							</button>
-							<button nbButton status="primary" class="payment">
+							<button
+								nbButton
+								status="primary"
+								class="payment"
+								(click)="togglePaid(true)"
+							>
 								Google Pay
 							</button>
 
-							<button nbButton status="primary" class="payment">
+							<button
+								nbButton
+								status="primary"
+								class="payment"
+								(click)="togglePaid(true)"
+							>
 								Razor Pay
 							</button>
 						</span>
 						<div>
-							<button class="prev-button" nbButton nbStepperPrevious>
+							<button
+								class="prev-button"
+								nbButton
+								nbStepperPrevious
+								(click)="togglePaid(true)"
+							>
 								prev
 							</button>
-							<button class="next-button" nbButton nbStepperNext>next</button>
+							<button
+								class="next-button"
+								nbButton
+								nbStepperNext
+								(click)="finalizeOrder()"
+							>
+								next
+							</button>
 						</div>
 					</nb-step>
 					<nb-step label="Status">
@@ -113,7 +135,14 @@
 						<button class="prev-button" nbButton nbStepperPrevious disabled>
 							prev
 						</button>
-						<button class="next-button" nbButton nbStepperNext>Orders</button>
+						<button
+							class="next-button"
+							nbButton
+							nbStepperNext
+							routerLink="/orders"
+						>
+							Orders
+						</button>
 					</nb-step>
 				</nb-stepper>
 			</nb-card-body>

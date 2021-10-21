@@ -35,7 +35,9 @@ export class EditProductComponent implements OnInit {
 		this.employeeService.updateEmployee(this.id, this.employee).subscribe(
 			(data) => {
 				this.notificationService.notify(
+					'Success',
 					NotificationType.SUCCESS,
+					'bottom-right',
 					'Item has been edited'
 				);
 				console.log(data);

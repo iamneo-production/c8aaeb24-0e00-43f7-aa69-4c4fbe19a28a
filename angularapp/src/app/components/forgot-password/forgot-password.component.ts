@@ -16,6 +16,7 @@ export class ForgotPasswordComponent implements OnInit {
 	code: string = '';
 	pass: string = '';
 	conform_password: string = '';
+	loading: boolean = false;
 
 	constructor(
 		public dialogRef: MatDialogRef<ForgotPasswordComponent>,
@@ -28,21 +29,33 @@ export class ForgotPasswordComponent implements OnInit {
 	ngOnInit(): void {}
 
 	submitMail() {
+		this.toggleLoadingAnimation();
 		this.http
 			.post('http://localhost:8080/forgot', {
 				email: this.email,
 			})
 			.subscribe((data: any) => {
 				if (data.result == true) {
-					this.notificationService.notify(NotificationType.INFO, data.message);
+					this.notificationService.notify(
+						'Info',
+						NotificationType.INFO,
+						'bottom-right',
+						data.message
+					);
 					this.onNextStep();
 				} else {
-					this.notificationService.notify(NotificationType.ERROR, data.message);
+					this.notificationService.notify(
+						'Error',
+						NotificationType.DANGER,
+						'bottom-right',
+						data.message
+					);
 				}
 			});
 	}
 
 	submitCode() {
+		this.toggleLoadingAnimation();
 		this.http
 			.post('http://localhost:8080/verifyCode', {
 				email: this.email,
@@ -51,17 +64,25 @@ export class ForgotPasswordComponent implements OnInit {
 			.subscribe((data: any) => {
 				if (data.result == true) {
 					this.notificationService.notify(
+						'Success',
 						NotificationType.SUCCESS,
+						'bottom-right',
 						data.message
 					);
 					this.onNextStep();
 				} else {
-					this.notificationService.notify(NotificationType.ERROR, data.message);
+					this.notificationService.notify(
+						'Error',
+						NotificationType.DANGER,
+						'bottom-right',
+						data.message
+					);
 				}
 			});
 	}
 
 	submitPassword() {
+		this.toggleLoadingAnimation();
 		this.http
 			.post('http://localhost:8080/savePassword', {
 				email: this.email,
@@ -72,18 +93,30 @@ export class ForgotPasswordComponent implements OnInit {
 			.subscribe((data: any) => {
 				if (data.result == true) {
 					this.notificationService.notify(
+						'Success',
 						NotificationType.SUCCESS,
+						'bottom-right',
 						data.message
 					);
 					this.dialogRef.close();
 					this.router.navigate(['.'], { relativeTo: this.route });
 				} else {
-					this.notificationService.notify(NotificationType.ERROR, data.message);
+					this.notificationService.notify(
+						'Error',
+						NotificationType.DANGER,
+						'bottom-right',
+						data.message
+					);
 				}
 			});
 	}
 
 	onNextStep() {
 		this.step++;
+	}
+
+	toggleLoadingAnimation() {
+		this.loading = true;
+		setTimeout(() => (this.loading = false), 3000);
 	}
 }

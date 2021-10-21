@@ -1,131 +1,111 @@
-<!-- <div *ngIf="emailvalid"> 
-  <strong>Email Address</strong> is not valid..
-</div>
-<div *ngIf="mobilevalid">
-  <strong>Mobile Number</strong> is not valid..
-</div>
-<div *ngIf="useralready">
-  <strong>Username</strong> is already exists..
-</div> -->
-
-<div class="login-page" fxFlex="100" fxFlexFill>
-	<form (ngSubmit)="onSubmit()">
-		<div class="align" fxFlex="100">
-			<h1 class="head">SIGN UP</h1>
-			<mat-form-field appearance="outline">
-				<mat-label>Email</mat-label>
-				<input
-					matInput
-					placeholder="Enter Email"
-					required
-					name="email"
-					[(ngModel)]="Signup.email"
-					ngModel
-					#email="ngModel"
-				/>
-				<mat-error *ngIf="email.invalid"
-					>Email is required</mat-error
-				> </mat-form-field
-			><br />
-
-			<mat-form-field appearance="outline">
-				<mat-label>Username</mat-label>
-				<input
-					matInput
-					placeholder="Enter Username"
-					required
-					name="username"
-					[(ngModel)]="Signup.username"
-					ngModel
-					#username="ngModel"
-				/>
-				<mat-error *ngIf="username.errors">
-					Username is required
-				</mat-error> </mat-form-field
-			><br />
-
-			<mat-form-field appearance="outline">
-				<mat-label>Mobile Number</mat-label>
-				<input
-					matInput
-					placeholder="Enter Mobile Number"
-					type="tel"
-					required
-					name="mobilenumber"
-					ngModel
-					#tel="ngModel"
-					[(ngModel)]="Signup.mobileNumber"
-				/>
-				<mat-error *ngIf="tel.invalid"
-					>phone number is required</mat-error
-				> </mat-form-field
-			><br />
-
-			<mat-form-field appearance="outline">
-				<mat-label>Password</mat-label>
-				<input
-					matInput
-					placeholder="Enter Password"
-					type="password"
-					required
-					minlength="6"
-					name="password"
-					ngModel
-					#password="ngModel"
-					[(ngModel)]="Signup.password"
-				/>
-				<mat-error *ngIf="password.errors && password.errors.required">
-					Password is required
-				</mat-error>
-				<mat-error *ngIf="password.errors && password.errors.minlength">
-					Password must be of length 6
-				</mat-error> </mat-form-field
-			><br />
-
-			<mat-form-field appearance="outline">
-				<mat-label>Confirm Password</mat-label>
-				<input
-					matInput
-					placeholder="Confirm Password"
-					type="password"
-					required
-					minlength="6"
-					name="confirmpassword"
-					ngModel
-					#repassword="ngModel"
-					[(ngModel)]="Signup.confirmpassword"
-				/>
-				<mat-error *ngIf="repassword.errors && repassword.errors.required">
-					Re-Enter Password is required
-				</mat-error> </mat-form-field
-			><br />
-
-			<button
-				type="submit"
-				mat-raised-button
-				color="primary"
-				class="login-button"
-			>
-				Sign Up</button
-			><br /><br />
-
-			<div class="d">
-				<mat-checkbox
-					appearance="outline"
-					color="primary"
-					name="mfa"
-					ngModel
-					#mfa="ngModel"
-					[(ngModel)]="Signup.mfa"
-				>
-					Enable Multi-Factor Authentication
-				</mat-checkbox>
-				<br />
-				<p>
-					Already a member?
-					<a routerLink="/login" routerLinkActive="active">Click here</a>
-				</p>
+<nb-layout>
+	<nb-layout-column left>
+		<div class="loginForm">
+			<div class="holder">
+				<b style="font-size: 30px; margin-left: 25%">Signup</b>
+			</div>
+			<div class="holder">
+				<nb-form-field>
+					<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+					<input
+						required
+						type="text"
+						nbInput
+						placeholder="Enter Email address"
+						autofocus
+						[(ngModel)]="Signup.email"
+					/>
+				</nb-form-field>
+			</div>
+			<div class="holder">
+				<nb-form-field>
+					<nb-icon nbPrefix icon="person-outline" pack="eva"></nb-icon>
+					<input
+						required
+						type="text"
+						nbInput
+						placeholder="Enter Username"
+						[(ngModel)]="Signup.username"
+					/>
+				</nb-form-field>
+			</div>
+			<div class="holder">
+				<nb-form-field>
+					<nb-icon nbPrefix icon="phone-outline" pack="eva"></nb-icon>
+					<input
+						required
+						type="text"
+						nbInput
+						placeholder="Enter Mobile Number"
+						[(ngModel)]="mobile"
+					/>
+				</nb-form-field>
+			</div>
+			<div class="holder">
+				<nb-form-field>
+					<nb-icon nbPrefix icon="lock-outline" pack="eva"></nb-icon>
+					<input
+						required
+						id="password"
+						[type]="showPass ? 'text' : 'password'"
+						nbInput
+						placeholder="Enter Password"
+						[(ngModel)]="pass"
+					/>
+					<nb-icon
+						nbSuffix
+						[icon]="showPass && pass ? 'eye-off-outline' : 'eye-outline'"
+						pack="eva"
+						[options]="{ animation: { type: 'pulse' } }"
+						(click)="showPassword()"
+					></nb-icon>
+				</nb-form-field>
+			</div>
+			<div class="holder">
+				<nb-form-field>
+					<nb-icon nbPrefix icon="lock-outline" pack="eva"></nb-icon>
+					<input
+						required
+						id="confirmpassword"
+						[type]="showConformPass ? 'text' : 'password'"
+						nbInput
+						placeholder="Confirm Password"
+						[(ngModel)]="conformPass"
+						(keydown.enter)="checkMfa()"
+					/>
+					<nb-icon
+						nbSuffix
+						[icon]="
+							showConformPass && conformPass ? 'eye-off-outline' : 'eye-outline'
+						"
+						pack="eva"
+						[options]="{ animation: { type: 'pulse' } }"
+						(click)="showConformPassword()"
+					></nb-icon>
+				</nb-form-field>
+				<div id="checkBox">
+					<nb-checkbox status="primary" [(ngModel)]="Signup.mfa"
+						>Enable Two Step Authentication</nb-checkbox
+					>
+				</div>
+				<div class="holder loginDiv">
+					<button nbButton status="info" id="loginButton" (click)="checkMfa()">
+						Signup<nb-icon icon="arrowhead-right-outline"></nb-icon>
+					</button>
+				</div>
+				<div class="">
+					<p>
+						Are you already a member?
+						<a routerLink="/login" routerLinkActive="active">Click here</a>
+					</p>
+				</div>
 			</div>
 		</div>
-	</form>
-</div>
+	</nb-layout-column>
+
+	<nb-layout-column right>
+		<div id="signupImage">
+			<img src="../../../assets/svg/signupImage.svg" />
+		</div>
+	</nb-layout-column>
+</nb-layout>

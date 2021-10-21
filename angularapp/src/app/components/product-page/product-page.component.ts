@@ -27,6 +27,7 @@ export class ProductPageComponent implements OnInit {
 	url: string = '';
 	loc: string = '';
 	port: string = '';
+	item: any;
 
 	constructor(
 		private api: HomeApiService,
@@ -40,19 +41,23 @@ export class ProductPageComponent implements OnInit {
 		this.hash = new URL(window.location.href).hash;
 		this.url = this.hash.slice(this.hash.lastIndexOf('/') + 1);
 		this.id = this.route.snapshot.params['id'];
-		this.api.getProduct().subscribe((res: any) => {
-			// let ran = Math.random() * (res.length - 0) + 0;
-			for (let i = 0; i < res.length; i++) {
-				if (res[i].productId == this.url) {
-					this.desList = res[i].description.split('|');
-					console.log(this.url);
-					this.productList = res[i];
-				} else {
-					this.productList1 = res[i];
-				}
-				// this.productList1 = res[ran];
-			}
-		});
+		// this.api.getProduct().subscribe((res: any) => {
+		// 	// let ran = Math.random() * (res.length - 0) + 0;
+		// 	for (let i = 0; i < res.length; i++) {
+		// 		if (res[i].productId == this.url) {
+		// 			this.desList = res[i].description.split('|');
+		// 			console.log(this.url);
+		// 			this.productList = res[i];
+		// 		} else {
+		// 			this.productList1 = res[i];
+		// 		}
+		// 		// this.productList1 = res[ran];
+		// 	}
+		//});
+		this.item = JSON.parse(
+			localStorage.getItem('current_ordered_item') || '{}'
+		);
+		this.productList = this.item;
 	}
 
 	showText() {
@@ -65,7 +70,9 @@ export class ProductPageComponent implements OnInit {
 
 		this.api.addcart(this.addcart).subscribe((data: any) => {
 			this.notificationService.notify(
+				'Success',
 				NotificationType.SUCCESS,
+				'bottom-right',
 				'Item has been added to cart'
 			);
 			console.log(data);
@@ -74,23 +81,26 @@ export class ProductPageComponent implements OnInit {
 	}
 
 	placeitem(productList: any) {
-		localStorage.setItem('current_ordered_item', JSON.stringify(productList));
+		console.log(productList);
+		localStorage.setItem('current_ordered_item', JSON.stringify(this.item));
 		// console.log(productList);
 		this.additem.quantity = this.productList.quantity;
 		this.additem.productId = this.productList.productId;
 		this.router.navigate(['/checkout']);
-		this.api.placeitem(this.additem).subscribe((data: any) => {
-			this.notificationService.notify(
-				NotificationType.SUCCESS,
-				'Order for this item has been placed'
-			);
-			console.log(data);
-			this.router.navigate(['/home']);
-		});
+		// this.api.placeitem(this.additem).subscribe((data: any) => {
+		// 	this.notificationService.notify(
+		// 		'Success',
+		// 		NotificationType.SUCCESS,
+		// 		'bottom-right',
+		// 		'Order for this item has been placed'
+		// 	);
+		// 	console.log(data);
+		// 	this.router.navigate(['/home']);
+		// });
 	}
 
 	see(data: any) {
-		this.loc = 'http://localhost:' + this.port + '#/view/' + data.productId;
+		this.loc = 'http://localhost:' + this.port + '/view/' + data.productId;
 		window.location.href = this.loc;
 		window.location.reload();
 	}

@@ -1,8 +1,7 @@
 export class signup {
-  email?: string;
-  username?: string;
-  mobileNumber?: string;
-  password?: string;
-  confirmpassword?: string;
-  mfa?: boolean = false;
+	email?: string;
+	username?: string;
+	mobileNumber?: string;
+	password?: string;
+	mfa?: boolean = false;
 }

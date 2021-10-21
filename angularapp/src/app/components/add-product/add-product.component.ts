@@ -25,7 +25,9 @@ export class AddProductComponent {
 			(data) => {
 				console.log(data);
 				this.notificationService.notify(
+					'Success',
 					NotificationType.SUCCESS,
+					'bottom-right',
 					'Item has been added'
 				);
 				this.goToProductList();

@@ -6,20 +6,21 @@
 	<span class="otpText">Enter the OTP</span><br />
 </div>
 <div class="form">
-	<mat-form-field class="otpBox" appearance="outline">
+	<nb-form-field class="otpBox" appearance="outline">
 		<input
-			matInput
+			nbInput
 			placeholder="Enter OTP"
 			required
 			name="number"
 			[(ngModel)]="otp"
 			#tel="ngModel"
 		/>
-		<mat-error *ngIf="tel.invalid">OTP is Requied</mat-error>
-	</mat-form-field>
+		<!-- <mat-error *ngIf="tel.invalid">OTP is Requied</mat-error> -->
+	</nb-form-field>
 	<br />
 	<button
-		mat-raised-button
+		nbButton
+		status="primary"
 		color="primary"
 		class="submit-button"
 		(click)="verify()"

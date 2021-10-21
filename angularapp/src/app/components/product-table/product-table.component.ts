@@ -127,7 +127,9 @@ export class ProductTableComponent implements OnInit {
 	}
 	deleteEmployee(id: any) {
 		this.notificationService.notify(
+			'Success',
 			NotificationType.SUCCESS,
+			'bottom-right',
 			'Item has been deleted'
 		);
 		this.service.deleteEmployee(id).subscribe((data) => {

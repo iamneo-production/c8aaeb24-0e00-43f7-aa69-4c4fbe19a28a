@@ -93,10 +93,11 @@ import {
 	NbSearchModule,
 	NbSidebarModule,
 	NbDialogModule,
+	NbSpinnerModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { SiginComponent } from './components/login/sigin.component';
+import { LoginComponent } from './components/login/login.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { GpayComponent } from './components/checkout/gpay/gpay.component';
 import { GooglePayButtonModule } from '@google-pay/button-angular';
@@ -122,7 +123,7 @@ import { InterceptorService } from './components/loader/interceptor.service';
 		ForgotPasswordComponent,
 		// LoginComponent,
 		DashboardComponent,
-		SiginComponent,
+		LoginComponent,
 		CheckoutComponent,
 		GpayComponent,
 	],
@@ -205,6 +206,7 @@ import { InterceptorService } from './components/loader/interceptor.service';
 		NbToastrModule.forRoot(),
 		NbStepperModule,
 		GooglePayButtonModule,
+		NbSpinnerModule,
 	],
 
 	providers: [

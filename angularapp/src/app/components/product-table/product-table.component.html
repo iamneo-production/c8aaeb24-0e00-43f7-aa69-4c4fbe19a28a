@@ -52,7 +52,7 @@
         </div>
       </div>
 </div> -->
-  <!-- <table class = "table table-striped">
+<!-- <table class = "table table-striped">
     <thead>
         <tr>
           <th> name</th>
@@ -83,15 +83,14 @@
   <button class="addpro" routerLink="/addProduct" routerLinkActive="active" mat-raised-button color="primary"><mat-icon>add_shopping_cart</mat-icon>Add Product</button>
         <div class="mat-elevation-z8">
           <table  mat-table class="full-width-table" matSort aria-label="Elements" > -->
-            <!-- Image Column -->
-           <!-- <ng-container matColumnDef="id">
+<!-- Image Column -->
+<!-- <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef mat-sort-header><div class="ali">Image</div></th>
               <td mat-cell *matCellDef="let element"> <img [src]="element.id" /></td>
             </ng-container> -->
 
-
-            <!-- Name Column -->
-            <!-- <ng-container matColumnDef="name">
+<!-- Name Column -->
+<!-- <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Book Name</th>
               <td mat-cell *matCellDef="let row">{{row.name}}</td>
             </ng-container>
@@ -125,56 +124,108 @@
       </div>
     
 </div> -->
-<div class="image">
-  <button class="addpro" routerLink="/addProduct" routerLinkActive="active" mat-raised-button color="primary"><mat-icon>add_shopping_cart</mat-icon>Add Product</button>
-<table mat-table
-       [dataSource]="dataSource" multiTemplateDataRows
-       class="mat-elevation-z8">
-  <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns;index as i">
-    <th mat-header-cell *matHeaderCellDef> {{rColumns[i]}} </th>
-    
-    <td mat-cell *matCellDef="let element" ><div *ngIf="i!=0" >{{element[column]}}</div><div *ngIf="i==0" ><mat-icon>keyboard_arrow_down</mat-icon></div></td>
-    <td mat-cell *matCellDef="let element" ></td>
-  </ng-container>
+<nb-layout>
+	<nb-layout-column>
+		<div class="image">
+			<button
+				class="addpro"
+				routerLink="/addProduct"
+				routerLinkActive="active"
+				mat-raised-button
+				style="background-color: #7868e6; color: white"
+			>
+				<mat-icon>add_shopping_cart</mat-icon>Add Product
+			</button>
+			<table
+				mat-table
+				[dataSource]="dataSource"
+				multiTemplateDataRows
+				class="mat-elevation-z8"
+			>
+				<ng-container
+					matColumnDef="{{ column }}"
+					*ngFor="let column of displayedColumns; index as i"
+				>
+					<th id="tableBar" mat-header-cell *matHeaderCellDef>
+						{{ rColumns[i] }}
+					</th>
 
-  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-  <ng-container matColumnDef="expandedDetail">
-    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-      <div class="example-element-detail"
-           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-        <div class="example-element-diagram">
-           <img [src]="element.imageUrl" /> 
-    
-        </div>
-        <div class="example-element-description">
-          <span>Book Name:</span>{{element.productName}}<br><br><span>Price:</span>{{element.price}}<br><br><span>Quantity:</span>{{element.quantity}}
+					<td mat-cell *matCellDef="let element">
+						<div *ngIf="i != 0">{{ element[column] }}</div>
+						<div *ngIf="i == 0"><mat-icon>keyboard_arrow_down</mat-icon></div>
+					</td>
+					<td mat-cell *matCellDef="let element"></td>
+				</ng-container>
 
-        </div>
-        <div class="icons"><button routerLink="/editProduct/{{element.productId}}" routerLinkActive="active"  class="edit"><mat-icon >edit</mat-icon></button>
-          <button (click) = "deleteEmployee(element.productId)" class="delete"><mat-icon>delete</mat-icon></button></div>
-      </div>
-    </td>
-  </ng-container>
+				<!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+				<ng-container matColumnDef="expandedDetail">
+					<td
+						mat-cell
+						*matCellDef="let element"
+						[attr.colspan]="displayedColumns.length"
+					>
+						<div
+							class="example-element-detail"
+							[@detailExpand]="
+								element == expandedElement ? 'expanded' : 'collapsed'
+							"
+						>
+							<div class="example-element-diagram">
+								<img [src]="element.imageUrl" />
+							</div>
+							<div class="example-element-description">
+								<span>Book Name: </span>{{ element.productName
+								}}<br /><br /><span>Price: </span>{{ element.price
+								}}<br /><br /><span>Quantity: </span>{{ element.quantity }}
+							</div>
+							<div class="icons">
+								<button
+									routerLink="/editProduct/{{ element.productId }}"
+									routerLinkActive="active"
+									class="edit"
+								>
+									<mat-icon>edit</mat-icon>
+								</button>
+								<button
+									(click)="deleteEmployee(element.productId)"
+									class="delete"
+								>
+									<mat-icon>delete</mat-icon>
+								</button>
+							</div>
+						</div>
+					</td>
+				</ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let element; columns: displayedColumns;"
-      class="example-element-row"
-      [class.example-expanded-row]="expandedElement === element"
-      (click)="expandedElement = expandedElement === element ? null : element">
-  </tr>
-  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-</table>
-<div class="foot">
-  <mat-paginator [pageSizeOptions]="[10, 20, 30]"
-  [pageSize]="10"
-
-         showFirstLastButtons 
-         aria-label="Select page of periodic elements">
-</mat-paginator>
-</div>
-</div>
-
-
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr
+					mat-row
+					*matRowDef="let element; columns: displayedColumns"
+					class="example-element-row"
+					[class.example-expanded-row]="expandedElement === element"
+					(click)="
+						expandedElement = expandedElement === element ? null : element
+					"
+				></tr>
+				<tr
+					mat-row
+					*matRowDef="let row; columns: ['expandedDetail']"
+					class="example-detail-row"
+				></tr>
+			</table>
+			<div class="foot">
+				<mat-paginator
+					[pageSizeOptions]="[10, 20, 30]"
+					[pageSize]="10"
+					showFirstLastButtons
+					aria-label="Select page of periodic elements"
+				>
+				</mat-paginator>
+			</div>
+		</div>
+	</nb-layout-column>
+	<img src="../../../assets/svg/productsImage.svg" />
+</nb-layout>
 <!-- Copyright 2020 Google LLC. All Rights Reserved.
     Use of this source code is governed by an MIT-style license that
     can be found in the LICENSE file at http://angular.io/license -->

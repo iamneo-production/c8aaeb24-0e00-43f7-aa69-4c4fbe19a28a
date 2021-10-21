@@ -1,74 +1,41 @@
-.alert {
-	padding: 20px;
-	background-color: #f44336;
-	color: white;
+.loginForm {
+	position: absolute;
+	padding-left: 20%;
+	top: 25%;
 }
-
-.closebtn {
-	margin-left: 15px;
-	color: white;
-	font-weight: bold;
-	float: right;
-	font-size: 22px;
-	line-height: 20px;
-	cursor: pointer;
-	transition: 0.3s;
+input {
+	color: nb-theme(#3b3b3b);
 }
-
-.closebtn:hover {
-	color: black;
+input:active,
+input:focus {
+	color: #36f;
 }
-.align {
-	margin-top: 6%;
-
-	padding-top: 1%;
-	padding-left: 14%;
-	box-sizing: border-box;
-	/* background-image: url("src\assets\signup.png"); */
-	background-size: 40%;
-	background-position: 80%;
-	background-position-y: 100%;
-	background-repeat: no-repeat;
+#signupButton {
+	margin-left: 20px;
+	height: 40px;
+	width: 90px;
+	display: inline;
 }
-.head {
-	font-family: Arial, Helvetica, sans-serif;
-	padding-left: 7%;
-	font-size: 44px;
-	margin-bottom: 35px;
-}
-.d {
-	margin-top: 15px;
-	margin-left: 90px;
-	align-content: right;
-}
-::placeholder {
-	padding: 15px;
-	font-size: 18px;
-	color: rgb(189, 189, 189);
-}
-.login-page {
-	top: 0;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	height: 100%;
+#loginButton {
+	width: 150px;
 	display: block;
-	background-color: #ffffff;
-	background-position: left;
-	background-repeat: no-repeat;
-	background-size: cover;
-	overflow: hidden;
+	background-color: #7868e6;
+}
+.loginDiv {
+	padding-left: 20%;
+	padding-top: 5%;
+}
+#password {
+	font-weight: 100 lighter;
+}
+#checkBox {
+	padding-top: 30px;
+}
+.holder {
+	padding-bottom: 20px;
 }
 
-mat-form-field {
-	width: 28%;
-	margin: auto;
-	align-content: center auto;
-}
-.login-button {
-	margin-top: 20px;
-	background-position: center;
-	width: 10% auto;
-	align-content: right;
-	margin-left: 11%;
+#signupImage {
+	margin-top: 25%;
+	margin-left: 0%;
 }

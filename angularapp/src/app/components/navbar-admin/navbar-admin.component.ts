@@ -23,7 +23,9 @@ export class NavbarAdminComponent implements OnInit {
 	ngOnInit(): void {}
 	onexit() {
 		this.notificationService.notify(
+			'Success',
 			NotificationType.SUCCESS,
+			'bottom-right',
 			'Logged out successfully'
 		);
 		console.log(4);

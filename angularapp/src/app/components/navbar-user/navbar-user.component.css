@@ -123,7 +123,7 @@ html {
 }
 .parallax {
 	/* The image used */
-	background-image: url("https://images2.alphacoders.com/261/thumb-1920-26102.jpg");
+	background-image: url("https://www.bnmit.org/wp-content/webp-express/webp-images/uploads/2020/08/lib.jpeg.webp");
 
 	/* Full height */
 	height: 60%;
@@ -133,4 +133,8 @@ html {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+}
+
+#userToolbar {
+	background-color: #7868e6;
 }

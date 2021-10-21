@@ -18,10 +18,13 @@ export class NavbarUserComponent implements OnInit {
 	ngOnInit(): void {}
 
 	onexit() {
-		this.notificationService.notify(
-			NotificationType.SUCCESS,
-			'Logged out successfully'
-		);
+		console.log('Logout');
+		// this.notificationService.notify(
+		// 	'Success',
+		// 	NotificationType.SUCCESS,
+		// 	'bottom-right',
+		// 	'Logged out successfully'
+		// );
 		console.log(4);
 		localStorage.removeItem('token');
 		// localStorage.clear();

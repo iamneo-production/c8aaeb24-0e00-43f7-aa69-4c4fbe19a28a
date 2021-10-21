@@ -31,6 +31,11 @@ export class HomePageComponent implements OnInit {
 			console.log(this.productList);
 		});
 	}
+
+	addToLocal(item: any) {
+		localStorage.setItem('current_ordered_item', JSON.stringify(item));
+		this.router.navigate(['/view/' + item.productId]);
+	}
 	Search(product: string) {
 		if (product == '') {
 			this.ngOnInit();

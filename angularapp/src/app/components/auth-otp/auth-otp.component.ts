@@ -35,11 +35,15 @@ export class AuthOtpComponent implements OnInit {
 			.subscribe((data: any) => {
 				if (data.status == 200) {
 					this.notificationService.notify(
+						'Success',
 						NotificationType.SUCCESS,
+						'bottom-right',
 						'OTP validation successful'
 					);
 					this.notificationService.notify(
+						'Success',
 						NotificationType.SUCCESS,
+						'bottom-right',
 						'Login Successful'
 					);
 					localStorage.setItem('token', data.message);
@@ -51,7 +55,12 @@ export class AuthOtpComponent implements OnInit {
 					// this.login(data.message)
 					this.dialogRef.close();
 				} else {
-					this.notificationService.notify(NotificationType.ERROR, data.message);
+					this.notificationService.notify(
+						'Error',
+						NotificationType.DANGER,
+						'bottom-right',
+						data.message
+					);
 				}
 			});
 	}

@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
 	subject: any = '';
 	api = '';
 	mail: any = '';
+	token: any = localStorage.getItem('token');
 
 	ngOnInit(): void {}
 	transactions: any = [
@@ -44,7 +45,7 @@ export class DashboardComponent implements OnInit {
 				},
 				{
 					headers: {
-						Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJ1c2VyX2lkIjoiNDAyODlkNzA3YzllYzc0NDAxN2M5ZWM3NTFjNDAwMDAiLCJyb2xlcyI6WyJhZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvbG9naW4iLCJleHAiOjE2MzQ4MTM4NTR9.hwmiQ7isrV_PjGCoyjKGZAJ3mvjNX-QXvVJS-eaTYLw`,
+						Authorization: `Bearer ${this.token}`,
 					},
 				}
 			)
@@ -72,7 +73,7 @@ export class DashboardComponent implements OnInit {
 				},
 				{
 					headers: {
-						Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJ1c2VyX2lkIjoiNDAyODlkNzA3YzllYzc0NDAxN2M5ZWM3NTFjNDAwMDAiLCJyb2xlcyI6WyJhZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvbG9naW4iLCJleHAiOjE2MzQ4MTM4NTR9.hwmiQ7isrV_PjGCoyjKGZAJ3mvjNX-QXvVJS-eaTYLw`,
+						Authorization: `Bearer ${this.token}`,
 					},
 				}
 			)
@@ -95,7 +96,7 @@ export class DashboardComponent implements OnInit {
 				},
 				{
 					headers: {
-						Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJ1c2VyX2lkIjoiNDAyODlkNzA3YzllYzc0NDAxN2M5ZWM3NTFjNDAwMDAiLCJyb2xlcyI6WyJhZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvbG9naW4iLCJleHAiOjE2MzQ4MTM4NTR9.hwmiQ7isrV_PjGCoyjKGZAJ3mvjNX-QXvVJS-eaTYLw`,
+						Authorization: `Bearer ${this.token}`,
 					},
 				}
 			)
@@ -118,7 +119,7 @@ export class DashboardComponent implements OnInit {
 				},
 				{
 					headers: {
-						Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJ1c2VyX2lkIjoiNDAyODlkNzA3YzllYzc0NDAxN2M5ZWM3NTFjNDAwMDAiLCJyb2xlcyI6WyJhZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvbG9naW4iLCJleHAiOjE2MzQ4MTM4NTR9.hwmiQ7isrV_PjGCoyjKGZAJ3mvjNX-QXvVJS-eaTYLw`,
+						Authorization: `Bearer ${this.token}`,
 					},
 				}
 			)
@@ -134,6 +135,8 @@ export class DashboardComponent implements OnInit {
 		this.mail = this.resetCodeEmail;
 		this.mail = this.mail.split(',');
 		console.log(this.mail);
+		this.token = localStorage.getItem('token');
+		console.log(this.token);
 		this.body = 'Testing mail';
 		this.subject = 'Email Testing - Virtusa';
 		this.http
@@ -146,7 +149,7 @@ export class DashboardComponent implements OnInit {
 				},
 				{
 					headers: {
-						Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJ1c2VyX2lkIjoiNDAyODlkNzA3YzllYzc0NDAxN2M5ZWM3NTFjNDAwMDAiLCJyb2xlcyI6WyJhZG1pbiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvbG9naW4iLCJleHAiOjE2MzQ4MTM4NTR9.hwmiQ7isrV_PjGCoyjKGZAJ3mvjNX-QXvVJS-eaTYLw`,
+						Authorization: `Bearer ${this.token}`,
 					},
 				}
 			)

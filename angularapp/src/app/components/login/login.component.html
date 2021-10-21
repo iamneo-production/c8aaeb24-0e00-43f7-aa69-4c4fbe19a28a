@@ -14,6 +14,7 @@
 						placeholder="Enter Email address"
 						[(ngModel)]="Login.email"
 						autocomplete="on"
+						autofocus
 					/>
 				</nb-form-field>
 			</div>
@@ -27,6 +28,7 @@
 						nbInput
 						placeholder="Enter Password"
 						[(ngModel)]="Login.password"
+						(keydown.enter)="go_login()"
 					/>
 					<nb-icon
 						nbSuffix

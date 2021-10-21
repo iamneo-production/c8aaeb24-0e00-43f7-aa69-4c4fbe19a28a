@@ -17,11 +17,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthQrComponent } from './components/auth-qr/auth-qr.component';
 import { AuthOtpComponent } from './components/auth-otp/auth-otp.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { SiginComponent } from './components/login/sigin.component';
+import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 const routes: Routes = [
-	{ path: 'login', component: SiginComponent },
+	{ path: 'login', component: LoginComponent },
 	{ path: 'signup', component: SignupComponent },
 	{
 		path: 'addProduct',
@@ -82,7 +82,7 @@ const routes: Routes = [
 @NgModule({
 	imports: [
 		RouterModule.forRoot(routes, {
-			useHash: true,
+			useHash: false,
 			anchorScrolling: 'enabled',
 		}),
 	],

@@ -55,12 +55,7 @@
 						</div>
 					</mat-card-content>
 					<mat-card-actions class="card-action">
-						<button
-							routerLink="/view/{{ item.productId }}"
-							routerLinkActive="active"
-							mat-button
-							class="viewb"
-						>
+						<button (click)="addToLocal(item)" mat-button class="viewb">
 							View Book
 						</button>
 					</mat-card-actions>

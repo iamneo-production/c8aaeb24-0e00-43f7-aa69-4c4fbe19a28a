@@ -95,7 +95,9 @@ export class CartComponent implements OnInit {
 		this.var_del.quantity = '40';
 		this.service.deleteitem(this.var_del).subscribe((data: any) => {
 			this.notificationService.notify(
+				'Success',
 				NotificationType.SUCCESS,
+				'bottom-right',
 				'Item deleted from cart'
 			);
 			console.log(data);
@@ -106,7 +108,9 @@ export class CartComponent implements OnInit {
 	saveorder() {
 		this.service.dosaveorder().subscribe((data) => {
 			this.notificationService.notify(
+				'Success',
 				NotificationType.SUCCESS,
+				'bottom-right',
 				'All items in the cart are ordered'
 			);
 			console.log(data);

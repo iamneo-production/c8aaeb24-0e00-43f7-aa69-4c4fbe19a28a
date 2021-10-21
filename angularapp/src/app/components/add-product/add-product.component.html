@@ -1,48 +1,85 @@
 <app-navbar-admin></app-navbar-admin>
 <div class="page">
+	<div class="addproduct">
+		<div class="head">
+			<p>ADD A NEW PRODUCT</p>
+		</div>
+		<form (ngSubmit)="onSubmit()">
+			<mat-form-field appearance="outline">
+				<mat-label>Product Name</mat-label>
+				<input
+					matInput
+					placeholder="Product Name"
+					required
+					name="name"
+					ngModel
+					#username="ngModel"
+					[(ngModel)]="inst.productName"
+				/> </mat-form-field
+			><br />
 
-        <div class="addproduct">
-            <div class="head">
+			<mat-form-field appearance="outline">
+				<mat-label>Price</mat-label>
+				<input
+					matInput
+					placeholder="Product Price"
+					required
+					name="price"
+					ngModel
+					#username="ngModel"
+					[(ngModel)]="inst.price"
+				/> </mat-form-field
+			><br />
 
-                <p>ADD A NEW PRODUCT</p>
-            </div>
-         <form (ngSubmit) = "onSubmit()">  
-        <mat-form-field appearance="outline">
-          <mat-label>Product Name</mat-label>
-        <input matInput placeholder="Product Name" required name="name" ngModel
-          #username="ngModel" [(ngModel)] = "inst.productName">
-       </mat-form-field><br/>
+			<mat-form-field appearance="outline">
+				<mat-label>Description</mat-label>
+				<textarea
+					matInput
+					rows="3"
+					cols="40"
+					placeholder="Product Description"
+					required
+					name="desci"
+					ngModel
+					#username="ngModel"
+					[(ngModel)]="inst.description"
+				></textarea></mat-form-field
+			><br />
 
-      <mat-form-field appearance="outline">
-        <mat-label>Price</mat-label>
-        <input matInput placeholder="Product Price" required name="price" ngModel
-          #username="ngModel" [(ngModel)] = "inst.price">
-      </mat-form-field><br/>
+			<mat-form-field appearance="outline">
+				<mat-label>Image URL</mat-label>
+				<input
+					matInput
+					placeholder="Image URL"
+					required
+					name="img"
+					ngModel
+					#username="ngModel"
+					[(ngModel)]="inst.imageURL"
+				/> </mat-form-field
+			><br />
 
-      <mat-form-field appearance="outline">
-        <mat-label>Description</mat-label>
-        <textarea matInput rows="3" cols="40" placeholder="Product Description" required name="desci" ngModel
-          #username="ngModel" [(ngModel)] = "inst.description"></textarea>
-      </mat-form-field><br/>
+			<mat-form-field appearance="outline">
+				<mat-label>Quantity</mat-label>
+				<input
+					matInput
+					placeholder="Product Quantity"
+					required
+					name="username"
+					ngModel
+					#username="ngModel"
+					[(ngModel)]="inst.quantity"
+				/> </mat-form-field
+			><br />
 
-      <mat-form-field appearance="outline">
-        <mat-label>Image URL</mat-label>
-        <input matInput placeholder="Image URL" required name="img" ngModel
-          #username="ngModel" [(ngModel)] = "inst.imageURL">
-      </mat-form-field><br/>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Quantity</mat-label>
-        <input matInput placeholder="Product Quantity" required name="username" ngModel
-          #username="ngModel" [(ngModel)] = "inst.quantity">
-      </mat-form-field><br/>
-      
-      <button type="submit"
-                    mat-raised-button
-                    color="primary"
-                    class="add-button">
-                    ADD
-                  </button>
-        </form> 
-    </div>
+			<button
+				type="submit"
+				mat-raised-button
+				color="primary"
+				class="add-button"
+			>
+				ADD
+			</button>
+		</form>
+	</div>
 </div>
