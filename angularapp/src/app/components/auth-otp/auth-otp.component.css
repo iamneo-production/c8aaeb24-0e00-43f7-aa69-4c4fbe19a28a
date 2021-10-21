@@ -1,0 +1,37 @@
+.form {
+	position: relative;
+	margin-top: 2%;
+	text-align: center;
+	height: auto;
+}
+.para {
+	margin-top: 2%;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 20px;
+	text-align: center;
+}
+.otpMessage {
+	text-align: center;
+}
+.otpText {
+	position: relative;
+	font-size: 15px;
+	text-align: center;
+	margin-left: 0%;
+}
+
+.otpDisclaimer {
+	position: relative;
+	font-size: 15px;
+}
+
+#adminEmail {
+	position: relative;
+	margin-top: -10x;
+}
+
+.disclaimer {
+	position: relative;
+	margin-top: 30px;
+	text-align: center;
+}

@@ -1,0 +1,56 @@
+@import "../../../themes.scss";
+
+@include nb-install-component() {
+	input {
+		margin-right: 30px;
+		margin-top: 10px;
+	}
+
+	.address {
+		width: 80%;
+	}
+
+	button {
+		margin-top: 50px;
+	}
+
+	.prev-button {
+		margin-right: 30px;
+	}
+
+	.title {
+		display: inline;
+	}
+
+	.rows {
+		display: flex;
+		justify-content: space-around;
+		text-align: left;
+	}
+
+	.rows2 {
+		display: flex;
+		justify-content: space-around;
+		text-align: left;
+	}
+
+	.products {
+		min-width: 10rem;
+		max-width: 20rem;
+		margin: 0 auto 2rem;
+	}
+
+	.payment {
+		display: inline;
+		margin-right: 10%;
+		display: flexbox;
+		justify-content: space-around;
+	}
+
+	.success {
+		width: 10%;
+		height: 10%;
+		display: flex;
+		justify-content: space-around;
+	}
+}

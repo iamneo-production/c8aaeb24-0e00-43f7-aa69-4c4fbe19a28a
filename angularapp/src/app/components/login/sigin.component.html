@@ -1,0 +1,68 @@
+<nb-layout>
+	<nb-layout-column left>
+		<div class="loginForm">
+			<div class="holder">
+				<b style="font-size: 30px; margin-left: 25%">LOGIN</b>
+			</div>
+			<div class="holder">
+				<nb-form-field>
+					<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+					<input
+						required
+						type="email"
+						nbInput
+						placeholder="Enter Email address"
+						[(ngModel)]="Login.email"
+						autocomplete="on"
+					/>
+				</nb-form-field>
+			</div>
+			<div class="holder">
+				<nb-form-field>
+					<nb-icon nbPrefix icon="lock-outline" pack="eva"></nb-icon>
+					<input
+						required
+						id="password"
+						[type]="show ? 'text' : 'password'"
+						nbInput
+						placeholder="Enter Password"
+						[(ngModel)]="Login.password"
+					/>
+					<nb-icon
+						nbSuffix
+						[icon]="show && Login.password ? 'eye-off-outline' : 'eye-outline'"
+						pack="eva"
+						[options]="{ animation: { type: 'pulse' } }"
+						(click)="showPassword()"
+					></nb-icon>
+				</nb-form-field>
+			</div>
+			<div class="holder loginDiv">
+				<button nbButton status="info" id="loginButton" (click)="go_login()">
+					Login<nb-icon icon="done-all-outline"></nb-icon>
+				</button>
+			</div>
+			<div class="d">
+				<span>
+					New to Bookstore?
+					<a routerLink="/signup" routerLinkActive="active">Click here</a>
+					<br />
+					<br />
+					Did you forgot your password?
+					<a
+						routerLink="/login"
+						routerLinkActive="active"
+						(click)="onClick()"
+						style="text-align: center"
+						>Click Here</a
+					>
+				</span>
+			</div>
+		</div>
+	</nb-layout-column>
+	<nb-layout-column>
+		<div id="loginImage" *ngIf="!deviceXs">
+			<img src="../../../../assets/svg/logoImage.svg" />
+		</div>
+	</nb-layout-column>
+</nb-layout>

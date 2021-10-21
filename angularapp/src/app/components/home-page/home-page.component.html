@@ -1,0 +1,71 @@
+<app-navbar-user></app-navbar-user>
+<div class="sample"></div>
+
+<div class="container">
+	<div class="overlay">
+		<div class="text1">Welcome to</div>
+		<div class="text2">BOOK STORE</div>
+	</div>
+</div>
+
+<div class="glay">
+	<div class="search">
+		<mat-form-field appearance="outline">
+			<mat-label>search</mat-label>
+			<input
+				name="search"
+				type="search"
+				id="search"
+				[(ngModel)]="productName"
+				matInput
+			/>
+		</mat-form-field>
+
+		<div class="ico" (click)="Search(productName)">
+			<mat-icon>search</mat-icon>
+		</div>
+	</div>
+	<div class="layout">
+		<div fxLayout="row wrap" fxLayoutGap="16px grid">
+			<div
+				class="card"
+				fxflex="25%"
+				fxFlex.xs="100%"
+				fxFlex.sm="33%"
+				*ngFor="let item of productList"
+			>
+				<mat-card class="example-card">
+					<img
+						mat-card-image
+						class="uimg"
+						src="{{ item.imageUrl }}"
+						alt="Photo of a Shiba Inu"
+						width="130"
+						height="250"
+					/>
+
+					<mat-card-content>
+						<div class="block1">
+							<p>
+								{{ item.productName }}
+							</p>
+						</div>
+						<div class="block2">
+							<p style="color: #db2a2a">₹{{ item.price }}</p>
+						</div>
+					</mat-card-content>
+					<mat-card-actions class="card-action">
+						<button
+							routerLink="/view/{{ item.productId }}"
+							routerLinkActive="active"
+							mat-button
+							class="viewb"
+						>
+							View Book
+						</button>
+					</mat-card-actions>
+				</mat-card>
+			</div>
+		</div>
+	</div>
+</div>

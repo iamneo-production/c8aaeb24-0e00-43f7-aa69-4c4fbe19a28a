@@ -1,0 +1,199 @@
+<app-navbar-admin></app-navbar-admin>
+<nb-layout>
+	<nb-layout-column>
+		<nb-card>
+			<nb-card-body>
+				<nb-tabset fullWidth>
+					<nb-tab tabIcon="person-outline">
+						<p><strong>Manage Users</strong>.</p>
+						<nb-card>
+							<nb-card-header>
+								<p>Enter email address of user to check status</p>
+							</nb-card-header>
+							<nb-card-body>
+								<div class="holder">
+									<nb-form-field>
+										<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+										<input
+											required
+											type="text"
+											nbInput
+											placeholder="Enter Email address"
+											[(ngModel)]="checkEmail"
+											status="primary"
+										/>
+									</nb-form-field>
+									<div class="spacing">
+										<button nbButton hero status="primary" (click)="check()">
+											Check
+										</button>
+									</div>
+								</div>
+							</nb-card-body>
+						</nb-card>
+						<nb-card>
+							<nb-card-header>
+								<p>Enter email address of user to disable</p>
+							</nb-card-header>
+							<nb-card-body>
+								<div class="holder">
+									<nb-form-field>
+										<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+										<input
+											required
+											type="text"
+											nbInput
+											placeholder="Enter Email address"
+											[(ngModel)]="disableEmail"
+											status="danger"
+										/>
+									</nb-form-field>
+									<div class="spacing">
+										<button
+											nbButton
+											hero
+											status="danger"
+											(click)="action('disable')"
+										>
+											Disable
+										</button>
+									</div>
+								</div>
+							</nb-card-body>
+						</nb-card>
+						<nb-card>
+							<nb-card-header>
+								<p>Enter email address of user to enable</p>
+							</nb-card-header>
+							<nb-card-body>
+								<div class="holder">
+									<nb-form-field>
+										<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+										<input
+											required
+											type="text"
+											nbInput
+											placeholder="Enter Email address"
+											[(ngModel)]="enableEmail"
+											status="success"
+										/>
+									</nb-form-field>
+									<div class="spacing">
+										<button
+											nbButton
+											hero
+											status="success"
+											(click)="action('enable')"
+										>
+											Enable
+										</button>
+									</div>
+								</div>
+							</nb-card-body>
+						</nb-card>
+					</nb-tab>
+					<nb-tab tabIcon="shield-off-outline">
+						<p><strong>Remove two step verification of user</strong>.</p>
+						<nb-card>
+							<nb-card-header>
+								<p>Enter email address to remove two step verification</p>
+							</nb-card-header>
+							<nb-card-body>
+								<div class="holder">
+									<nb-form-field>
+										<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+										<input
+											required
+											type="text"
+											nbInput
+											placeholder="Enter Email address"
+											[(ngModel)]="mfaEmail"
+										/>
+									</nb-form-field>
+									<div class="spacing">
+										<button nbButton hero status="primary" (click)="remove()">
+											Remove
+										</button>
+									</div>
+								</div>
+							</nb-card-body>
+						</nb-card>
+					</nb-tab>
+					<nb-tab tabIcon="link-2-outline">
+						<p><strong>Send Password Reset Code</strong>.</p>
+						<nb-card>
+							<nb-card-header>
+								<p>Enter email address to send password reset code</p>
+							</nb-card-header>
+							<nb-card-body>
+								<div class="holder">
+									<nb-form-field>
+										<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+										<input
+											required
+											type="text"
+											nbInput
+											placeholder="Enter Email address"
+											[(ngModel)]="resetCodeEmail"
+										/>
+									</nb-form-field>
+									<div class="spacing">
+										<button nbButton hero status="primary" (click)="reset()">
+											Send
+										</button>
+									</div>
+								</div>
+							</nb-card-body>
+						</nb-card>
+					</nb-tab>
+					<nb-tab tabIcon="smiling-face-outline">
+						<p><strong>List of transactions</strong>.</p>
+						<nb-card>
+							<nb-card-header> </nb-card-header>
+							<nb-card-body>
+								<nb-list>
+									<nb-list-item *ngFor="let transaction of transactions">
+										<p style="padding-left: 20px" *ngFor="let t of transaction">
+											{{ t }}
+										</p>
+									</nb-list-item>
+								</nb-list>
+							</nb-card-body>
+						</nb-card>
+					</nb-tab>
+					<nb-tab tabIcon="email-outline">
+						<p><strong>Send Mail</strong>.</p>
+						<nb-card>
+							<nb-card-header>
+								<p>Enter email address to send a personalised offer or mail</p>
+							</nb-card-header>
+							<nb-card-body>
+								<p>
+									Let this field be blank to send mail to all users or enter
+									emails as comma seperated.
+								</p>
+								<div class="holder">
+									<nb-form-field>
+										<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+										<input
+											required
+											type="text"
+											nbInput
+											placeholder="Enter Email address"
+											[(ngModel)]="sendEmail"
+										/>
+									</nb-form-field>
+									<div class="spacing">
+										<button nbButton hero status="primary" (click)="sendMail()">
+											Send
+										</button>
+									</div>
+								</div>
+							</nb-card-body>
+						</nb-card>
+					</nb-tab>
+				</nb-tabset>
+			</nb-card-body>
+		</nb-card>
+	</nb-layout-column>
+</nb-layout>

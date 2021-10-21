@@ -1,0 +1,122 @@
+<app-navbar-user></app-navbar-user>
+
+<nb-layout>
+	<nb-layout-column>
+		<nb-card>
+			<nb-card-body>
+				<nb-stepper orientation="horizontal" disableStepNavigation>
+					<nb-step [label]="labelOne">
+						<ng-template #labelOne>Details</ng-template>
+						<h4>Enter your details</h4>
+						<p class="lorem">Hii, we need your details to process the order!</p>
+						<input
+							type="text"
+							nbInput
+							status="basic"
+							placeholder="Enter your address"
+							class="address"
+						/>
+						<input
+							type="text"
+							nbInput
+							status="basic"
+							placeholder="Enter your city"
+						/>
+						<input
+							type="text"
+							nbInput
+							status="basic"
+							placeholder="Enter your pincode"
+						/>
+						<p class="lorem"></p>
+						<button class="prev-button" nbButton disabled nbStepperNext>
+							prev
+						</button>
+						<button class="next-button" nbButton nbStepperNext>next</button>
+					</nb-step>
+					<nb-step [label]="labelTwo">
+						<ng-template #labelTwo>Items</ng-template>
+						<h4>Here are items that you are interested to buy</h4>
+						<div>
+							<nb-card class="products" size="medium">
+								<nb-card-header>
+									<div class="rows">
+										<p class="title">Product Name</p>
+									</div>
+								</nb-card-header>
+								<nb-list>
+									<nb-list-item *ngFor="let cart of cartItems">
+										<nb-card-body>
+											<div class="rows">
+												<p class="title">{{ cart.productName }}</p>
+											</div>
+										</nb-card-body>
+									</nb-list-item>
+								</nb-list>
+							</nb-card>
+						</div>
+						<button class="prev-button" nbButton nbStepperPrevious>prev</button>
+						<button class="next-button" nbButton nbStepperNext>next</button>
+					</nb-step>
+					<nb-step label="Payment">
+						<h4>Choose payment gateway</h4>
+						<nb-card status="success" *ngIf="paymentDone">
+							<nb-card-header>
+								<p>Payment Successful</p>
+							</nb-card-header>
+							<nb-card-body>
+								Hii your payment is processed and your order is placed!
+								<button
+									nbButton
+									status="success"
+									style="position: relative; margin-top: 30px"
+								>
+									Orders
+								</button>
+							</nb-card-body>
+						</nb-card>
+						<span *ngIf="!paymentDone">
+							<div class="container"></div>
+							<button
+								nbButton
+								status="primary"
+								class="payment"
+								(click)="checkout(money)"
+							>
+								Stripe
+							</button>
+							<button nbButton status="primary" class="payment">
+								Google Pay
+							</button>
+
+							<button nbButton status="primary" class="payment">
+								Razor Pay
+							</button>
+						</span>
+						<div>
+							<button class="prev-button" nbButton nbStepperPrevious>
+								prev
+							</button>
+							<button class="next-button" nbButton nbStepperNext>next</button>
+						</div>
+					</nb-step>
+					<nb-step label="Status">
+						<ng-template #labelFour>Final Step</ng-template>
+						<h4>Order Successful</h4>
+						<p class="lorem">
+							<nb-icon
+								class="success"
+								icon="done-all-outline"
+								pack="eva"
+							></nb-icon>
+						</p>
+						<button class="prev-button" nbButton nbStepperPrevious disabled>
+							prev
+						</button>
+						<button class="next-button" nbButton nbStepperNext>Orders</button>
+					</nb-step>
+				</nb-stepper>
+			</nb-card-body>
+		</nb-card>
+	</nb-layout-column>
+</nb-layout>

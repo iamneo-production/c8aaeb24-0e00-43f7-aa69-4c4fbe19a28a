@@ -1,0 +1,130 @@
+<app-navbar-user></app-navbar-user>
+<!--<div class="block1">
+    <img src= 'https://www.wallpapertip.com/wmimgs/42-425158_high-resolution-books-background.jpg'>
+
+</div>-->
+
+<div class="block1">
+	<div class="box">
+		<img src="{{ productList.imageUrl }}" alt="Cloudy Sky" />
+	</div>
+</div>
+<div class="block2">
+	<mat-card class="card2">
+		<!-- <mat-card-header>
+			<mat-card-title>{{ productList.productName }}</mat-card-title>
+			<mat-card-subtitle>Dog Breed</mat-card-subtitle>
+		</mat-card-header>
+		<mat-card-content>{{ productList.productName }}</mat-card-content>
+		<mat-card-content>{{ productList.price }}</mat-card-content>
+		<mat-card-actions class="btns">
+			<div class="btn1">
+				<form (ngSubmit)="onaddcart()">
+					<button type="submit" mat-raised-button class="one">
+						Add to Cart
+					</button>
+				</form>
+			</div>
+			<div class="btn2">
+				<button (click)="placeitem()" mat-raised-button class="two">
+					Place Order
+				</button>
+			</div>
+		</mat-card-actions> -->
+		<!-- <mat-card-content>{{ desList[0] }}</mat-card-content>
+		<mat-card-content>{{ desList[1] }}</mat-card-content> -->
+
+		<div class="head">
+			<mat-card-content
+				><h1>{{ productList.productName }}</h1></mat-card-content
+			>
+		</div>
+		<div class="price">
+			<mat-card-content
+				><h3>
+					<b>Product price</b> :<span style="color: #db2a2a">
+						₹{{ productList.price }}</span
+					>
+				</h3></mat-card-content
+			>
+		</div>
+		<br />
+		<br />
+		<div class="quant">
+			<mat-card-content
+				><h3>
+					<b>Product Quantity</b> : {{ productList.quantity }}
+				</h3></mat-card-content
+			>
+		</div>
+		<div class="desc">
+			<mat-card-content
+				><h3>
+					<b>Description</b> : <br />
+					<br />
+					<p>
+						{{ productList.description }}
+					</p>
+				</h3></mat-card-content
+			>
+		</div>
+		<mat-card-actions class="btns">
+			<div class="btn1">
+				<form (ngSubmit)="onaddcart()">
+					<button type="submit" mat-raised-button class="one">
+						Add to Cart
+					</button>
+				</form>
+			</div>
+			<div class="btn2">
+				<button (click)="placeitem(productList)" mat-raised-button class="two">
+					Place Order
+				</button>
+			</div>
+		</mat-card-actions>
+	</mat-card>
+</div>
+<div class="block3">
+	<div class="card2" fxflex="25%" fxFlex.xs="100%" fxFlex.sm="33%">
+		<mat-card class="example-card">
+			<img
+				mat-card-image
+				class="uimg"
+				src="{{ productList1.imageUrl }}"
+				alt="Photo of a Shiba Inu"
+				width="130"
+				height="200"
+			/>
+
+			<mat-card-content>
+				<div class="blocka">
+					<p
+						style="
+							white-space: nowrap;
+							font-size: 14px;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							font-weight: bold;
+						"
+					>
+						{{ productList1.productName }}
+					</p>
+				</div>
+				<div class="blockb">
+					<p style="color: #db2a2a">₹{{ productList1.price }}</p>
+				</div>
+			</mat-card-content>
+			<mat-card-actions class="card-action">
+				<button
+					routerLink="../{{ productList1.productId }}"
+					routerLinkActive="active"
+					mat-button
+					class="viewb"
+					(click)="see(productList1)"
+				>
+					View Book
+				</button>
+			</mat-card-actions>
+		</mat-card>
+	</div>
+</div>

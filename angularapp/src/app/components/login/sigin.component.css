@@ -1,0 +1,41 @@
+.loginForm {
+	position: absolute;
+	padding-left: 20%;
+	top: 35%;
+}
+input {
+	color: nb-theme(#3b3b3b);
+}
+input:active,
+input:focus {
+	color: #36f;
+}
+#signupButton {
+	margin-left: 20px;
+	height: 40px;
+	width: 90px;
+	display: inline;
+}
+#loginButton {
+	width: 150px;
+	display: block;
+	background-color: #7868e6;
+}
+.loginDiv {
+	padding-left: 20%;
+	padding-top: 5%;
+}
+#password {
+	font-weight: 100 lighter;
+}
+.holder {
+	padding-bottom: 20px;
+}
+#loginImage {
+	margin-top: 25%;
+}
+
+img {
+	width: 60%;
+	height: 60%;
+}

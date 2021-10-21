@@ -1,0 +1,26 @@
+<mat-card class="card"><div class="border">
+    <img class="qr" src="{{qrcode}}">
+</div></mat-card>
+<div class="para">
+<p>Scan the QR code on your phone</p>
+<span>1. Open Google or Microsoft authenticator app</span><br>
+<span>2) Point your phone to the screen to capture code</span><br>
+<span>3) Enter OTP below, to complete the setup</span>
+<span>Note: To opt out of Multi-Factor Authentication, press out of the window</span>
+
+</div>
+<mat-form-field class="form" appearance="outline">
+    <input matInput placeholder="Enter OTP"  required name="number"
+      ngModel
+      [(ngModel)] = "otp"
+      #tel="ngModel">
+    <mat-error *ngIf="tel.invalid" >OTP is Requied</mat-error>
+  </mat-form-field> 
+  <button
+                mat-raised-button
+                color="primary"
+                class="submit-button" 
+                (click) = "verify()"
+                >
+                Submit
+              </button>

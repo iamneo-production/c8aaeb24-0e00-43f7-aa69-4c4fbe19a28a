@@ -1,0 +1,63 @@
+<div class="login">
+	<p class="heading">LOGIN</p>
+
+	<form (ngSubmit)="onSubmit()">
+		<div class="fields">
+			<mat-form-field appearance="outline">
+				<mat-label>Email</mat-label>
+				<input
+					[(ngModel)]="Login.email"
+					name="email"
+					type="email"
+					id="email"
+					matInput
+				/>
+			</mat-form-field>
+			<br />
+			<mat-form-field appearance="outline">
+				<mat-label>Password</mat-label>
+				<input
+					[(ngModel)]="Login.password"
+					name="password"
+					type="password"
+					id="password"
+					matInput
+				/>
+			</mat-form-field>
+			<br />
+		</div>
+
+		<div class="container">
+			<div class="center">
+				<button id="submitbutton" (click)="go_login()" class="btn">
+					<svg width="120px" height="40px" viewBox="0 0 180 60" class="border">
+						<polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+						<polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
+					</svg>
+					<span>LOGIN</span>
+				</button>
+			</div>
+		</div>
+
+		<!-- <div class="btn">
+        <button type="submit" mat-raised-button color="primary" class="login-button" id="submitbutton" (click)="go_login()"> Login </button>
+    </div> -->
+		<br />
+	</form>
+	<div class="d">
+		<span>
+			New to Bookstore?
+			<a routerLink="/signup" routerLinkActive="active">Click here</a>
+			<br />
+			<br />
+			Did you forgot your password?
+			<a
+				routerLink="/login"
+				routerLinkActive="active"
+				(click)="onClick()"
+				style="text-align: center"
+				>Click Here</a
+			>
+		</span>
+	</div>
+</div>
