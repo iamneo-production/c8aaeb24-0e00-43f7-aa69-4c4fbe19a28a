@@ -58,6 +58,8 @@ public class OrderService {
 		List<OrderModel> ordersList = new ArrayList<>();
 		for(int i=0; i<cartItems.size(); ++i) {
 			CartTempModel cartItem = cartItems.get(i);
+			ProductModel productModel = productRepository.findByProductId(cartItem.getProductId());
+			if(Integer.parseInt(productModel.getQuantity()) < Integer.parseInt(cartItem.getQuantity())) continue;
 			Float totalPrice = Integer.parseInt(cartItem.getQuantity()) * Float.parseFloat(cartItem.getPrice());
 			String orderId = user.getUserId() + "_" + i;
 			tempModel = new OrderModel(user.getUserId(), cartItem.getProductName(), cartItem.getQuantity(), String.valueOf(totalPrice), "Ordered", cartItem.getPrice());
