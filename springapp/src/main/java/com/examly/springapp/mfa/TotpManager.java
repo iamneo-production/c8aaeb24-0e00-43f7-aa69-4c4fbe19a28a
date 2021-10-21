@@ -20,11 +20,11 @@ public class TotpManager {
         return generator.generate();
     }
 
-    public String getUriForImage(String secret) {
+    public String getUriForImage(String secret, String email, String title) {
         QrData data = new QrData.Builder()
-                .label("Team2VirtusaNeuralHack5Demo")
+                .label(email)
                 .secret(secret)
-                .issuer("EbookStore")
+                .issuer(title)
                 .algorithm(HashingAlgorithm.SHA1)
                 .digits(6)
                 .period(30)

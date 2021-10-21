@@ -101,7 +101,7 @@ public class LoginService {
 		}
 	}
 
-	public ResponseEntity<?> savePassword(String email, String password, String conformPassword, String code) {
+	public ResponseEntity<?> savePassword(String email, String password, String conformPassword, String code) throws MessagingException, UnsupportedEncodingException {
 		List<String> errors = new ArrayList<>();
 		System.out.println(password + " " + conformPassword);
 		System.out.println(password.equals(conformPassword));
@@ -123,6 +123,14 @@ public class LoginService {
 				else {
 					userModel.setPassword(passwordEncoder.encode(password));
 					userModel.setForgotCode("");
+					String body = "    <h3>Dear " + userModel.getUsername() + ",</h3>\n" +
+							"    <p>This email is a response to let you know that your password has been changed.</p>\n"  +
+							"    <p>If you are not the one that did this action, please contact Administrator to disable your account.</p>\n" +
+							"    <p>After subsequent discussions and verifications, your account can be activated again.\n" +
+							"    </p>\n" +
+							"    <br>\n" +
+							"    <p>Thanks for using our services, Ebook Store (Team 2)</p><hr style=\"border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));\"></hr><a href=\"http://localhost:4200\"><img src=\"https://rukminim1.flixcart.com/flap/500/500/image/b3fe381767050079.jpg?q=100\"></img></a>";
+					emailSenderService.sendMail(userModel.getEmail(), "Password for your Ebook store is changed", body);
 					userRepository.save(userModel);
 					return ResponseEntity.ok().body(new ApiResponse(true, "Password changed successfully", OK.value(), OK, errors));
 				}

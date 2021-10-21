@@ -2,6 +2,7 @@ package com.examly.springapp.controller;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.examly.springapp.email.EmailSenderService;
 import com.examly.springapp.mfa.TotpManager;
 import com.examly.springapp.model.LoginModel;
 import com.examly.springapp.model.UserModel;
@@ -16,6 +17,8 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -40,6 +43,9 @@ public class LoginController {
 
 	@Autowired
 	private TotpManager totpManager;
+
+	@Autowired
+	private EmailSenderService emailSenderService;
 
 	@PostMapping("/login")
 	public ResponseEntity<?> checkUser(@RequestBody LoginModel loginModel) {
@@ -80,7 +86,7 @@ public class LoginController {
 //		return ResponseEntity.ok().headers(headers).body(true);
 	}
 	@PostMapping("/verify/{code}")
-	public ResponseEntity<?> verify(@PathVariable String code, @RequestBody LoginModel loginModel) {
+	public ResponseEntity<?> verify(@PathVariable String code, @RequestBody LoginModel loginModel) throws MessagingException, UnsupportedEncodingException {
 		List<String> errors = new ArrayList<>();
 		String username = loginModel.getEmail();
 		UserModel userModel = userRepository.findByEmail(username);
@@ -101,6 +107,14 @@ public class LoginController {
 					.withClaim("roles", roles)
 //                .withClaim("user_id", userModel.getUserId())
 					.sign(algorithm);
+			String body = "    <h3>Dear " + userModel.getUsername() + ",</h3>\n" +
+					"    <p>This email is a response to let you know that your account has been activated for two step verification.</p>\n"  +
+					"    <p>If you lose access to the Authenticator app, please contact Administrator to remove the two step verification for your account.</p>\n" +
+					"    <p>Thanks for visiting our store, happy reading!\n" +
+					"    </p>\n" +
+					"    <br>\n" +
+					"    <p>Thanks for using our services, Ebook Store (Team 2)</p><hr style=\"border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));\"></hr><a href=\"http://localhost:4200\"><img src=\"https://rukminim1.flixcart.com/flap/500/500/image/b3fe381767050079.jpg?q=100\"></img></a>";
+			emailSenderService.sendMail(userModel.getEmail(), "Kudos for the security option", body);
 			userRepository.save(userModel);
 			return ResponseEntity.ok().body(new ApiResponse(true, access_token, OK.value(), OK, errors));
 		}
@@ -116,7 +130,7 @@ public class LoginController {
 
 	@GetMapping("/generate/{id}")
 	public ResponseEntity<?> generate(@PathVariable String id) {
-		return ResponseEntity.ok().body(new ApiResponse(true, totpManager.getUriForImage(id), OK.value(), OK, new ArrayList<>()));
+		return ResponseEntity.ok().body(new ApiResponse(true, totpManager.getUriForImage(id, "", ""), OK.value(), OK, new ArrayList<>()));
 	}
 
 	@PostMapping("/forgot")
@@ -133,7 +147,7 @@ public class LoginController {
 	}
 
 	@PostMapping("/savePassword")
-	public ResponseEntity<?> savePassword(@RequestBody ChangePasswordModel changePasswordModel) {
+	public ResponseEntity<?> savePassword(@RequestBody ChangePasswordModel changePasswordModel) throws MessagingException, UnsupportedEncodingException {
 		return loginService.savePassword(changePasswordModel.email, changePasswordModel.password, changePasswordModel.conformPassword, changePasswordModel.code);
 	}
 }
