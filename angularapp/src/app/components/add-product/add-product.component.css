@@ -1,86 +1,42 @@
-.gap {
-	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-	text-align: left;
-	margin-bottom: -30px;
-	font-weight: bold;
-	font-size: 20px;
+.loginForm {
+	max-width: 500px;
+	position: absolute;
+	padding-left: 10%;
+	top: 30%;
 }
-.sample {
-	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-
-	margin-top: -20px;
-	font-weight: bold;
-	font-size: 20px;
+input {
+	color: nb-theme(#3b3b3b);
 }
-.span {
+input:active,
+input:focus {
+	color: #36f;
+}
+#signupButton {
+	margin-left: 20px;
+	height: 40px;
+	width: 90px;
+	display: inline;
+}
+#addButton {
+	width: 90px;
 	display: block;
-	width: 50px;
-	padding: 0 20px;
-	margin: 0;
-	word-break: break-word;
-	text-align: center;
+	background-color: #7868e6;
+	margin-left: -45px;
 }
-.button {
-	overflow-x: hidden !important;
+#addNewProductButton {
+	width: 250px;
+	background-color: #7868e6;
 }
-.spacer {
-	flex: 1 1 auto;
+.loginDiv {
+	padding-left: 20%;
+	padding-top: 5%;
 }
-.addproduct {
-	margin: 0;
-	padding-top: 8%;
-	padding-left: 60%;
-	box-sizing: border-box;
-	background-image: url("src\assets\addproduct 1.png");
-	background-size: 34%;
-	background-position: 20%;
-	background-position-y: 100%;
-	background-repeat: no-repeat;
+.disabledDiv {
+	color: #fff;
 }
-
-.page {
-	top: 0;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	height: 100%;
-	display: block;
-	background-color: #ffffff;
-	background-position: left;
-	background-repeat: no-repeat;
-	background-size: cover;
-	overflow: hidden;
+#password {
+	font-weight: 100 lighter;
 }
-
-mat-form-field {
-	width: 50%;
-	margin: auto;
-	margin-bottom: -10px;
-}
-
-::placeholder {
-	padding: auto;
-	text-align: left;
-	font-size: 16px;
-	color: rgb(189, 189, 189);
-}
-
-.head {
-	border-radius: 5px;
-	background-color: #3f51b5;
-	margin-bottom: 10px;
-	height: 10%;
-	width: 50%;
-	text-align: center;
-
-	color: rgb(255, 255, 255);
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-		Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-	font-size: large;
-	font-weight: 500;
-	padding-top: 12px;
-	padding-bottom: 1px;
-}
-.add-button {
-	width: 15%;
+.holder {
+	padding-bottom: 20px;
 }

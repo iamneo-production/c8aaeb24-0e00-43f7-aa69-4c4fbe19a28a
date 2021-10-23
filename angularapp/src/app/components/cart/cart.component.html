@@ -1,5 +1,5 @@
 <app-navbar-user></app-navbar-user>
-<div *ngIf="isempty; else elseBlock">
+<div *ngIf="isempty; else elseBlock" ng-cloak>
 	<div class="empty-cart">
 		<svg
 			viewBox="656 573 264 182"
@@ -377,18 +377,20 @@
 		<div class="btn1">
 			<p>&nbsp;Cart is Empty 😕</p>
 		</div>
-		<div class="b1">
-			<button
-				routerLink="/home"
-				routerLinkActive="active"
-				class="btn draw-border"
-			>
-				Add items
-			</button>
-		</div>
+
+		<button
+			id="btn2"
+			nbButton
+			status="warning"
+			hero
+			routerLink="/home"
+			routerLinkActive="active"
+		>
+			Add items
+		</button>
 	</div>
 </div>
-<ng-template #elseBlock>
+<ng-template #elseBlock class="ng-cloak">
 	<div class="mat-elevation-z8">
 		<table
 			mat-table
@@ -434,6 +436,7 @@
 		>
 		</mat-paginator>
 	</div>
+
 	<div class="btn">
 		<button (click)="PlaceAllItems()" mat-flat-button color="clr">
 			Place Order

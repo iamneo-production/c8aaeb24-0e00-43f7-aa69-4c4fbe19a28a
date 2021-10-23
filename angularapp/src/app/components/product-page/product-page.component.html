@@ -3,89 +3,38 @@
     <img src= 'https://www.wallpapertip.com/wmimgs/42-425158_high-resolution-books-background.jpg'>
 
 </div>-->
-
-<div class="block1">
-	<div class="box">
-		<img src="{{ productList.imageUrl }}" alt="Cloudy Sky" />
-	</div>
-</div>
-<div class="block2">
-	<mat-card class="card2">
-		<!-- <mat-card-header>
-			<mat-card-title>{{ productList.productName }}</mat-card-title>
-			<mat-card-subtitle>Dog Breed</mat-card-subtitle>
-		</mat-card-header>
-		<mat-card-content>{{ productList.productName }}</mat-card-content>
-		<mat-card-content>{{ productList.price }}</mat-card-content>
-		<mat-card-actions class="btns">
-			<div class="btn1">
-				<form (ngSubmit)="onaddcart()">
-					<button type="submit" mat-raised-button class="one">
+<nb-layout>
+	<nb-layout-column left>
+		<img
+			class="image-holder"
+			style="width: 30%; margin-top: 12%; margin-left: 20%"
+			src="{{ productList.imageUrl }}"
+			alt="Cloudy Sky"
+		/>
+	</nb-layout-column>
+	<nb-layout-column right style="margin-left: -15%; margin-top: 3%">
+		<nb-card style="margin-right: 15%" class="info-holder">
+			<nb-card-header>Book Title: {{ productList.productName }}</nb-card-header>
+			<nb-card-body
+				><p>Price: ₹{{ productList.price }}</p>
+				<div style="margin-top: 5%"></div>
+				<p>Product Quantity: {{ productList.quantity }}</p></nb-card-body
+			>
+			<nb-card>
+				<nb-card-body>Description: {{ productList.description }}</nb-card-body>
+			</nb-card>
+			<nb-card>
+				<nb-card-header>
+					<span style="margin-right: 15%"></span>
+					<button nbButton status="primary" (click)="onaddcart(productList)">
 						Add to Cart
 					</button>
-				</form>
-			</div>
-			<div class="btn2">
-				<button (click)="placeitem()" mat-raised-button class="two">
-					Place Order
-				</button>
-			</div>
-		</mat-card-actions> -->
-		<!-- <mat-card-content>{{ desList[0] }}</mat-card-content>
-		<mat-card-content>{{ desList[1] }}</mat-card-content> -->
-		<div class="head">
-			<mat-card-content
-				><h1>{{ productList.productName }}</h1></mat-card-content
-			>
-		</div>
-		<div class="price">
-			<mat-card-content
-				><h3>
-					<b>Product price</b> :<span style="color: #db2a2a">
-						₹{{ productList.price }}</span
-					>
-				</h3></mat-card-content
-			>
-		</div>
-		<br />
-		<br />
-		<div class="quant">
-			<mat-card-content
-				><h3>
-					<b>Product Quantity</b> : {{ productList.quantity }}
-				</h3></mat-card-content
-			>
-		</div>
-		<div class="desc">
-			<mat-card-content
-				><h3>
-					<b>Description</b> : <br />
-					<br />
-					<p
-						style="
-							white-space: nowrap;
-							overflow: hidden;
-							text-overflow: ellipsis;
-						"
-					>
-						{{ productList.description }}
-					</p>
-				</h3></mat-card-content
-			>
-		</div>
-		<mat-card-actions class="btns">
-			<div class="btn1">
-				<form (ngSubmit)="onaddcart(productList)">
-					<button type="submit" mat-raised-button class="one">
-						Add to Cart
+					<span style="margin-right: 25%"></span>
+					<button nbButton status="success" (click)="placeitem(productList)">
+						Place order
 					</button>
-				</form>
-			</div>
-			<div class="btn2">
-				<button (click)="placeitem(productList)" mat-raised-button class="two">
-					Place Order
-				</button>
-			</div>
-		</mat-card-actions>
-	</mat-card>
-</div>
+				</nb-card-header>
+			</nb-card>
+		</nb-card>
+	</nb-layout-column>
+</nb-layout>

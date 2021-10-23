@@ -1,7 +1,8 @@
 .mat-elevation-z8 {
-	margin-top: 30px;
-	margin-left: 15px;
+	margin-top: 4%;
+	margin-left: 15%;
 	margin-right: 15px;
+	width: 70%;
 }
 .gap {
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
@@ -24,7 +25,7 @@
 }
 
 th {
-	background-color: #ffd344;
+	background-color: #7868e6;
 	font-size: large;
 	color: black;
 }

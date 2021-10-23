@@ -1,5 +1,114 @@
 <app-navbar-admin></app-navbar-admin>
-<div class="page">
+<nb-layout>
+	<nb-layout-column left>
+		<img
+			src="../../../assets/svg/addproductImage.svg"
+			style="margin-left: 20%; margin-top: 10%"
+		/>
+	</nb-layout-column>
+	<nb-layout-column right style="margin-left: -5%">
+		<div class="loginForm">
+			<div class="holder disabledDiv" style="margin-top: -20%">
+				<button
+					nbButton
+					status="info"
+					id="addNewProductButton"
+					disabled
+					style="color: #fff"
+				>
+					Edit Product
+				</button>
+			</div>
+			<div class="holder">
+				<nb-form-field>
+					<input
+						required
+						type="text"
+						nbInput
+						placeholder="Product Name"
+						shape="semi-round"
+						value="{{ employee.productName }}"
+						[(ngModel)]="employee.productName"
+					/>
+				</nb-form-field>
+			</div>
+			<div class="holder">
+				<nb-form-field>
+					<input
+						required
+						type="text"
+						nbInput
+						placeholder="Product Price"
+						shape="semi-round"
+						value="{{ employee.price }}"
+						[(ngModel)]="employee.price"
+					/>
+				</nb-form-field>
+			</div>
+			<div class="holder">
+				<nb-form-field>
+					<textarea
+						nbInput
+						fullWidth
+						rows="5"
+						placeholder="Product Description"
+						style="resize: vertical; max-height: 150px"
+						shape="semi-round"
+						value="{{ employee.description }}"
+						[(ngModel)]="employee.description"
+					></textarea>
+				</nb-form-field>
+			</div>
+			<div class="holder">
+				<nb-form-field>
+					<input
+						required
+						type="text"
+						nbInput
+						placeholder="Image URL"
+						shape="semi-round"
+						value="{{ employee.imageUrl }}"
+						[(ngModel)]="employee.imageUrl"
+					/>
+				</nb-form-field>
+			</div>
+			<div class="holder">
+				<nb-form-field>
+					<input
+						required
+						type="text"
+						nbInput
+						placeholder="Product quantity"
+						shape="semi-round"
+						value="{{ employee.quantity }}"
+						[(ngModel)]="employee.quantity"
+					/>
+				</nb-form-field>
+			</div>
+			<div class="holder loginDiv">
+				<button nbButton status="info" id="addButton" (click)="OnSubmit()">
+					Edit<nb-icon
+						icon="edit-2-outline"
+						pack="eva"
+						[options]="{ animation: { type: 'pulse' } }"
+					></nb-icon>
+				</button>
+			</div>
+		</div>
+	</nb-layout-column>
+</nb-layout>
+
+<!-- <nb-layout>
+	<nb-layout-column left>
+		<nb-card>
+			<nb-card-header>Edit Product</nb-card-header>
+
+			<nb-form-field> </nb-form-field>
+		</nb-card>
+	</nb-layout-column>
+</nb-layout> -->
+
+<!-- <div class="page">
 	<div class="addproduct">
 		<div class="head">
 			<p>EDIT PRODUCT</p>
@@ -67,4 +176,4 @@
 			</button>
 		</form>
 	</div>
-</div>
+</div> -->

@@ -279,4 +279,6 @@ export class DashboardUserComponent implements OnInit {
 	) {
 		this.toastrService.show(add, message, { status, position });
 	}
+
+	sendMessage() {}
 }

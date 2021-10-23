@@ -1,7 +1,8 @@
 .mat-elevation-z8 {
-	margin-top: 30px;
-	margin-left: 15px;
+	margin-top: 4%;
+	margin-left: 15%;
 	margin-right: 15px;
+	width: 70%;
 }
 .gap {
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
@@ -23,7 +24,7 @@
 	width: 100%;
 }
 th {
-	background-color: #ffd344;
+	background-color: #7868e6;
 	font-size: large;
 	color: black;
 }
@@ -38,12 +39,12 @@ td {
 	background-color: #f1f2fb;
 }
 .mat-flat-button.mat-clr {
-	background-color: #ffd344;
-	color: black;
+	background-color: #7868e6;
+	color: #fff;
 }
 .btn {
-	padding-top: 25px;
-	padding-left: 20px;
+	margin-left: 25%;
+	margin-top: 5%;
 }
 .empty-cart {
 	width: 50vw;
@@ -315,6 +316,13 @@ body {
 .btn1 {
 	margin-top: -9%;
 }
+.btn1 p {
+	font-size: 30px;
+}
 .b1 {
 	margin-top: 5%;
+}
+
+#btn2 {
+	margin-top: 6%;
 }

@@ -76,7 +76,6 @@ import { NotificationModule } from './notification.module';
 
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
-import { RouterModule } from '@angular/router';
 import {
 	NbThemeModule,
 	NbLayoutModule,

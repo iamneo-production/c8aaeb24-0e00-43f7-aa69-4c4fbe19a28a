@@ -7,24 +7,27 @@
 	<mat-toolbar-row fxLayoutAlign="space-between center">
 		<div>
 			<button mat-button class="button">
-				<div class="gap">BOOK</div>
+				<div class="gap" style="border: none">BOOK</div>
 				<br />
-				<div class="sample">STORE</div>
+				<div class="sample" style="border: none">STORE</div>
 			</button>
 		</div>
 
 		<div class="spacer">
 			<button routerLink="/home" routerLinkActive="active" mat-button>
-				<mat-icon>home</mat-icon><span>Home</span>
+				<mat-icon>home</mat-icon><span style="margin-left: 3px">Home</span>
 			</button>
 			<button routerLink="/cart" routerLinkActive="active" mat-button>
-				<mat-icon>shopping_cart</mat-icon><span>Cart</span>
+				<mat-icon>shopping_cart</mat-icon
+				><span style="margin-left: 3px">Cart</span>
 			</button>
 			<button routerLink="/orders" routerLinkActive="active" mat-button>
-				<mat-icon> local_shipping</mat-icon><span>Orders</span>
+				<mat-icon> local_shipping</mat-icon
+				><span style="margin-left: 3px">Orders</span>
 			</button>
 			<button mat-button (click)="onClick()">
-				<mat-icon> mail</mat-icon>Talk To Admin
+				<mat-icon> mail</mat-icon
+				><span style="margin-left: 3px">Talk To Admin</span>
 			</button>
 		</div>
 		<div fxLayout="row" fxLayoutAlign="end center">

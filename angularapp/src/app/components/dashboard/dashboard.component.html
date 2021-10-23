@@ -173,8 +173,15 @@
 											</button>
 										</span>
 									</nb-list-item>
-									<nb-list-item *ngIf="!messages">
-										<p style="padding-left: 20px">No messages for now</p>
+									<nb-list-item>
+										<p>
+											<nb-icon
+												nbPrefix
+												icon="bell-off-outline"
+												pack="eva"
+											></nb-icon>
+											&nbsp;&nbsp;No new messages
+										</p>
 									</nb-list-item>
 								</nb-list>
 							</nb-card-body>
