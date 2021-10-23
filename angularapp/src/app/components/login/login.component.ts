@@ -9,6 +9,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { AuthOtpComponent } from '../auth-otp/auth-otp.component';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 import { NbDialogService } from '@nebular/theme';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
 	selector: 'app-login',
@@ -18,7 +19,18 @@ import { NbDialogService } from '@nebular/theme';
 export class LoginComponent implements OnInit {
 	@Input() deviceXs: boolean = false;
 	testPassword: any;
-
+	loginForm = new FormGroup({
+		email: new FormControl('', [
+			Validators.required,
+			Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+			Validators.email,
+		]),
+		password: new FormControl('', [
+			Validators.required,
+			Validators.minLength(4),
+			Validators.maxLength(20),
+		]),
+	});
 	constructor(
 		private loginservice: LoginService,
 		private router: Router,
@@ -32,6 +44,10 @@ export class LoginComponent implements OnInit {
 	Login: login = new login();
 	token: string = '';
 	testEmail: any = '';
+	errors: any = [];
+	submitted: boolean = false;
+	showMessages: any = [];
+	emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
 	ngOnInit(): void {
 		if (!!localStorage.getItem('token')) {
 			this.token = localStorage.getItem('token') || '{}';
@@ -56,16 +72,23 @@ export class LoginComponent implements OnInit {
 
 	ans: any;
 	go_login() {
-		// const regex = /\S+@\S+\.\S+/;
-		// this.testEmail = login.email;
-		// this.testPassword = login.password;
-		// if (this.testPassword < 6 || !regex.test(this.testEmail)) {
-		// 	this.notificationService.notify(
-		// 		NotificationType.ERROR,
-		// 		'Validation failed'
-		// 	);
-		// 	return;
-		// }
+		if (this.loginForm.get('email')?.invalid) {
+			this.notificationService.notify(
+				'Error',
+				NotificationType.DANGER,
+				'bottom-right',
+				'Email address in not valid'
+			);
+			return;
+		} else if (this.loginForm.get('password')?.invalid) {
+			this.notificationService.notify(
+				'Error',
+				NotificationType.DANGER,
+				'bottom-right',
+				'Password should have 6 to 20 characters only'
+			);
+			return;
+		}
 		this.loginservice.createLogin(this.Login).subscribe(
 			(data: any) => {
 				console.log(data);
@@ -90,25 +113,21 @@ export class LoginComponent implements OnInit {
 					this.onCreate(this.Login.email, this.Login.password);
 				} else {
 					localStorage.setItem('token', data.message);
-					console.log('Success');
 					try {
 						console.log(data.message);
 						this.ans = jwt_decode(data.message);
+						console.log(this.ans);
+						localStorage.setItem('token', data.message);
 					} catch (Error) {
 						this.ans = null;
 					}
 					// console.log(this.ans);
+					console.log(localStorage.getItem('token'));
 					this.notificationService.notify(
 						'Success',
 						NotificationType.SUCCESS,
 						'bottom-right',
 						'Login Successful'
-					);
-					this.notificationService.notify(
-						'Succes',
-						NotificationType.SUCCESS,
-						'bottom-right',
-						'Welcome!'
 					);
 					console.log(this.ans);
 					if (this.ans.roles[0] == 'admin') {

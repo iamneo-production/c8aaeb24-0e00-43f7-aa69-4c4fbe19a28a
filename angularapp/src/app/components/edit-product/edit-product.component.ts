@@ -14,25 +14,27 @@ export class EditProductComponent implements OnInit {
 	id: string = '';
 	employee: ProductTableItem = new ProductTableItem();
 	constructor(
-		private employeeService: ProductTableService,
+		private service: ProductTableService,
 		private route: ActivatedRoute,
 		private router: Router,
 		private notificationService: NotificationService
 	) {}
 
 	ngOnInit(): void {
+		// take the product id from route
 		this.id = this.route.snapshot.params['id'];
 
-		this.employeeService.getEmployeeById(this.id).subscribe(
+		this.service.GetItemById(this.id).subscribe(
 			(data) => {
 				this.employee = data;
 			},
 			(error) => console.log(error)
 		);
 	}
-
-	onSubmit() {
-		this.employeeService.updateEmployee(this.id, this.employee).subscribe(
+	//after clicking on edit product button
+	OnSubmit() {
+		//calling the updateproduct service
+		this.service.UpdateProductDetail(this.id, this.employee).subscribe(
 			(data) => {
 				this.notificationService.notify(
 					'Success',
@@ -41,13 +43,13 @@ export class EditProductComponent implements OnInit {
 					'Item has been edited'
 				);
 				console.log(data);
-				this.goToEmployeeList();
+				this.GoToAdminHome();
 			},
 			(error) => console.log(error)
 		);
 	}
 
-	goToEmployeeList() {
+	GoToAdminHome() {
 		this.router.navigate(['/admin']);
 	}
 }

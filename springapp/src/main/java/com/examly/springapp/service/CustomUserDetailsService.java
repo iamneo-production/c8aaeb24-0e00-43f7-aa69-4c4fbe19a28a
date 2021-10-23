@@ -36,11 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("mfa=" + String.valueOf(userModel.isMfa())));
             authorities.add(new SimpleGrantedAuthority("totp=" + String.valueOf(userModel.isVerifiedForTOTP())));
             authorities.add(new SimpleGrantedAuthority("active=" + String.valueOf(userModel.isActive())));
-//            String qrCode = totpManager.getUriForImage(userModel.getSecret());
-//            System.out.println(qrCode);
-//            authorities.add(new SimpleGrantedAuthority(qrCode));
             authorities.add(new SimpleGrantedAuthority("role=" + userModel.getRole()));
-//            authorities.add(new SimpleGrantedAuthority("false"));
             System.out.println(authorities.size());
             System.out.println(userModel.getUserId() + " " + String.valueOf(userModel.isMfa() + " " + userModel.isVerifiedForTOTP() + " " + userModel.getRole()));
             return new User(userModel.getEmail(), userModel.getPassword(), authorities);

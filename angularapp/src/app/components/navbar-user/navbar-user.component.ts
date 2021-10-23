@@ -27,7 +27,20 @@ export class NavbarUserComponent implements OnInit {
 		// );
 		console.log(4);
 		localStorage.removeItem('token');
-		// localStorage.clear();
+		localStorage.clear();
 		this.router.navigate(['/login']);
+	}
+
+	onClick() {
+		// const dialogConfig = new MatDialogConfig();
+		// dialogConfig.disableClose = true;
+		// dialogConfig.autoFocus = true;
+		// this.dialog.open(MailComponent, {
+		// 	height: '80%',
+		// 	width: '50%',
+		// 	data: {},
+		// });
+		this.router.navigate(['/dashboard']);
+		// { height: '80%', width: '50%' });
 	}
 }

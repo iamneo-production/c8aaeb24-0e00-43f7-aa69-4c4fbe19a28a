@@ -90,7 +90,7 @@ public class LoginService {
 			return ResponseEntity.ok().body(new ApiResponse(false, "No user found for given email", FORBIDDEN.value(), FORBIDDEN, errors));
 		}
 		else {
-			System.out.println(userModel.getForgotCode());
+//			System.out.println(userModel.getForgotCode());
 			if(userModel.getForgotCode().equals(code)) {
 				return ResponseEntity.ok().body(new ApiResponse(true, "The given code was validated, please enter your new password", OK.value(), OK, errors));
 			}
@@ -103,8 +103,8 @@ public class LoginService {
 
 	public ResponseEntity<?> savePassword(String email, String password, String conformPassword, String code) throws MessagingException, UnsupportedEncodingException {
 		List<String> errors = new ArrayList<>();
-		System.out.println(password + " " + conformPassword);
-		System.out.println(password.equals(conformPassword));
+//		System.out.println(password + " " + conformPassword);
+//		System.out.println(password.equals(conformPassword));
 		if( !password.equals(conformPassword) ) {
 			errors.add("Invalid passwords");
 			return ResponseEntity.ok().body(new ApiResponse(false, "Both passwords doesn't match", FORBIDDEN.value(), FORBIDDEN, errors));

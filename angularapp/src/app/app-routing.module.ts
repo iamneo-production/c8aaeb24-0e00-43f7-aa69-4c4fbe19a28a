@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, ROUTES, Routes } from '@angular/router';
 // import { LoginComponent } from './components/login1/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
@@ -20,7 +20,11 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-const routes: Routes = [
+import jwtDecode from 'jwt-decode';
+import { RoleService } from './services/role.service';
+import { DashboardUserComponent } from './components/dashboard-user/dashboard-user.component';
+
+let routes: Routes = [
 	{ path: 'login', component: LoginComponent },
 	{ path: 'signup', component: SignupComponent },
 	{
@@ -64,28 +68,40 @@ const routes: Routes = [
 		canActivate: [AuthGuard, UserGuard],
 	},
 	{
-		path: 'dashboard',
-		component: DashboardComponent,
-		canActivate: [AuthGuard, AdminGuard],
-	},
-	{
 		path: 'checkout',
 		component: CheckoutComponent,
 		canActivate: [AuthGuard, UserGuard],
 	},
+	{
+		path: 'admin/dashboard',
+		component: DashboardComponent,
+		canActivate: [AuthGuard, AdminGuard],
+	},
+	{
+		path: 'dashboard',
+		component: DashboardUserComponent,
+		canActivate: [AuthGuard, UserGuard],
+	},
+	{ path: '', redirectTo: 'login', pathMatch: 'full' },
+	{ path: '**', redirectTo: 'login', pathMatch: 'full' },
 	// {path: '', component: HomePageComponent, children: [{ path: 'home', component: AuthQrComponent }]},
 	// {path: '', component: HomePageComponent, children: [{ path: 'home', component: AuthOtpComponent }]},
 	// {path: '', component: LoginComponent, children: [{ path: 'login', component: ForgotPasswordComponent }]},
-	{ path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
 
 @NgModule({
 	imports: [
+		// RouterModule.forRoot( {
+		// 	useHash: false,
+		// 	anchorScrolling: 'enabled',
+		// }),
 		RouterModule.forRoot(routes, {
 			useHash: false,
-			anchorScrolling: 'enabled',
+			anchorScrolling: 'enabled' || true,
 		}),
 	],
 	exports: [RouterModule],
 })
 export class AppRoutingModule {}
+
+export function configRoutes(roleService: RoleService) {}

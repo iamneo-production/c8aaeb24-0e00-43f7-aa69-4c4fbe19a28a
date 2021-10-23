@@ -35,7 +35,7 @@ export class ProductTableService {
 			{ headers }
 		);
 	}
-	getEmployeeById(id: any): Observable<ProductTableItem> {
+	GetItemById(id: any): Observable<ProductTableItem> {
 		let token = localStorage.getItem('token');
 		// console.log(token);
 		let headers: HttpHeaders = new HttpHeaders().set(
@@ -47,7 +47,7 @@ export class ProductTableService {
 			{ headers }
 		);
 	}
-	updateEmployee(id: any, employee: ProductTableItem): Observable<Object> {
+	UpdateProductDetail(id: any, employee: ProductTableItem): Observable<Object> {
 		// console.log(employee);
 		let token = localStorage.getItem('token');
 		// console.log(token);

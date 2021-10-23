@@ -49,7 +49,7 @@ export class HomeApiService {
 			{ headers }
 		);
 	}
-	deleteitem(var_del: AddCart): Observable<Object> {
+	DeleteItemFromCart(var_del: AddCart): Observable<Object> {
 		let token = localStorage.getItem('token');
 		let headers: HttpHeaders = new HttpHeaders().set(
 			'Authorization',
@@ -62,7 +62,7 @@ export class HomeApiService {
 		);
 	}
 
-	dosaveorder() {
+	PlaceAllItemsInCart() {
 		let token = localStorage.getItem('token');
 		let headers: HttpHeaders = new HttpHeaders().set(
 			'Authorization',
@@ -95,7 +95,7 @@ export class HomeApiService {
 			{ headers }
 		);
 	}
-	getcartProduct(): Observable<reports[]> {
+	GetProductsFromCart(): Observable<reports[]> {
 		let token = localStorage.getItem('token');
 		let headers: HttpHeaders = new HttpHeaders().set(
 			'Authorization',

@@ -57,6 +57,7 @@ export class CartComponent implements OnInit {
 
 	public productList: any;
 	ELEMENT_DATA: reports[] = [];
+	// columns names that we want to displayed
 	displayedColumns: string[] = ['name', 'price', 'quantity', 'actions'];
 	dataSource = new MatTableDataSource<reports>(this.ELEMENT_DATA);
 	@ViewChild(MatPaginator, { static: true })
@@ -64,57 +65,62 @@ export class CartComponent implements OnInit {
 	@ViewChild(MatSort, { static: true })
 	sort: MatSort = new MatSort();
 	var_del: AddCart = new AddCart();
-	isempty: boolean = false;
+	isempty: any;
 
 	constructor(
+		// injecting all required services
 		private service: HomeApiService,
 		private router: Router,
 		private notificationService: NotificationService
-	) {}
+	) {
+		// console.log(this.deviceXs);
+	}
 
 	ngOnInit() {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
-		this.getallp_cart();
+		this.GetAllProductFromCart();
 	}
 
-	public getallp_cart() {
-		this.service.getcartProduct().subscribe((data) => {
+	public GetAllProductFromCart() {
+		this.service.GetProductsFromCart().subscribe((data) => {
 			this.dataSource.data = data as reports[];
-			console.log(data.length);
+			// console.log('This ' + this.dataSource.data);
 			if (data.length == 0) {
-				console.log('hit');
+				// console.log('hit');
 				this.isempty = true;
+			} else {
+				this.isempty = false;
 			}
-			console.log(data);
+			// console.log(data);
 		});
 	}
 
-	deleteEmployee(id: any) {
+	DeleteItemFromCart(id: any) {
 		this.var_del.productId = id;
 		this.var_del.quantity = '40';
-		this.service.deleteitem(this.var_del).subscribe((data: any) => {
+		this.service.DeleteItemFromCart(this.var_del).subscribe((data: any) => {
 			this.notificationService.notify(
 				'Success',
 				NotificationType.SUCCESS,
 				'bottom-right',
 				'Item deleted from cart'
 			);
-			console.log(data);
-			this.getallp_cart();
+			// console.log(data);
+			this.GetAllProductFromCart();
 		});
 	}
 
-	saveorder() {
-		this.service.dosaveorder().subscribe((data) => {
+	PlaceAllItems() {
+		this.router.navigate(['/checkout']);
+		this.service.PlaceAllItemsInCart().subscribe((data) => {
 			this.notificationService.notify(
 				'Success',
 				NotificationType.SUCCESS,
 				'bottom-right',
 				'All items in the cart are ordered'
 			);
-			console.log(data);
-			this.router.navigate(['/home']);
+			// console.log(data);
 		});
 	}
 }

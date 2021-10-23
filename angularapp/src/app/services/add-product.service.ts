@@ -11,7 +11,7 @@ export class AddProductService {
 
 	constructor(private httpClient: HttpClient) {}
 
-	addProd(addproduct: addProduct): Observable<Object> {
+	AddProduct(addproduct: addProduct): Observable<Object> {
 		let token = localStorage.getItem('token');
 		let headers: HttpHeaders = new HttpHeaders().set(
 			'Authorization',

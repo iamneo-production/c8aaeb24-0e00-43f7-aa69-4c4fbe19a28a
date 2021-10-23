@@ -14,32 +14,36 @@ export class AddProductComponent {
 
 	inst: addProduct = new addProduct();
 	constructor(
-		private loginservice: AddProductService,
+		// injecting all required services
+		private addproduct: AddProductService,
 		private router: Router,
 		private notificationService: NotificationService
 	) {}
 
 	ngOnInit(): void {}
-	go_login() {
-		this.loginservice.addProd(this.inst).subscribe(
+	// subscribing the data from the addProduct service
+	GoAddProduct() {
+		this.addproduct.AddProduct(this.inst).subscribe(
 			(data) => {
-				console.log(data);
+				// console.log(data);
 				this.notificationService.notify(
 					'Success',
 					NotificationType.SUCCESS,
 					'bottom-right',
 					'Item has been added'
 				);
-				this.goToProductList();
+				this.GoToProductList();
 			},
 			(error) => console.log(error)
 		);
 	}
-	goToProductList() {
+	// redirection for admin-home-page after adding products
+	GoToProductList() {
 		this.router.navigate(['/admin']);
 	}
-	onSubmit() {
-		console.log(this.inst);
-		this.go_login();
+	// after clicking on AddProduct
+	OnSubmit() {
+		// console.log(this.inst);
+		this.GoAddProduct();
 	}
 }

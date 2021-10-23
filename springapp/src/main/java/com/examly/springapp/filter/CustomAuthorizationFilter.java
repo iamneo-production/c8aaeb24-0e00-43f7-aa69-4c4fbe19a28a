@@ -34,7 +34,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         List<String> errors = new ArrayList<>();
-        if(request.getServletPath().equals("/login") || request.getServletPath().equals("/signup") || request.getServletPath().startsWith("/verify") || request.getServletPath().startsWith("/forgot") || request.getServletPath().startsWith("/verifyCode") || request.getServletPath().startsWith("/savePassword")) {
+        if(request.getServletPath().equals("/login") || request.getServletPath().equals("/signup") || request.getServletPath().startsWith("/verify") || request.getServletPath().startsWith("/forgot") || request.getServletPath().startsWith("/verifyCode") || request.getServletPath().startsWith("/savePassword") || request.getServletPath().startsWith("/swagger-ui.html") || request.getServletPath().startsWith("/swagger-ui") || request.getServletPath().startsWith("/api")) {
             filterChain.doFilter(request, response);
         }
         else {

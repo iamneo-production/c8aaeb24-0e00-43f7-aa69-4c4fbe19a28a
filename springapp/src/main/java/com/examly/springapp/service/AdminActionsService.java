@@ -1,7 +1,10 @@
 package com.examly.springapp.service;
 
+import com.examly.springapp.dao.MessageUserModel;
 import com.examly.springapp.model.LoginModel;
+import com.examly.springapp.model.MessageModel;
 import com.examly.springapp.model.UserModel;
+import com.examly.springapp.repository.MessageRepository;
 import com.examly.springapp.repository.UserRepository;
 import com.examly.springapp.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -24,6 +28,9 @@ public class AdminActionsService {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     public ResponseEntity<?> checkUser(String email) {
         List<String> errors = new ArrayList<>();
@@ -92,6 +99,21 @@ public class AdminActionsService {
             userRepository.save(userModel);
             return ResponseEntity.ok().body(new ApiResponse(true, "Multi-factor authentication removed.", OK.value(), OK, errors));
         }
+    }
+
+    public ResponseEntity<?> getMessages() {
+        return ResponseEntity.ok().body(messageRepository.findAll());
+    }
+
+    public ResponseEntity<?> deleteMessage(String messageId) {
+        List<String> errors = new ArrayList<>();
+        Optional<MessageModel> messageModel = messageRepository.findById(messageId);
+        if(messageModel == null) {
+            errors.add("Invalid message id");
+            return ResponseEntity.ok().body(new ApiResponse(false, "No message was for the given id", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+        }
+        messageRepository.deleteById(messageId);
+        return ResponseEntity.ok().body(new ApiResponse(true, "The message was deleted", OK.value(), OK, errors));
     }
 
 }

@@ -21,7 +21,7 @@ public class EmailSenderService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setFrom("team2.ebookstore@gmail.com", "Team 2 NeuralHack Season 5");
+        helper.setFrom("team2.ebookstore@gmail.com", "Ebook Store - Administrator - Team 2");
         helper.setTo(toEmail);
         helper.setSubject(subject);
         helper.setText(body, true);

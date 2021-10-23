@@ -49,46 +49,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
         customAuthenticationFilter.setFilterProcessesUrl("/login");
-//        http
-//                .csrf()
-//                .disable()
-//                .cors()
-//                .disable()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .authorizeRequests().antMatchers("/login", "/signup").permitAll()
-//                .and()
-//                .authorizeRequests().antMatchers("/home/**", "/cart/**", "/saveOrder/**", "/orders/**", "/placeOrder/**").hasAnyAuthority("user")
-//                .and()
-//                .authorizeRequests().antMatchers("/admin/**", "/users/**", "/mail/**").hasAnyAuthority("admin")
-//                .and()
-//                .authorizeRequests().anyRequest().authenticated()
-//                .and()
-//                .addFilter(customAuthenticationFilter)
-//                .addFilterAfter(new SimpleCORSFilter(), ChannelProcessingFilter.class)
-//                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-
-
-//        http.csrf().disable();
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.authorizeRequests().antMatchers("/login", "/signup").permitAll();
-//        http.authorizeRequests().antMatchers("/home/**", "/cart/**", "/saveOrder/**", "/orders/**", "/placeOrder/**").hasAnyAuthority("user");
-//        http.authorizeRequests().antMatchers("/admin/**", "/users/**", "/mail/**").hasAnyAuthority("admin");
-//        http.authorizeRequests().anyRequest().authenticated();
-//        http.addFilterBefore(new SimpleCORSFilter(), ChannelProcessingFilter.class);
-//        http.addFilter(customAuthenticationFilter);
-//        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-
         http
                 .cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/login/**", "/signup/**", "/verify/**", "/generate/**", "/forgot/**", "/verifyCode/**", "/savePassword").permitAll()
+                .authorizeRequests().antMatchers("/login/**", "/signup/**", "/verify/**", "/generate/**", "/forgot/**", "/verifyCode/**", "/savePassword", "/swagger-ui.html", "/swagger-ui/**", "/api/**").permitAll()
                 .antMatchers("/home/**", "/cart/**", "/saveOrder/**", "/orders/**", "/placeOrder/**").hasAnyAuthority("user")
                 .antMatchers("/admin/**", "/users/**", "/mail/**", "/disableUser", "/enableUser", "/checkUser").hasAnyAuthority("admin")
                 .anyRequest().authenticated().and()
@@ -96,10 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(customAuthenticationEntryPoint).and()
                 .addFilter(customAuthenticationFilter)
                 .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-//        http.addFilter(customAuthenticationFilter);
-//        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-//        http.addFilterBefore(new SimpleCORSFilter(), ChannelProcessingFilter.class);
-
     }
 
     @Bean

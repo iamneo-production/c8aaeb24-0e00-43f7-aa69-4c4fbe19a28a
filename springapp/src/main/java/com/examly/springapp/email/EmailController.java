@@ -14,6 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -29,7 +30,14 @@ public class EmailController {
     public ResponseEntity<?> sendEmail(@RequestBody EmailModel emailModel) {
         ArrayList<String> emails = emailModel.getEmails();
         List<String> errors = new ArrayList<>();
-        if(emails.size()==0) {
+        if(emailModel.getSubject()==""){
+            emailModel.setSubject("EBook Store - Administrator");
+        }
+        else if(emailModel.getBody()==""){
+            errors.add("No body is present");
+            return ResponseEntity.ok().body(new ApiResponse(false, "The body was empty", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+        }
+        if(emails.size()==0 || emails.get(0)=="") {
             List<UserModel> users = userRepository.findAll();
 //            System.out.println(users.size());
             users.forEach(user -> {
@@ -59,6 +67,5 @@ public class EmailController {
         }
 //        System.out.println(emails.size());
         return ResponseEntity.ok().body(new ApiResponse(true, "The mails are sent successfully", OK.value(), OK, errors));
-
     }
 }

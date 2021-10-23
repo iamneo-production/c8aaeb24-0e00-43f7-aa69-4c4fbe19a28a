@@ -108,6 +108,7 @@
 											nbInput
 											placeholder="Enter Email address"
 											[(ngModel)]="mfaEmail"
+											status="primary"
 										/>
 									</nb-form-field>
 									<div class="spacing">
@@ -135,6 +136,7 @@
 											nbInput
 											placeholder="Enter Email address"
 											[(ngModel)]="resetCodeEmail"
+											status="primary"
 										/>
 									</nb-form-field>
 									<div class="spacing">
@@ -146,16 +148,33 @@
 							</nb-card-body>
 						</nb-card>
 					</nb-tab>
-					<nb-tab tabIcon="smiling-face-outline">
-						<p><strong>List of transactions</strong>.</p>
+					<nb-tab tabIcon="inbox-outline">
+						<p><strong>List of messages</strong>.</p>
 						<nb-card>
-							<nb-card-header> </nb-card-header>
+							<nb-card-header
+								>Format: Subject - Body - User Email - Timestamp</nb-card-header
+							>
 							<nb-card-body>
 								<nb-list>
-									<nb-list-item *ngFor="let transaction of transactions">
-										<p style="padding-left: 20px" *ngFor="let t of transaction">
-											{{ t }}
+									<nb-list-item *ngFor="let message of messages">
+										<p style="padding-left: 20px">{{ message.subject }}</p>
+										<p style="padding-left: 20px">{{ message.body }}</p>
+										<p style="padding-left: 20px">{{ message.userEmail }}</p>
+										<p style="padding-left: 20px">
+											{{ message.timeStamp }}
 										</p>
+										<span style="padding-left: 30px">
+											<button
+												nbButton
+												status="danger"
+												(click)="deleteMessage(message.messageId)"
+											>
+												Delete
+											</button>
+										</span>
+									</nb-list-item>
+									<nb-list-item *ngIf="!messages">
+										<p style="padding-left: 20px">No messages for now</p>
 									</nb-list-item>
 								</nb-list>
 							</nb-card-body>
@@ -170,18 +189,51 @@
 							<nb-card-body>
 								<p>
 									Let this field be blank to send mail to all users or enter
-									emails as comma seperated.
+									emails as comma seperated. (HTML is also supported)
 								</p>
 								<div class="holder">
-									<nb-form-field>
-										<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+									<nb-form-field class="spacing">
+										<nb-icon
+											nbPrefix
+											icon="at-outline"
+											status="primary"
+											pack="eva"
+										></nb-icon>
 										<input
 											required
 											type="text"
 											nbInput
 											placeholder="Enter Email address"
-											[(ngModel)]="sendEmail"
+											[(ngModel)]="emailMail"
 										/>
+									</nb-form-field>
+									<nb-form-field class="spacing">
+										<nb-icon
+											nbPrefix
+											icon="info-outline"
+											status="primary"
+											pack="eva"
+										></nb-icon>
+										<input
+											required
+											type="text"
+											nbInput
+											placeholder="Enter Subject for the mail"
+											[(ngModel)]="subject"
+										/>
+									</nb-form-field>
+									<nb-form-field class="spacing">
+										<nb-icon
+											nbPrefix
+											icon="text-outline"
+											status="info"
+											pack="eva"
+										></nb-icon>
+										<textarea
+											nbInput
+											placeholder="Enter Body of mail"
+											[(ngModel)]="body"
+										></textarea>
 									</nb-form-field>
 									<div class="spacing">
 										<button nbButton hero status="primary" (click)="sendMail()">

@@ -22,7 +22,9 @@ export class SignupComponent implements OnInit {
 		private notificationService: NotificationService
 	) {}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		// console.log('rendered');
+	}
 
 	showPass: boolean = false;
 	showConformPass: boolean = false;
@@ -34,17 +36,19 @@ export class SignupComponent implements OnInit {
 	qrcode = '';
 	email = '';
 	password = '';
+	loading: boolean = false;
 	Signup: signup = new signup();
 
 	checkMfa() {
 		this.Signup.password = this.pass;
 		this.Signup.mobileNumber = this.mobile;
+		this.toggleLoading();
 		if (this.pass == this.conformPass) {
-			console.log(this.Signup);
+			// console.log(this.Signup);
 			this.signupservice.createSignup(this.Signup).subscribe(
 				(data: any) => {
-					console.log(data);
-					console.log(this.Signup);
+					// console.log(data);
+					// console.log(this.Signup);
 					if (data.result == true && this.Signup.mfa == false) {
 						this.notificationService.notify(
 							'Success',
@@ -94,6 +98,7 @@ export class SignupComponent implements OnInit {
 				'Passwords did not match'
 			);
 		}
+		this.toggleLoading();
 		// if (this.mfa) {
 		//   this.dialogService.open(AuthQrComponent, {
 		//     context: 'this is some additional data passed to dialog',
@@ -105,6 +110,9 @@ export class SignupComponent implements OnInit {
 		const dialogConfig = new MatDialogConfig();
 		dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
+		dialogConfig.closeOnNavigation = false;
+		// dialogConfig.disableClose = false;
+		console.log(dialogConfig);
 		this.dialog.open(AuthQrComponent, {
 			height: '80%',
 			width: '50%',
@@ -124,5 +132,9 @@ export class SignupComponent implements OnInit {
 
 	showConformPassword() {
 		this.showConformPass = !this.showConformPass;
+	}
+
+	toggleLoading() {
+		this.loading = !this.loading;
 	}
 }

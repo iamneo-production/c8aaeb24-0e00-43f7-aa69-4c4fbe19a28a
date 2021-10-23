@@ -44,15 +44,10 @@ public class OrderService {
 	public List<OrderModel> saveProduct() {
 		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserModel user = userRepository.findByEmail(email);
-		//System.out.println("Here");
-		//CartModel cart = cartService.findCart(id);
-//		UserModel user = userRepository.findByUserId(id);
 		if(user==null) {
 			System.out.println("NULL");
 		}
 		CartModel cart = user.getCartModel();
-		//CartModel cart = cartRepository.findByCartItemId(id);
-//		System.out.println(cart.getCartItemId());
 		List<CartTempModel> cartItems = cart.getItems();
 		OrderModel tempModel = null;
 		List<OrderModel> ordersList = new ArrayList<>();
@@ -62,21 +57,17 @@ public class OrderService {
 			if(Integer.parseInt(productModel.getQuantity()) < Integer.parseInt(cartItem.getQuantity())) continue;
 			Float totalPrice = Integer.parseInt(cartItem.getQuantity()) * Float.parseFloat(cartItem.getPrice());
 			String orderId = user.getUserId() + "_" + i;
+			productModel.setQuantity(String.valueOf(Integer.parseInt(productModel.getQuantity()) - Integer.parseInt(cartItem.getQuantity())));
+			productRepository.save(productModel);
 			tempModel = new OrderModel(user.getUserId(), cartItem.getProductName(), cartItem.getQuantity(), String.valueOf(totalPrice), "Ordered", cartItem.getPrice());
 			orderRepository.save(tempModel);
 			user.addItems(tempModel);
 			ordersList.add(tempModel);
 		}
-		//user.setOrdersList(ordersList);
-		//cartRepository.delete(cart);
-		//CartModel tempCartModel = new CartModel(user.getUserId(), "User Cart", "0", "0.0");
-//		cartRepository.save(tempCartModel);
-		//user.setCart(tempCartModel);
 		cart.setPrice("0.0");
 		cart.setProductName("User cart");
 		cart.setQuantity("0");
 		cart.resetItems();
-//		cartRepository.save(cart);
 		userRepository.save(user);
 		return ordersList;
 	}

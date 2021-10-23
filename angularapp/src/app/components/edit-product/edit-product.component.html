@@ -1,43 +1,70 @@
 <app-navbar-admin></app-navbar-admin>
-    <div class="page">
-    
-            <div class="addproduct">
-                <div class="head">
-                    <p>EDIT PRODUCT</p>
-                </div>
-          <form (ngSubmit) = "onSubmit()">      
-            <mat-form-field appearance="outline">
-              <mat-label>Product Name</mat-label>
-            <input matInput value="{{employee.productName}}" [(ngModel)] = "employee.productName" name="productName" >
-           </mat-form-field><br/>
-    
-          <mat-form-field appearance="outline">
-            <mat-label>Price</mat-label>
-            <input matInput value="{{employee.price}}" [(ngModel)] = "employee.price" name="price">
-          </mat-form-field><br/>
-    
-          <mat-form-field appearance="outline">
-            <mat-label>Description</mat-label>
-            <textarea matInput rows="3" cols="40" value="{{employee.description}}" [(ngModel)] = "employee.description" name="description"></textarea>
-          </mat-form-field><br/>
-    
-          <mat-form-field appearance="outline">
-            <mat-label>Image URL</mat-label>
-            <input matInput value="{{employee.imageUrl}}" [(ngModel)] = "employee.imageUrl" name="imageUrl">
-          </mat-form-field><br/>
-    
-          <mat-form-field appearance="outline">
-            <mat-label>Quantity</mat-label>
-            <input matInput value="{{employee.quantity}}" [(ngModel)] = "employee.quantity" name="quantity">
-          </mat-form-field><br/>
-          
-          <button type="submit"
-                        mat-raised-button
-                        color="primary"
-                        class="add-button">
-                        EDIT
-                      </button>
-            </form>
-        </div>
-    </div>
-    
+<div class="page">
+	<div class="addproduct">
+		<div class="head">
+			<p>EDIT PRODUCT</p>
+		</div>
+		<form (ngSubmit)="OnSubmit()">
+			<mat-form-field appearance="outline">
+				<mat-label>Product Name</mat-label>
+				<input
+					matInput
+					value="{{ employee.productName }}"
+					[(ngModel)]="employee.productName"
+					name="productName"
+				/> </mat-form-field
+			><br />
+
+			<mat-form-field appearance="outline">
+				<mat-label>Price</mat-label>
+				<input
+					matInput
+					value="{{ employee.price }}"
+					[(ngModel)]="employee.price"
+					name="price"
+				/> </mat-form-field
+			><br />
+
+			<mat-form-field appearance="outline">
+				<mat-label>Description</mat-label>
+				<textarea
+					matInput
+					rows="3"
+					cols="40"
+					value="{{ employee.description }}"
+					[(ngModel)]="employee.description"
+					name="description"
+				></textarea></mat-form-field
+			><br />
+
+			<mat-form-field appearance="outline">
+				<mat-label>Image URL</mat-label>
+				<input
+					matInput
+					value="{{ employee.imageUrl }}"
+					[(ngModel)]="employee.imageUrl"
+					name="imageUrl"
+				/> </mat-form-field
+			><br />
+
+			<mat-form-field appearance="outline">
+				<mat-label>Quantity</mat-label>
+				<input
+					matInput
+					value="{{ employee.quantity }}"
+					[(ngModel)]="employee.quantity"
+					name="quantity"
+				/> </mat-form-field
+			><br />
+
+			<button
+				type="submit"
+				mat-raised-button
+				color="primary"
+				class="add-button"
+			>
+				EDIT
+			</button>
+		</form>
+	</div>
+</div>

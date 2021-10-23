@@ -52,12 +52,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         LoginModel loginModel = null;
         try {
             String test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+            if(test==null){
+                throw new UsernameNotFoundException("User not found");
+            }
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(test);
-            //loginModel = objectMapper.readValue(test, LoginModel.class);
-//            System.out.println(test);
             String email = jsonNode.get("email").asText();
             String password = jsonNode.get("password").asText();
+            if(email == null || email == "" || password == null || password == "")
+                throw new UsernameNotFoundException("User not found");
             loginModel = new LoginModel(email, password);
         }
         catch (Exception e) {
@@ -74,11 +77,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
-        System.out.println("I am being called?");
         String mfa = request.getHeader("mfa");
         User user = (User) authentication.getPrincipal();
-//        UserModel userModel = userRepository.findByEmail(user.getUsername());
-//        System.out.println(userModel.getUserId());
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         List<String> data = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
         System.out.println(data);
@@ -101,7 +101,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             errors.add("User blocked");
             new ObjectMapper().writeValue(response.getOutputStream(), new ApiResponse(false, "The user is disabled. Contact Administrator.", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, new ArrayList<>()));
         }
-//        boolean mfa = false;
         if(isMfa.equals("true") && isVerifiedForTOTP.equals("true")) {
             response.setHeader("mfa", "true");
             response.setStatus(OK.value());
@@ -116,9 +115,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                     .withIssuer(request.getRequestURL().toString())
                     .withClaim("user_id", userId)
                     .withClaim("roles", data)
-//                .withClaim("user_id", userModel.getUserId())
                     .sign(algorithm);
-//        response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Authorization", access_token);
             response.setHeader("mfa", "false");
             response.setStatus(OK.value());
@@ -129,13 +126,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-//        super.unsuccessfulAuthentication(request, response, failed);
         response.setStatus(OK.value());
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        response.setHeader("Access-Control-Allow-Credentials", "true");
-//        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-//        response.setHeader("Access-Control-Max-Age", "3600");
-//        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
         response.setContentType(APPLICATION_JSON_VALUE);
         List<String> errors = new ArrayList<>();
         errors.add("Unsuccessful authentication");

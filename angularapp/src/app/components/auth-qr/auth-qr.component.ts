@@ -24,6 +24,7 @@ export class AuthQrComponent implements OnInit {
 	qrcode = this.data.qrcode;
 	email = this.data.email;
 	password = this.data.password;
+	add: any = this.data.add;
 
 	ngOnInit(): void {}
 
@@ -42,15 +43,27 @@ export class AuthQrComponent implements OnInit {
 						'bottom-right',
 						'OTP validation successful'
 					);
-					this.notificationService.notify(
-						'Success',
-						NotificationType.SUCCESS,
-						'bottom-right',
-						'Login successful'
-					);
-					localStorage.setItem('token', data.message);
-					this.router.navigate(['/home']);
-					this.dialogRef.close();
+					if (this.add) {
+						this.notificationService.notify(
+							'Success',
+							NotificationType.SUCCESS,
+							'bottom-right',
+							'Login successful'
+						);
+						localStorage.setItem('token', data.message);
+						this.router.navigate(['/home']);
+						this.dialogRef.close();
+					} else {
+						this.notificationService.notify(
+							'Error',
+							NotificationType.SUCCESS,
+							'bottom-right',
+							'Logout successful'
+						);
+						localStorage.removeItem('token');
+						this.router.navigate(['/login']);
+						this.dialogRef.close();
+					}
 					// this.router.navigate(['..'], { relativeTo: this.route })
 				} else {
 					this.notificationService.notify(

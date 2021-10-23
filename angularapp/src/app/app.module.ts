@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MailComponent } from './components/mail/mail.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -94,6 +94,10 @@ import {
 	NbSidebarModule,
 	NbDialogModule,
 	NbSpinnerModule,
+	NbDialogService,
+	NbAlertModule,
+	NbUserModule,
+	NbWindowModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -102,6 +106,17 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { GpayComponent } from './components/checkout/gpay/gpay.component';
 import { GooglePayButtonModule } from '@google-pay/button-angular';
 import { InterceptorService } from './components/loader/interceptor.service';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { CartdialogComponent } from './components/cartdialog/cartdialog.component';
+import {
+	FullscreenOverlayContainer,
+	OverlayContainer,
+} from '@angular/cdk/overlay';
+import { DashboardUserComponent } from './components/dashboard-user/dashboard-user.component';
+import { RoleService } from './services/role.service';
+import { AddtocartComponent } from './components/addtocart/addtocart.component';
 
 @NgModule({
 	declarations: [
@@ -126,6 +141,8 @@ import { InterceptorService } from './components/loader/interceptor.service';
 		LoginComponent,
 		CheckoutComponent,
 		GpayComponent,
+		CartdialogComponent,
+		DashboardUserComponent,
 	],
 	imports: [
 		NbSidebarModule,
@@ -207,6 +224,18 @@ import { InterceptorService } from './components/loader/interceptor.service';
 		NbStepperModule,
 		GooglePayButtonModule,
 		NbSpinnerModule,
+		NbSidebarModule.forRoot(),
+		LoadingBarModule,
+		LoadingBarRouterModule,
+		LoadingBarHttpClientModule,
+		MatDialogModule,
+		NbDialogModule.forChild(),
+		NbAlertModule,
+		ReactiveFormsModule,
+		NbUserModule,
+		NbWindowModule.forRoot(),
+		NbCardModule,
+		// LoadingBarInterceptor,
 	],
 
 	providers: [
@@ -215,8 +244,23 @@ import { InterceptorService } from './components/loader/interceptor.service';
 		AuthGuard,
 		AdminGuard,
 		UserGuard,
+		MatDialogModule,
+		NbToastrModule,
+		NbDialogService,
+		NbDialogModule,
+		RoleService,
+		{
+			provide: OverlayContainer,
+			useClass: FullscreenOverlayContainer,
+		},
 	],
 	bootstrap: [AppComponent],
-	entryComponents: [AuthQrComponent, AuthOtpComponent, MailComponent],
+	entryComponents: [
+		AuthQrComponent,
+		AuthOtpComponent,
+		MailComponent,
+		CartdialogComponent,
+		AddtocartComponent,
+	],
 })
 export class AppModule {}

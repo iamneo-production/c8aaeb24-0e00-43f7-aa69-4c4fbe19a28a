@@ -71,7 +71,7 @@ public class SignupService {
 				errors.add("Signup unsuccessful");
 				return new ResponseEntity<Object>(new ApiResponse(false,"A user with this email and username already exists", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors), OK);
 			}
-			else if(userExistsWithEmail(userModel.getEmail())) {
+			else if(emailExists) {
 				//return new ResponseEntity<Object>(new ApiError("Email already exists", HttpStatus.NOT_ACCEPTABLE, "Error", 101, 406), HttpStatus.OK); 
 				//return true;
 //				return new ResponseEntity<Object>(new ApiResponse("Email already exists", "406", new ArrayList<>()), HttpStatus.OK);
@@ -79,7 +79,7 @@ public class SignupService {
 				errors.add("Signup unsuccessful");
 				return new ResponseEntity<Object>(new ApiResponse(false,"A user with this email already exists", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors), OK);
 			}
-			else if(userExistsWithUserName(userModel.getUsername())) {
+			else if(userNameExists) {
 				//return new ResponseEntity<Object>(new ApiError("Username already exists", HttpStatus.NOT_ACCEPTABLE, "Error", 101, 406), HttpStatus.OK); 
 				//return false;
 //				return new ResponseEntity<Object>(new ApiResponse("Username already exists", "406", new ArrayList<>()), HttpStatus.OK);

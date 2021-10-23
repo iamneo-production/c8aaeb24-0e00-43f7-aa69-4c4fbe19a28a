@@ -51,40 +51,25 @@ public class LoginController {
 	public ResponseEntity<?> checkUser(@RequestBody LoginModel loginModel) {
 		List<String> errors = new ArrayList<>();
 		try {
-			if(loginService.checkUser(loginModel)) {
-					this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginModel.getEmail(), loginModel.getPassword()));
-					return ResponseEntity.ok().body(true);
-			}
-			else {
+			if (loginService.checkUser(loginModel)) {
+				this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginModel.getEmail(), loginModel.getPassword()));
+				return ResponseEntity.ok().body(true);
+			} else {
 				System.out.println(loginModel);
 				//throw new UsernameNotFoundException("Bad Credentials");
 
 				errors.add("Bad Credentials");
-				return ResponseEntity.ok().body(new ApiResponse(false,"No user was found for the above credentials", FORBIDDEN.value(), FORBIDDEN, errors));
+				return ResponseEntity.ok().body(new ApiResponse(false, "No user was found for the above credentials", FORBIDDEN.value(), FORBIDDEN, errors));
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			errors.add(e.getLocalizedMessage());
-			return ResponseEntity.ok().body(new ApiResponse(false,"No user was found for the above credentials", FORBIDDEN.value(), FORBIDDEN, errors));
+			return ResponseEntity.ok().body(new ApiResponse(false, "No user was found for the above credentials", FORBIDDEN.value(), FORBIDDEN, errors));
 		}
 
-
-		//return loginService.checkUser(loginModel);
-
-//		UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(loginModel.getEmail());
-//		System.out.println("I am inside login controller " + userDetails.getPassword());
-//
-//		//Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) userDetails.getAuthorities();
-//		String token = this.jwtUtil.generateToken(userDetails, (Collection<SimpleGrantedAuthority>) userDetails.getAuthorities());
-//		//System.out.println(token);
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.add(HttpHeaders.CACHE_CONTROL, "no-cache");
-//		headers.add(HttpHeaders.AUTHORIZATION, token);
-////		ResponseEntity<?> response = new ResponseEntity<Boolean>(true, HttpStatus.OK);
-////		return new ResponseEntity<Object>(new ApiResponse(token, "200", new ArrayList<>()), HttpStatus.OK);
-//		return ResponseEntity.ok().headers(headers).body(true);
 	}
+
+
 	@PostMapping("/verify/{code}")
 	public ResponseEntity<?> verify(@PathVariable String code, @RequestBody LoginModel loginModel) throws MessagingException, UnsupportedEncodingException {
 		List<String> errors = new ArrayList<>();

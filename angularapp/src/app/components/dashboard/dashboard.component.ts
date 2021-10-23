@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NbToastrService, NbComponentStatus } from '@nebular/theme';
+import { NotificationType } from 'src/app/notification-type.enum';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
 	selector: 'app-dashboard',
@@ -10,7 +12,8 @@ import { NbToastrService, NbComponentStatus } from '@nebular/theme';
 export class DashboardComponent implements OnInit {
 	constructor(
 		private http: HttpClient,
-		public toastrService: NbToastrService
+		public toastrService: NbToastrService,
+		private notificationService: NotificationService
 	) {}
 	disableEmail: any = '';
 	enableEmail: any = '';
@@ -22,9 +25,13 @@ export class DashboardComponent implements OnInit {
 	subject: any = '';
 	api = '';
 	mail: any = '';
+	emailMail: any = '';
 	token: any = localStorage.getItem('token');
+	messages: any;
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		this.getMessages();
+	}
 	transactions: any = [
 		['Transaction 1', 'user1@gmail.com', '50.00', '21-10-2021'],
 		['Transaction 2', 'user2@gmail.com', '60.00', '22-10-2021'],
@@ -132,18 +139,47 @@ export class DashboardComponent implements OnInit {
 
 	sendMail() {
 		this.api = 'http://localhost:8080/mail';
-		this.mail = this.resetCodeEmail;
-		this.mail = this.mail.split(',');
-		console.log(this.mail);
+		// this.mail = this.resetCodeEmail;
+		console.log(this.emailMail);
+		if (this.body == '') {
+			this.notificationService.notify(
+				'Error',
+				NotificationType.DANGER,
+				'bottom-right',
+				'Body is empty.'
+			);
+			return;
+		}
+		if (this.subject == '') {
+			this.notificationService.notify(
+				'Success',
+				NotificationType.SUCCESS,
+				'bottom-right',
+				'Deafult subject will be sent'
+			);
+		}
+		this.emailMail = this.emailMail.split(',');
+		let temp: any[] = [];
+		if (this.emailMail == '') {
+			this.notificationService.notify(
+				'Success',
+				NotificationType.SUCCESS,
+				'bottom-right',
+				'The mail will be sent to all users'
+			);
+		} else {
+			this.emailMail.forEach((e: string) => {
+				temp.push(e.trim());
+			});
+		}
+		console.log(temp);
 		this.token = localStorage.getItem('token');
 		console.log(this.token);
-		this.body = 'Testing mail';
-		this.subject = 'Email Testing - Virtusa';
 		this.http
 			.post(
 				this.api,
 				{
-					emails: this.mail,
+					emails: temp,
 					body: this.body,
 					subject: this.subject,
 				},
@@ -160,6 +196,43 @@ export class DashboardComponent implements OnInit {
 			});
 	}
 
+	getMessages() {
+		this.api = 'http://localhost:8080/admin/messages';
+		this.http
+			.get(this.api, {
+				headers: {
+					Authorization: `Bearer ${this.token}`,
+				},
+			})
+			.subscribe((data: any) => {
+				if (data) {
+					// this.showToast('Success', 'success', 'bottom-right', data.message);
+					this.messages = data;
+				} else
+					this.showToast(
+						'Error',
+						'danger',
+						'bottom-right',
+						'There was an error getting the messages'
+					);
+			});
+	}
+
+	deleteMessage(messageId: string) {
+		this.api = 'http://localhost:8080/admin/remove/' + messageId;
+		this.http
+			.get(this.api, {
+				headers: {
+					Authorization: `Bearer ${this.token}`,
+				},
+			})
+			.subscribe((data: any) => {
+				if (data.result == true) {
+					this.showToast('Success', 'success', 'bottom-right', data.message);
+					this.getMessages();
+				} else this.showToast('Error', 'danger', 'bottom-right', data.message);
+			});
+	}
 	showToast(
 		add: any,
 		status: NbComponentStatus,

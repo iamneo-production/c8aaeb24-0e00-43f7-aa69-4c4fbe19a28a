@@ -30,7 +30,7 @@ export class NavbarAdminComponent implements OnInit {
 		);
 		console.log(4);
 		localStorage.removeItem('token');
-		// localStorage.clear();
+		localStorage.clear();
 		this.router.navigate(['/login']);
 	}
 	onClick() {
@@ -42,7 +42,7 @@ export class NavbarAdminComponent implements OnInit {
 		// 	width: '50%',
 		// 	data: {},
 		// });
-		this.router.navigate(['/dashboard']);
+		this.router.navigate(['/admin/dashboard']);
 		// { height: '80%', width: '50%' });
 	}
 }

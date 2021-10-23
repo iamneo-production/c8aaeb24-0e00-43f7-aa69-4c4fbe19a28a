@@ -1,0 +1,57 @@
+<app-navbar-user></app-navbar-user>
+<nb-layout>
+	<nb-layout-column>
+		<nb-card>
+			<nb-card-body>
+				<nb-tabset fullWidth>
+					<nb-tab tabIcon="email-outline">
+						<p><strong>Send message to Admin</strong>.</p>
+						<nb-card>
+							<nb-card-header>
+								<p>Enter the message below</p>
+							</nb-card-header>
+							<nb-card-body>
+								<p>Your details will be shared to admin for further contact</p>
+								<div class="holder">
+									<nb-form-field class="spacing">
+										<nb-icon
+											nbPrefix
+											icon="info-outline"
+											status="primary"
+											pack="eva"
+										></nb-icon>
+										<input
+											required
+											type="text"
+											nbInput
+											placeholder="Enter Subject for the message"
+											[(ngModel)]="subject"
+										/>
+									</nb-form-field>
+									<nb-form-field class="spacing">
+										<nb-icon
+											nbPrefix
+											icon="text-outline"
+											status="info"
+											pack="eva"
+										></nb-icon>
+										<textarea
+											nbInput
+											placeholder="Enter Body of the message"
+											[(ngModel)]="body"
+										></textarea>
+									</nb-form-field>
+									<div class="spacing">
+										<button nbButton hero status="primary" (click)="sendMail()">
+											Send
+										</button>
+									</div>
+								</div>
+							</nb-card-body>
+						</nb-card>
+					</nb-tab>
+				</nb-tabset>
+			</nb-card-body>
+		</nb-card>
+	</nb-layout-column>
+</nb-layout>

@@ -6,12 +6,14 @@ import com.examly.springapp.model.ProductModel;
 import com.examly.springapp.repository.ProductRepository;
 import com.examly.springapp.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.examly.springapp.service.CartService.checkNumber;
 import static com.examly.springapp.service.CartService.checkNumberFloat;
@@ -28,8 +30,10 @@ public class ProductService {
 	}
 	
 	// Verified
-	public List<ProductModel> getHomeProduct() {
-		return productRespository.findAll();
+	public ResponseEntity<List<ProductModel>> getHomeProduct() {
+		List<ProductModel> products = productRespository.findAll();
+		//.cacheControl(CacheControl.maxAge(60*5, TimeUnit.SECONDS))
+		return ResponseEntity.ok().body(products);
 	}
 	
 	public ResponseEntity<?> productEditData(String id) {

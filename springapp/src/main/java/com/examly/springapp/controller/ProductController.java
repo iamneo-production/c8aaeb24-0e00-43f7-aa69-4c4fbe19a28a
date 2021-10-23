@@ -26,7 +26,7 @@ public class ProductController {
 	
 	//Verified
 	@GetMapping("/home")
-	public List<ProductModel> getHomeProduct() {
+	public ResponseEntity<?> getHomeProduct() {
 		return productService.getHomeProduct();
 	}
 	

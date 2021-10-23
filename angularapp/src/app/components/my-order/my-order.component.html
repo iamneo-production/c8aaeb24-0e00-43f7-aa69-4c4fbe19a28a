@@ -1,5 +1,5 @@
 <app-navbar-user></app-navbar-user>
-<div *ngIf="isempty">
+<div *ngIf="isempty; else elseBlock">
 	<div class="empty-state">
 		<div class="empty-state__content">
 			<div class="empty-state__icon">
@@ -21,7 +21,7 @@
 		</div>
 	</div>
 </div>
-<ng-template *ngIf="!isempty">
+<ng-template #elseBlock>
 	<div class="mat-elevation-z8">
 		<table
 			mat-table

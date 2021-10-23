@@ -29,7 +29,7 @@ input:focus {
 	font-weight: 100 lighter;
 }
 .holder {
-	padding-bottom: 20px;
+	padding-bottom: 35px;
 }
 #loginImage {
 	margin-top: 25%;
@@ -38,4 +38,9 @@ input:focus {
 img {
 	width: 60%;
 	height: 60%;
+}
+
+.form-errors {
+	display: block;
+	position: absolute;
 }
