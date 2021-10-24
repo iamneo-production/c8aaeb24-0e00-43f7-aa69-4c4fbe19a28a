@@ -1,32 +1,32 @@
-<nb-card class="card"
-	><div class="border">
-		<img class="qr" src="{{ qrcode }}" /></div
-></nb-card>
+<nb-card class="card">
+	<img class="qr" src="{{ qrcode }}" />
+</nb-card>
 <div class="para">
 	<p>Scan the QR code on your phone</p>
-	<span>1. Open Google or Microsoft authenticator app</span><br />
+	<span>1. Open Microsoft Authenticator app</span><br />
 	<span>2) Point your phone to the screen to capture code</span><br />
-	<span>3) Enter OTP below, to complete the setup</span>
-	<br /><span
-		>Note: To opt out of Multi-Factor Authentication, press out of the
-		window</span
-	>
+	<span>3) Enter 6 digit OTP below, to complete the setup</span>
+	<br /><span style="margin-top: 10px">Press out of window to opt out</span>
 </div>
-<nb-form-field class="form" appearance="outline">
+<nb-form-field appearance="outline" class="form">
 	<input
+		#tel="ngModel"
+		(keydown.enter)="verify()"
+		[(ngModel)]="otp"
+		autofocus
+		name="number"
 		nbInput
+		ngModel
 		placeholder="Enter OTP"
 		required
-		name="number"
-		ngModel
-		[(ngModel)]="otp"
-		#tel="ngModel"
-		autofocus
-		(keydown.enter)="verify()"
 	/>
-
-	<!-- <mat-error *ngIf="tel.invalid" >OTP is Requied</mat-error> -->
 </nb-form-field>
-<button nbButton status="info" class="submit-button" (click)="verify()">
+<button
+	(click)="verify()"
+	class="submit-button"
+	style="margin-left: 40%; margin-top: 30px"
+	nbButton
+	status="info"
+>
 	Submit
 </button>

@@ -1,16 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HomeApiService } from '../../services/home-api.service';
-import { Subscription } from 'rxjs';
 import { NotificationType } from 'src/app/notification-type.enum';
 import { NotificationService } from '../../services/notification.service';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { CartdialogComponent } from '../cartdialog/cartdialog.component';
 import { AddCart } from 'src/app/model/addcart';
 import { HttpClient } from '@angular/common/http';
-import { NbWindowService } from '@nebular/theme';
-import { AddtocartComponent } from '../addtocart/addtocart.component';
+import Fuse from 'fuse.js';
 
 @Component({
 	selector: 'app-home-page',
@@ -19,6 +15,7 @@ import { AddtocartComponent } from '../addtocart/addtocart.component';
 })
 export class HomePageComponent implements OnInit {
 	public productList: any;
+	public original: any;
 	public token: any = localStorage.getItem('token');
 	public ans: any = '';
 	public productName: string = ' ';
@@ -31,14 +28,30 @@ export class HomePageComponent implements OnInit {
 	public mobile: any;
 	public active: any;
 	public email: any;
+	public temp: any;
+	public e: any;
+	public term: any;
+	public value: any;
+	public test: any;
+	public searchItems: any;
+	options = {
+		keys: [
+			{
+				name: 'productName',
+				weight: 0.5,
+			},
+			{
+				name: 'description',
+				weight: 0.5,
+			},
+		],
+	};
 	@Input() deviceXs: boolean = false;
 	constructor(
 		private api: HomeApiService,
 		private router: Router,
 		private notificationService: NotificationService,
-		private dialog: MatDialog,
-		private http: HttpClient,
-		private windowService: NbWindowService
+		private http: HttpClient
 	) {}
 
 	ngOnInit(): void {
@@ -54,26 +67,23 @@ export class HomePageComponent implements OnInit {
 			this.role = this.role[0].toUpperCase() + this.role.substring(1);
 		}
 		this.time = new Date().getTime();
-		// console.log(this.jwt.exp * 1000, this.time);
-		// if (Date.now() >= this.jwt.exp * 1000) {
-		// 	console.log(false);
-		// } else {
-		// 	console.log(true);
-		// }
 		if (this.jwt == null || this.jwt.exp * 100 > this.time) {
 			localStorage.removeItem('token');
-			console.log('Token expired');
 			this.router.navigate(['/login']);
-		} else {
-			console.log('Token not expired');
 		}
-
-		// console.log('Home ' + localStorage.getItem('token'));
-		this.api.getProduct().subscribe((res: any) => {
-			this.productList = res;
-			console.log('This is an array');
-			// console.log(this.productList);
-		});
+		this.api.getProduct().subscribe(
+			(res: any) => {
+				this.productList = res;
+				this.original = res;
+			},
+			() => {},
+			() => {
+				for (let t = 0; t < this.productList.length; ++t) {
+					this.productList[t].price = parseFloat(this.productList[t].price);
+					this.productList[t].quantity = parseInt(this.productList[t].quantity);
+				}
+			}
+		);
 
 		this.http
 			.get(`http://localhost:8080/user/info/${this.jwt.user_id}`, {
@@ -108,37 +118,29 @@ export class HomePageComponent implements OnInit {
 			);
 		});
 	}
+	lowToHigh() {
+		this.productList.sort((a: any, b: any) => (a.price > b.price ? 1 : -1));
+	}
 
-	Search(product: string) {
-		if (product == '') {
-			this.ngOnInit();
+	highToLow() {
+		this.productList.sort((a: any, b: any) => (a.price < b.price ? 1 : -1));
+	}
+
+	search(target: any): void {
+		let fuse = new Fuse(this.original, this.options);
+		this.value = target.value;
+		if (this.value == '') {
+			this.productList = this.original;
 		} else {
-			// this.productList = this.productList.filter((res: any) => {
-			// 	if (
-			// 		res.productName
-			// 			.toLocaleLowerCase()
-			// 			.match(this.productName.toLocaleLowerCase())
-			// 	) {
-			// 		return res;
-			// 	}
-			// 	// return res.productName
-			// 	// 	.toLocaleLowerCase()
-			// 	// 	.match(this.productName.toLocaleLowerCase());
-			// });
-			// console.log('Here ' + this.productList.length());
-			this.res = this.productList.forEach((element: any) => {
-				// console.log(element);
-				if (
-					new String(element.productName.toLowerCase()).valueOf() ===
-					new String(product.toLowerCase()).valueOf()
-				) {
-					console.log(element);
-					return element;
-				}
-			});
-			if (this.res == null) {
-				console.log(0);
-			} else console.log('Search completed: ' + this.res.length());
+			this.searchItems = fuse.search(this.value);
+			this.productList = [];
+			for (let t = 0; t < this.searchItems.length; ++t) {
+				this.productList.push(this.searchItems[t].item);
+			}
 		}
+	}
+
+	reset() {
+		this.productList = this.original;
 	}
 }

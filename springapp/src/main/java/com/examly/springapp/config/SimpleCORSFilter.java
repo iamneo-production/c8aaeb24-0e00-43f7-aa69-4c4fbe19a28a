@@ -12,35 +12,35 @@ import java.io.IOException;
 @Component
 public class SimpleCORSFilter implements Filter {
 
-	private final Logger log = LoggerFactory.getLogger(SimpleCORSFilter.class);
+    private final Logger log = LoggerFactory.getLogger(SimpleCORSFilter.class);
 
-	public SimpleCORSFilter() {
-		log.info("SimpleCORSFilter init");
-	}
+    public SimpleCORSFilter() {
+        log.info("SimpleCORSFilter init");
+    }
 
-	@Override
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 
-		HttpServletRequest request = (HttpServletRequest) req;
-		HttpServletResponse response = (HttpServletResponse) res;
-		//request.getHeader("Origin")
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Credentials", "true");
-		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-		response.setHeader("Access-Control-Max-Age", "3600");
-		response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
 
-		chain.doFilter(req, res);
-	}
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
 
-	@Override
-	public void init(FilterConfig filterConfig) {
-	
-	}
+        chain.doFilter(req, res);
+    }
 
-	@Override
-	public void destroy() {
-		
-	}
+    @Override
+    public void init(FilterConfig filterConfig) {
+
+    }
+
+    @Override
+    public void destroy() {
+
+    }
 
 }

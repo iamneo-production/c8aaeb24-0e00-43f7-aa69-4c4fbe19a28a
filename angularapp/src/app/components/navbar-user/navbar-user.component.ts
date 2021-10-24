@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { NotificationType } from 'src/app/notification-type.enum';
 import { NotificationService } from '../../services/notification.service';
 
 @Component({
@@ -18,29 +17,12 @@ export class NavbarUserComponent implements OnInit {
 	ngOnInit(): void {}
 
 	onexit() {
-		console.log('Logout');
-		// this.notificationService.notify(
-		// 	'Success',
-		// 	NotificationType.SUCCESS,
-		// 	'bottom-right',
-		// 	'Logged out successfully'
-		// );
-		console.log(4);
 		localStorage.removeItem('token');
 		localStorage.clear();
 		this.router.navigate(['/login']);
 	}
 
 	onClick() {
-		// const dialogConfig = new MatDialogConfig();
-		// dialogConfig.disableClose = true;
-		// dialogConfig.autoFocus = true;
-		// this.dialog.open(MailComponent, {
-		// 	height: '80%',
-		// 	width: '50%',
-		// 	data: {},
-		// });
 		this.router.navigate(['/dashboard']);
-		// { height: '80%', width: '50%' });
 	}
 }

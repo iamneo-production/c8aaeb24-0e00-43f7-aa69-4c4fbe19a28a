@@ -15,16 +15,13 @@ import { NotificationService } from '../../services/notification.service';
 })
 export class SignupComponent implements OnInit {
 	constructor(
-		private toastrService: NbToastrService,
 		private router: Router,
 		private signupservice: SignupService,
 		private dialog: MatDialog,
 		private notificationService: NotificationService
 	) {}
 
-	ngOnInit(): void {
-		// console.log('rendered');
-	}
+	ngOnInit(): void {}
 
 	showPass: boolean = false;
 	showConformPass: boolean = false;
@@ -44,52 +41,34 @@ export class SignupComponent implements OnInit {
 		this.Signup.mobileNumber = this.mobile;
 		this.toggleLoading();
 		if (this.pass == this.conformPass) {
-			// console.log(this.Signup);
-			this.signupservice.createSignup(this.Signup).subscribe(
-				(data: any) => {
-					// console.log(data);
-					// console.log(this.Signup);
-					if (data.result == true && this.Signup.mfa == false) {
-						this.notificationService.notify(
-							'Success',
-							NotificationType.SUCCESS,
-							'bottom-right',
-							data.message
-						);
-						this.router.navigate(['/login']);
-					} else if (data.result == true && this.Signup.mfa == true) {
-						this.notificationService.notify(
-							'Success',
-							NotificationType.SUCCESS,
-							'bottom-right',
-							'Scan the QR code for setup'
-						);
-						this.onCreate(data.message);
-					} else {
+			this.signupservice.createSignup(this.Signup).subscribe((data: any) => {
+				if (data.result == true && this.Signup.mfa == false) {
+					this.notificationService.notify(
+						'Success',
+						NotificationType.SUCCESS,
+						'bottom-right',
+						data.message
+					);
+					this.router.navigate(['/login']);
+				} else if (data.result == true && this.Signup.mfa == true) {
+					this.notificationService.notify(
+						'Success',
+						NotificationType.SUCCESS,
+						'bottom-right',
+						'Scan the QR code for setup'
+					);
+					this.onCreate(data.message);
+				} else {
+					for (let t = 0; t < data.errors.length; ++t) {
 						this.notificationService.notify(
 							'Error',
 							NotificationType.DANGER,
 							'bottom-right',
-							data.message
+							data.errors[t]
 						);
-						// if(data.message==='Username already exists')
-						// {
-						//   this.useralready=true;
-						// }
-						// for (let i = 0; i < data.errors.length; i++) {
-						//   if(data.errors[i]==="Email address is invalid")
-						//   {
-						//     this.emailinvalid=true;
-						//   }
-						//   if(data.errors[i]==="Invalid mobile number")
-						//   {
-						//     this.mobileinvalid=true;
-						//   }
-						// }
 					}
-				},
-				(error) => console.log(error)
-			);
+				}
+			});
 		} else {
 			this.notificationService.notify(
 				'Error',
@@ -98,12 +77,6 @@ export class SignupComponent implements OnInit {
 				'Passwords did not match'
 			);
 		}
-		this.toggleLoading();
-		// if (this.mfa) {
-		//   this.dialogService.open(AuthQrComponent, {
-		//     context: 'this is some additional data passed to dialog',
-		//   });
-		// }
 	}
 
 	onCreate(qrcode: string) {
@@ -111,8 +84,6 @@ export class SignupComponent implements OnInit {
 		dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
 		dialogConfig.closeOnNavigation = false;
-		// dialogConfig.disableClose = false;
-		console.log(dialogConfig);
 		this.dialog.open(AuthQrComponent, {
 			height: '80%',
 			width: '50%',
@@ -135,6 +106,9 @@ export class SignupComponent implements OnInit {
 	}
 
 	toggleLoading() {
-		this.loading = !this.loading;
+		this.loading = true;
+		setTimeout(() => {
+			this.loading = false;
+		}, 3000);
 	}
 }

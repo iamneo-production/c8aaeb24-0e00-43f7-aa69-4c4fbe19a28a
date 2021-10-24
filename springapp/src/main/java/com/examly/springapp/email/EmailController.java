@@ -30,18 +30,17 @@ public class EmailController {
     public ResponseEntity<?> sendEmail(@RequestBody EmailModel emailModel) {
         ArrayList<String> emails = emailModel.getEmails();
         List<String> errors = new ArrayList<>();
-        if(emailModel.getSubject()==""){
+        if (emailModel.getSubject() == "") {
             emailModel.setSubject("EBook Store - Administrator");
-        }
-        else if(emailModel.getBody()==""){
+        } else if (emailModel.getBody() == "") {
             errors.add("No body is present");
             return ResponseEntity.ok().body(new ApiResponse(false, "The body was empty", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
         }
-        if(emails.size()==0 || emails.get(0)=="") {
+        if (emails.size() == 0 || emails.get(0) == "") {
             List<UserModel> users = userRepository.findAll();
-//            System.out.println(users.size());
+
             users.forEach(user -> {
-                if(user.getRole().equals("user")) {
+                if (user.getRole().equals("user")) {
                     try {
                         emailSenderService.sendMail(user.getEmail(), emailModel.getSubject(), emailModel.getBody());
                     } catch (MessagingException e) {
@@ -52,8 +51,7 @@ public class EmailController {
                     System.out.println("Mail sent to " + user.getEmail());
                 }
             });
-        }
-        else {
+        } else {
             emails.forEach(email -> {
                 try {
                     emailSenderService.sendMail(email, emailModel.getSubject(), emailModel.getBody());
@@ -65,7 +63,7 @@ public class EmailController {
                 System.out.println("Mail sent to " + email);
             });
         }
-//        System.out.println(emails.size());
+
         return ResponseEntity.ok().body(new ApiResponse(true, "The mails are sent successfully", OK.value(), OK, errors));
     }
 }

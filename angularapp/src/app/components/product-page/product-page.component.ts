@@ -3,8 +3,6 @@ import { HomeApiService } from '../../services/home-api.service';
 import { ProductTableItem } from '../../model/product_table';
 import { AddCart } from '../../model/addcart';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import jwt_decode from 'jwt-decode';
 import { NotificationType } from 'src/app/notification-type.enum';
 import { NotificationService } from '../../services/notification.service';
 import { CartdialogComponent } from '../cartdialog/cartdialog.component';

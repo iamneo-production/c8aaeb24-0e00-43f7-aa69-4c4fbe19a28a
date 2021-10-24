@@ -1,37 +1,69 @@
-<!-- <google-pay-button
-	environment="TEST"
-	buttonType="buy"
-	buttonColor="black"
-	[paymentRequest]="{
-		apiVersion: 2,
-		apiVersionMinor: 0,
-		allowedPaymentMethods: [
-			{
-				type: 'CARD',
-				parameters: {
-					allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-					allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD']
-				},
-				tokenizationSpecification: {
-					type: 'PAYMENT_GATEWAY',
-					parameters: {
-						gateway: 'example',
-						gatewayMerchantId: 'exampleGatewayMerchantId'
-					}
-				}
-			}
-		],
-		merchantInfo: {
-			merchantId: '12345678901234567890',
-			merchantName: 'Demo Merchant'
-		},
-		transactionInfo: {
-			totalPriceStatus: 'FINAL',
-			totalPriceLabel: 'Total',
-			totalPrice: '100.00',
-			currencyCode: 'USD',
-			countryCode: 'US'
-		}
-	}"
-	(loadpaymentdata)="onLoadPaymentData($event)"
-></google-pay-button> -->
+<form class="top-bottom">
+	<label class="control">
+		<span>Button color</span>
+		<select [(ngModel)]="buttonColor" name="button-color">
+			<option value="default">default</option>
+			<option value="black">black</option>
+			<option value="white">white</option>
+		</select>
+	</label>
+	<label class="control">
+		<span>Button type</span>
+		<select [(ngModel)]="buttonType" name="button-type">
+			<option value="buy">buy</option>
+			<option value="plain">plain</option>
+			<option value="donate">donate</option>
+		</select>
+	</label>
+	<label>
+		<input [(ngModel)]="isCustomSize" name="button-custom" type="checkbox"/>
+		<span>Custom button size</span>
+	</label>
+	<label class="control">
+		<span
+		>Button width <span class="value">({{ buttonWidth }}px)</span></span
+		>
+		<input
+			[(ngModel)]="buttonWidth"
+			[disabled]="!isCustomSize"
+			max="800"
+			min="160"
+			name="button-width"
+			type="range"
+		/>
+	</label>
+	<label class="control">
+		<span
+		>Button height <span class="value">({{ buttonHeight }}px)</span></span
+		>
+		<input
+			[(ngModel)]="buttonHeight"
+			[disabled]="!isCustomSize"
+			max="100"
+			min="40"
+			name="button-height"
+			type="range"
+		/>
+	</label>
+</form>
+
+<div class="demo">
+	<google-pay-button
+		(buttonColor)="(buttonColor)"
+		(buttonType)="(buttonType)"
+		(loadpaymentdata)="onLoadPaymentData($event)"
+		(paymentRequest)="(paymentRequest)"
+		[buttonSizeMode]="isCustomSize ? 'fill' : 'static'"
+		[style.height.px]="buttonHeight"
+		[style.width.px]="buttonWidth"
+		environment="TEST"
+	></google-pay-button>
+</div>
+
+<div [style.display]="isTop ? 'none' : ''" class="note">
+	<p>
+		Note: This page may need to open in a new window for it to function
+		correctly.
+	</p>
+	<p><a href="/" target="_blank">Open in new window</a>.</p>
+</div>

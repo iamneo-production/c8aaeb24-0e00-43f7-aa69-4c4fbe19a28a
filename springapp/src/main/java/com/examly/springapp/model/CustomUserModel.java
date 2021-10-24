@@ -20,10 +20,9 @@ public class CustomUserModel implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserModel userModel = userRepository.findByEmail(username);
 
-        if(userModel==null) {
+        if (userModel == null) {
             throw new UsernameNotFoundException("User not found");
-        }
-        else {
+        } else {
 
         }
 

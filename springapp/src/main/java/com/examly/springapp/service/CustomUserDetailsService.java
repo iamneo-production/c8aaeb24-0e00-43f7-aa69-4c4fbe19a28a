@@ -26,19 +26,18 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserModel userModel = userRepository.findByEmail(username);
-        if(userModel == null) {
+        if (userModel == null) {
             throw new UsernameNotFoundException("User not found");
-        }
-        else {
+        } else {
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             System.out.println(username);
             authorities.add(new SimpleGrantedAuthority("u_id=" + userModel.getUserId()));
-            authorities.add(new SimpleGrantedAuthority("mfa=" + String.valueOf(userModel.isMfa())));
-            authorities.add(new SimpleGrantedAuthority("totp=" + String.valueOf(userModel.isVerifiedForTOTP())));
-            authorities.add(new SimpleGrantedAuthority("active=" + String.valueOf(userModel.isActive())));
+            authorities.add(new SimpleGrantedAuthority("mfa=" + userModel.isMfa()));
+            authorities.add(new SimpleGrantedAuthority("totp=" + userModel.isVerifiedForTOTP()));
+            authorities.add(new SimpleGrantedAuthority("active=" + userModel.isActive()));
             authorities.add(new SimpleGrantedAuthority("role=" + userModel.getRole()));
             System.out.println(authorities.size());
-            System.out.println(userModel.getUserId() + " " + String.valueOf(userModel.isMfa() + " " + userModel.isVerifiedForTOTP() + " " + userModel.getRole()));
+            System.out.println(userModel.getUserId() + " " + userModel.isMfa() + " " + userModel.isVerifiedForTOTP() + " " + userModel.getRole());
             return new User(userModel.getEmail(), userModel.getPassword(), authorities);
         }
     }

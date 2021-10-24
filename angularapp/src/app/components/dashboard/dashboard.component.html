@@ -13,18 +13,18 @@
 							<nb-card-body>
 								<div class="holder">
 									<nb-form-field>
-										<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+										<nb-icon icon="at-outline" nbPrefix pack="eva"></nb-icon>
 										<input
-											required
-											type="text"
+											[(ngModel)]="checkEmail"
 											nbInput
 											placeholder="Enter Email address"
-											[(ngModel)]="checkEmail"
+											required
 											status="primary"
+											type="text"
 										/>
 									</nb-form-field>
 									<div class="spacing">
-										<button nbButton hero status="primary" (click)="check()">
+										<button (click)="check()" hero nbButton status="primary">
 											Check
 										</button>
 									</div>
@@ -38,22 +38,22 @@
 							<nb-card-body>
 								<div class="holder">
 									<nb-form-field>
-										<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+										<nb-icon icon="at-outline" nbPrefix pack="eva"></nb-icon>
 										<input
-											required
-											type="text"
+											[(ngModel)]="disableEmail"
 											nbInput
 											placeholder="Enter Email address"
-											[(ngModel)]="disableEmail"
+											required
 											status="danger"
+											type="text"
 										/>
 									</nb-form-field>
 									<div class="spacing">
 										<button
-											nbButton
-											hero
-											status="danger"
 											(click)="action('disable')"
+											hero
+											nbButton
+											status="danger"
 										>
 											Disable
 										</button>
@@ -68,22 +68,22 @@
 							<nb-card-body>
 								<div class="holder">
 									<nb-form-field>
-										<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+										<nb-icon icon="at-outline" nbPrefix pack="eva"></nb-icon>
 										<input
-											required
-											type="text"
+											[(ngModel)]="enableEmail"
 											nbInput
 											placeholder="Enter Email address"
-											[(ngModel)]="enableEmail"
+											required
 											status="success"
+											type="text"
 										/>
 									</nb-form-field>
 									<div class="spacing">
 										<button
-											nbButton
-											hero
-											status="success"
 											(click)="action('enable')"
+											hero
+											nbButton
+											status="success"
 										>
 											Enable
 										</button>
@@ -101,18 +101,18 @@
 							<nb-card-body>
 								<div class="holder">
 									<nb-form-field>
-										<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+										<nb-icon icon="at-outline" nbPrefix pack="eva"></nb-icon>
 										<input
-											required
-											type="text"
+											[(ngModel)]="mfaEmail"
 											nbInput
 											placeholder="Enter Email address"
-											[(ngModel)]="mfaEmail"
+											required
 											status="primary"
+											type="text"
 										/>
 									</nb-form-field>
 									<div class="spacing">
-										<button nbButton hero status="primary" (click)="remove()">
+										<button (click)="remove()" hero nbButton status="primary">
 											Remove
 										</button>
 									</div>
@@ -129,18 +129,18 @@
 							<nb-card-body>
 								<div class="holder">
 									<nb-form-field>
-										<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+										<nb-icon icon="at-outline" nbPrefix pack="eva"></nb-icon>
 										<input
-											required
-											type="text"
+											[(ngModel)]="resetCodeEmail"
 											nbInput
 											placeholder="Enter Email address"
-											[(ngModel)]="resetCodeEmail"
+											required
 											status="primary"
+											type="text"
 										/>
 									</nb-form-field>
 									<div class="spacing">
-										<button nbButton hero status="primary" (click)="reset()">
+										<button (click)="reset()" hero nbButton status="primary">
 											Send
 										</button>
 									</div>
@@ -152,7 +152,8 @@
 						<p><strong>List of messages</strong>.</p>
 						<nb-card>
 							<nb-card-header
-								>Format: Subject - Body - User Email - Timestamp</nb-card-header
+							>Format: Subject - Body - User Email - Timestamp
+							</nb-card-header
 							>
 							<nb-card-body>
 								<nb-list>
@@ -165,9 +166,9 @@
 										</p>
 										<span style="padding-left: 30px">
 											<button
+												(click)="deleteMessage(message.messageId)"
 												nbButton
 												status="danger"
-												(click)="deleteMessage(message.messageId)"
 											>
 												Delete
 											</button>
@@ -176,8 +177,8 @@
 									<nb-list-item>
 										<p>
 											<nb-icon
-												nbPrefix
 												icon="bell-off-outline"
+												nbPrefix
 												pack="eva"
 											></nb-icon>
 											&nbsp;&nbsp;No new messages
@@ -201,49 +202,49 @@
 								<div class="holder">
 									<nb-form-field class="spacing">
 										<nb-icon
-											nbPrefix
 											icon="at-outline"
-											status="primary"
+											nbPrefix
 											pack="eva"
+											status="primary"
 										></nb-icon>
 										<input
-											required
-											type="text"
+											[(ngModel)]="emailMail"
 											nbInput
 											placeholder="Enter Email address"
-											[(ngModel)]="emailMail"
-										/>
-									</nb-form-field>
-									<nb-form-field class="spacing">
-										<nb-icon
-											nbPrefix
-											icon="info-outline"
-											status="primary"
-											pack="eva"
-										></nb-icon>
-										<input
 											required
 											type="text"
-											nbInput
-											placeholder="Enter Subject for the mail"
-											[(ngModel)]="subject"
 										/>
 									</nb-form-field>
 									<nb-form-field class="spacing">
 										<nb-icon
+											icon="info-outline"
 											nbPrefix
-											icon="text-outline"
-											status="info"
 											pack="eva"
+											status="primary"
+										></nb-icon>
+										<input
+											[(ngModel)]="subject"
+											nbInput
+											placeholder="Enter Subject for the mail"
+											required
+											type="text"
+										/>
+									</nb-form-field>
+									<nb-form-field class="spacing">
+										<nb-icon
+											icon="text-outline"
+											nbPrefix
+											pack="eva"
+											status="info"
 										></nb-icon>
 										<textarea
+											[(ngModel)]="body"
 											nbInput
 											placeholder="Enter Body of mail"
-											[(ngModel)]="body"
 										></textarea>
 									</nb-form-field>
 									<div class="spacing">
-										<button nbButton hero status="primary" (click)="sendMail()">
+										<button (click)="sendMail()" hero nbButton status="primary">
 											Send
 										</button>
 									</div>

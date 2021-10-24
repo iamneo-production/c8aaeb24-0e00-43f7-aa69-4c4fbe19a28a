@@ -48,11 +48,6 @@ export class AuthOtpComponent implements OnInit {
 					);
 					localStorage.setItem('token', data.message);
 					this.router.navigate(['/home']);
-					// this.router.navigate(['..'], { relativeTo: this.route })
-					//this.dialogRef.afterClosed().subscribe(res => { this.router.navigate(['/home']); });
-					// this.router.navigate(['..'], { relativeTo: this.route })
-					// this.router.navigateByUrl("/home");
-					// this.login(data.message)
 					this.dialogRef.close();
 				} else {
 					this.notificationService.notify(

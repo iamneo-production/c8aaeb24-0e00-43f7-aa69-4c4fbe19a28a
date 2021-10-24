@@ -139,8 +139,6 @@ export class DashboardComponent implements OnInit {
 
 	sendMail() {
 		this.api = 'http://localhost:8080/mail';
-		// this.mail = this.resetCodeEmail;
-		console.log(this.emailMail);
 		if (this.body == '') {
 			this.notificationService.notify(
 				'Error',
@@ -172,9 +170,7 @@ export class DashboardComponent implements OnInit {
 				temp.push(e.trim());
 			});
 		}
-		console.log(temp);
 		this.token = localStorage.getItem('token');
-		console.log(this.token);
 		this.http
 			.post(
 				this.api,
@@ -206,7 +202,6 @@ export class DashboardComponent implements OnInit {
 			})
 			.subscribe((data: any) => {
 				if (data) {
-					// this.showToast('Success', 'success', 'bottom-right', data.message);
 					this.messages = data;
 				} else
 					this.showToast(

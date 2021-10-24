@@ -21,29 +21,21 @@ export class AddProductComponent {
 	) {}
 
 	ngOnInit(): void {}
-	// subscribing the data from the addProduct service
 	GoAddProduct() {
-		this.addproduct.AddProduct(this.inst).subscribe(
-			(data) => {
-				// console.log(data);
-				this.notificationService.notify(
-					'Success',
-					NotificationType.SUCCESS,
-					'bottom-right',
-					'Item has been added'
-				);
-				this.GoToProductList();
-			},
-			(error) => console.log(error)
-		);
+		this.addproduct.AddProduct(this.inst).subscribe((data) => {
+			this.notificationService.notify(
+				'Success',
+				NotificationType.SUCCESS,
+				'bottom-right',
+				'Item has been added'
+			);
+			this.GoToProductList();
+		});
 	}
-	// redirection for admin-home-page after adding products
 	GoToProductList() {
 		this.router.navigate(['/admin']);
 	}
-	// after clicking on AddProduct
 	OnSubmit() {
-		// console.log(this.inst);
 		this.GoAddProduct();
 	}
 }

@@ -6,7 +6,6 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
 import { NotificationType } from 'src/app/notification-type.enum';
 import { NotificationService } from 'src/app/services/notification.service';
 

@@ -1,12 +1,9 @@
 package com.examly.springapp.model;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.mockito.internal.verification.Times;
 import org.springframework.stereotype.Component;
 
-import javax.mail.Message;
 import javax.persistence.*;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -16,8 +13,8 @@ import java.time.Instant;
 public class MessageModel {
 
     @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String messageId;
 
     @Column(name = "subject")

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, ROUTES, Routes } from '@angular/router';
-// import { LoginComponent } from './components/login1/login.component';
+import { RouterModule, Routes } from '@angular/router';
 import { SignupComponent } from './components/signup/signup.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
@@ -13,10 +12,6 @@ import { ProductPageComponent } from './components/product-page/product-page.com
 import { AuthGuard } from './auth.guard';
 import { AdminGuard } from './admin.guard';
 import { UserGuard } from './user.guard';
-import { MatDialog } from '@angular/material/dialog';
-import { AuthQrComponent } from './components/auth-qr/auth-qr.component';
-import { AuthOtpComponent } from './components/auth-otp/auth-otp.component';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
@@ -25,79 +20,92 @@ import { RoleService } from './services/role.service';
 import { DashboardUserComponent } from './components/dashboard-user/dashboard-user.component';
 
 let routes: Routes = [
-	{ path: 'login', component: LoginComponent },
-	{ path: 'signup', component: SignupComponent },
+	{
+		path: 'login',
+		component: LoginComponent,
+		data: { animation: 'routeAnimation' },
+	},
+	{
+		path: 'signup',
+		component: SignupComponent,
+		data: { animation: 'routeAnimation' },
+	},
 	{
 		path: 'addProduct',
 		component: AddProductComponent,
 		canActivate: [AuthGuard, AdminGuard],
+		data: { animation: 'routeAnimation' },
 	},
 	{
 		path: 'editProduct/:id',
 		component: EditProductComponent,
 		canActivate: [AuthGuard, AdminGuard],
+		data: { animation: 'routeAnimation' },
 	},
 	{
 		path: 'admin',
 		component: ProductTableComponent,
 		canActivate: [AuthGuard, AdminGuard],
+		data: { animation: 'routeAnimation' },
 	},
 	{
 		path: 'admin/orders',
 		component: OrderTableAdminComponent,
 		canActivate: [AuthGuard, AdminGuard],
+		data: { animation: 'routeAnimation' },
 	},
 	{
 		path: 'home',
 		component: HomePageComponent,
 		canActivate: [AuthGuard, UserGuard],
+		data: { animation: 'routeAnimation' },
 	},
 	{
 		path: 'cart',
 		component: CartComponent,
 		canActivate: [AuthGuard, UserGuard],
+		data: { animation: 'routeAnimation' },
 	},
 	{
 		path: 'orders',
 		component: MyOrderComponent,
 		canActivate: [AuthGuard, UserGuard],
+		data: { animation: 'routeAnimation' },
 	},
 	{
 		path: 'view/:id',
 		component: ProductPageComponent,
 		canActivate: [AuthGuard, UserGuard],
+		data: { animation: 'routeAnimation' },
 	},
 	{
 		path: 'checkout',
 		component: CheckoutComponent,
 		canActivate: [AuthGuard, UserGuard],
+		data: { animation: 'routeAnimation' },
 	},
 	{
 		path: 'admin/dashboard',
 		component: DashboardComponent,
 		canActivate: [AuthGuard, AdminGuard],
+		data: { animation: 'routeAnimation' },
 	},
 	{
 		path: 'dashboard',
 		component: DashboardUserComponent,
 		canActivate: [AuthGuard, UserGuard],
+		data: { animation: 'routeAnimation' },
 	},
 	{ path: '', redirectTo: 'login', pathMatch: 'full' },
 	{ path: '**', redirectTo: 'login', pathMatch: 'full' },
-	// {path: '', component: HomePageComponent, children: [{ path: 'home', component: AuthQrComponent }]},
-	// {path: '', component: HomePageComponent, children: [{ path: 'home', component: AuthOtpComponent }]},
-	// {path: '', component: LoginComponent, children: [{ path: 'login', component: ForgotPasswordComponent }]},
 ];
 
 @NgModule({
 	imports: [
-		// RouterModule.forRoot( {
-		// 	useHash: false,
-		// 	anchorScrolling: 'enabled',
-		// }),
 		RouterModule.forRoot(routes, {
 			useHash: false,
 			anchorScrolling: 'enabled' || true,
+			scrollPositionRestoration: 'enabled',
 		}),
 	],
 	exports: [RouterModule],

@@ -1,34 +1,30 @@
-<!-- <div *ngIf="loaderService.isLoading | async" class="loader-container">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  <mat-spinner style="top:50%; left:50%;"></mat-spinner> 
-</div>-->
 <mat-toolbar>
 	<mat-toolbar-row fxLayoutAlign="space-between center">
 		<div>
-			<button mat-button class="button" style="border: none">
+			<button class="button" mat-button style="border: none">
 				<div class="gap" style="border: none">BOOK</div>
 				<br />
 				<div class="sample" style="border: none">STORE</div>
 			</button>
 		</div>
 
-		<div class="spacer">
-			<button routerLink="/admin" routerLinkActive="active" mat-button>
-				<mat-icon>shopping_cart</mat-icon
-				><span style="margin-left: 3px">Products</span>
+		<div class="spacer" style="color: white">
+			<button mat-button routerLink="/admin" routerLinkActive="active">
+				<mat-icon>shopping_cart </mat-icon>
+				<span style="margin-left: 3px">Products</span>
 			</button>
-			<button routerLink="/admin/orders" routerLinkActive="active" mat-button>
-				<mat-icon> local_shipping</mat-icon
-				><span style="margin-left: 3px">Orders</span>
+			<button mat-button routerLink="/admin/orders" routerLinkActive="active">
+				<mat-icon> local_shipping </mat-icon>
+				<span style="margin-left: 3px">Orders</span>
 			</button>
-			<button mat-button (click)="onClick()">
-				<mat-icon> mail</mat-icon
-				><span style="margin-left: 3px">Dashboard</span>
+			<button (click)="onClick()" mat-button>
+				<mat-icon> mail </mat-icon>
+				<span style="margin-left: 3px">Dashboard</span>
 			</button>
 		</div>
-		<div fxLayout="row" fxLayoutAlign="end center">
+		<div fxLayout="row" fxLayoutAlign="end center" style="color: white">
 			<form (ngSubmit)="onexit()">
-				<button type="submit" mat-button>
+				<button mat-button type="submit">
 					<mat-icon *ngIf="!deviceXs">exit_to_app</mat-icon>
 					<span *ngIf="!deviceXs">Logout</span>
 					<mat-icon *ngIf="deviceXs">exit_to_app</mat-icon>

@@ -6,91 +6,93 @@
 			</div>
 			<div class="holder">
 				<nb-form-field>
-					<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+					<nb-icon icon="at-outline" nbPrefix pack="eva"></nb-icon>
 					<input
-						required
-						type="text"
+						[(ngModel)]="Signup.email"
+						autofocus
 						nbInput
 						placeholder="Enter Email address"
-						autofocus
-						[(ngModel)]="Signup.email"
+						required
+						type="text"
 					/>
 				</nb-form-field>
 			</div>
 			<div class="holder">
 				<nb-form-field>
-					<nb-icon nbPrefix icon="person-outline" pack="eva"></nb-icon>
+					<nb-icon icon="person-outline" nbPrefix pack="eva"></nb-icon>
 					<input
-						required
-						type="text"
+						[(ngModel)]="Signup.username"
 						nbInput
 						placeholder="Enter Username"
-						[(ngModel)]="Signup.username"
-					/>
-				</nb-form-field>
-			</div>
-			<div class="holder">
-				<nb-form-field>
-					<nb-icon nbPrefix icon="phone-outline" pack="eva"></nb-icon>
-					<input
 						required
 						type="text"
-						nbInput
-						placeholder="Enter Mobile Number"
-						[(ngModel)]="mobile"
 					/>
 				</nb-form-field>
 			</div>
 			<div class="holder">
 				<nb-form-field>
-					<nb-icon nbPrefix icon="lock-outline" pack="eva"></nb-icon>
+					<nb-icon icon="phone-outline" nbPrefix pack="eva"></nb-icon>
 					<input
+						[(ngModel)]="mobile"
+						nbInput
+						placeholder="Enter Mobile Number"
 						required
-						id="password"
+						type="text"
+					/>
+				</nb-form-field>
+			</div>
+			<div class="holder">
+				<nb-form-field>
+					<nb-icon icon="lock-outline" nbPrefix pack="eva"></nb-icon>
+					<input
+						[(ngModel)]="pass"
 						[type]="showPass ? 'text' : 'password'"
+						id="password"
 						nbInput
 						placeholder="Enter Password"
-						[(ngModel)]="pass"
+						required
 					/>
 					<nb-icon
-						nbSuffix
-						[icon]="showPass && pass ? 'eye-off-outline' : 'eye-outline'"
-						pack="eva"
-						[options]="{ animation: { type: 'pulse' } }"
 						(click)="showPassword()"
+						[icon]="showPass && pass ? 'eye-off-outline' : 'eye-outline'"
+						[options]="{ animation: { type: 'pulse' } }"
+						nbSuffix
+						pack="eva"
 					></nb-icon>
 				</nb-form-field>
 			</div>
 			<div class="holder">
 				<nb-form-field>
-					<nb-icon nbPrefix icon="lock-outline" pack="eva"></nb-icon>
+					<nb-icon icon="lock-outline" nbPrefix pack="eva"></nb-icon>
 					<input
-						required
-						id="confirmpassword"
+						(keydown.enter)="checkMfa()"
+						[(ngModel)]="conformPass"
 						[type]="showConformPass ? 'text' : 'password'"
+						id="confirmpassword"
 						nbInput
 						placeholder="Confirm Password"
-						[(ngModel)]="conformPass"
-						(keydown.enter)="checkMfa()"
+						required
 					/>
 					<nb-icon
-						nbSuffix
+						(click)="showConformPassword()"
 						[icon]="
 							showConformPass && conformPass ? 'eye-off-outline' : 'eye-outline'
 						"
-						pack="eva"
 						[options]="{ animation: { type: 'pulse' } }"
-						(click)="showConformPassword()"
+						nbSuffix
+						pack="eva"
 					></nb-icon>
 				</nb-form-field>
 				<div id="checkBox">
-					<nb-checkbox status="primary" [(ngModel)]="Signup.mfa"
-						>Enable Two Step Authentication</nb-checkbox
+					<nb-checkbox [(ngModel)]="Signup.mfa" status="primary"
+					>Enable Two Step Authentication
+					</nb-checkbox
 					>
 				</div>
 				<div class="holder loginDiv">
-					<button nbButton status="info" id="loginButton" (click)="checkMfa()">
-						Signup<nb-icon icon="arrowhead-right-outline"></nb-icon>
+					<button (click)="checkMfa()" id="loginButton" nbButton status="info">
+						Signup
+						<nb-icon icon="arrowhead-right-outline"></nb-icon>
 					</button>
 				</div>
 				<div class="">
@@ -105,7 +107,7 @@
 
 	<nb-layout-column right>
 		<div id="signupImage">
-			<img src="../../../assets/svg/signupImage.svg" />
+			<img src="../../../assets/svg/signupImage.svg"/>
 		</div>
 	</nb-layout-column>
 </nb-layout>

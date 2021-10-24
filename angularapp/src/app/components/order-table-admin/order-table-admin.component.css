@@ -21,8 +21,10 @@
 	font-weight: 850;
 }
 .mat-elevation-z8 {
-	margin-left: 5%;
+	margin-left: 15%;
+	margin-top: 5%;
 	margin-right: 10%;
+	width: 70%;
 }
 
 th {

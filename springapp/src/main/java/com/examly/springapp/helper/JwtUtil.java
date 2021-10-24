@@ -23,7 +23,7 @@ public class JwtUtil {
     public static final long JWT_TOKEN_VALIDITY = 100 * 60 * 60 * 10;
 
     @Value("${jwt.secret}")
-    private String SECRET_KEY = "secret";
+    private final String SECRET_KEY = "secret";
 
     public String extractUsername(String token) {
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
@@ -40,6 +40,7 @@ public class JwtUtil {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     private Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
@@ -71,8 +72,7 @@ public class JwtUtil {
             JWTVerifier verifier = JWT.require(algorithm).build();
             verifier.verify(token);
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -81,7 +81,7 @@ public class JwtUtil {
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY.getBytes());
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decodedJWT = verifier.verify(token);
-        String roles[] = decodedJWT.getClaim("roles").asArray(String.class);
+        String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         stream(roles).forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role));

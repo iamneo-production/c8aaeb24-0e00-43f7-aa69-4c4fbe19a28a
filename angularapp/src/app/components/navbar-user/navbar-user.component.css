@@ -19,6 +19,7 @@
 }
 .spacer {
 	flex: 1 1 auto;
+	color: white;
 }
 .full-width-table {
 	width: 100%;

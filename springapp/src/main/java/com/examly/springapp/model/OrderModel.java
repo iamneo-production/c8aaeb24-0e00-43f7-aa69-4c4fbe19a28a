@@ -9,98 +9,96 @@ import javax.persistence.*;
 @Entity
 @Embeddable
 public class OrderModel {
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.AUTO)
-//	private int id;
 
-	@Id
-	@GeneratedValue(generator="system-uuid")
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
-	private String orderId;
 
-	private String userId;
-	private String productName;
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String orderId;
 
-	@Convert(converter = StringToIntegerConverter.class)
-	private String quantity;
+    private String userId;
+    private String productName;
 
-	@Convert(converter = StringToFloatConverter.class)
-	private String totalPrice;
-	private String status;
+    @Convert(converter = StringToIntegerConverter.class)
+    private String quantity;
 
-	@Convert(converter = StringToFloatConverter.class)
-	private String price;
-	
-	public OrderModel() {
-		
-	}
+    @Convert(converter = StringToFloatConverter.class)
+    private String totalPrice;
+    private String status;
 
-	public OrderModel(String userId, String productName, String quantity, String totalPrice, String status,
-			String price) {
-		super();
-//		this.orderId = orderId;
-		this.userId = userId;
-		this.productName = productName;
-		this.quantity = quantity;
-		this.totalPrice = totalPrice;
-		this.status = status;
-		this.price = price;
-	}
+    @Convert(converter = StringToFloatConverter.class)
+    private String price;
 
-	public String getOrderId() {
-		return orderId;
-	}
+    public OrderModel() {
 
-	public void setOrderId(String orderId) {
-		this.orderId = orderId;
-	}
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public OrderModel(String userId, String productName, String quantity, String totalPrice, String status,
+                      String price) {
+        super();
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+        this.userId = userId;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
+        this.status = status;
+        this.price = price;
+    }
 
-	public String getProdcutName() {
-		return productName;
-	}
+    public String getOrderId() {
+        return orderId;
+    }
 
-	public void setProdcutName(String productName) {
-		this.productName = productName;
-	}
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
-	public String getQuantity() {
-		return quantity;
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public void setQuantity(String quantity) {
-		this.quantity = quantity;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public String getTotalPrice() {
-		return totalPrice;
-	}
+    public String getProdcutName() {
+        return productName;
+    }
 
-	public void setTotalPrice(String totalPrice) {
-		this.totalPrice = totalPrice;
-	}
+    public void setProdcutName(String productName) {
+        this.productName = productName;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public String getQuantity() {
+        return quantity;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
 
-	public String getPrice() {
-		return price;
-	}
+    public String getTotalPrice() {
+        return totalPrice;
+    }
 
-	public void setPrice(String price) {
-		this.price = price;
-	}
-	
+    public void setTotalPrice(String totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
 }

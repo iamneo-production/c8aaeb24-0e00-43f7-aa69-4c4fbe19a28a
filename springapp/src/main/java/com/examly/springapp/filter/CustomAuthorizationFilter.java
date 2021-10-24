@@ -17,16 +17,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Arrays.stream;
-import static org.springframework.http.HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -34,13 +30,12 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         List<String> errors = new ArrayList<>();
-        if(request.getServletPath().equals("/login") || request.getServletPath().equals("/signup") || request.getServletPath().startsWith("/verify") || request.getServletPath().startsWith("/forgot") || request.getServletPath().startsWith("/verifyCode") || request.getServletPath().startsWith("/savePassword") || request.getServletPath().startsWith("/swagger-ui.html") || request.getServletPath().startsWith("/swagger-ui") || request.getServletPath().startsWith("/api")) {
+        if (request.getServletPath().equals("/login") || request.getServletPath().equals("/signup") || request.getServletPath().startsWith("/verify") || request.getServletPath().startsWith("/forgot") || request.getServletPath().startsWith("/verifyCode") || request.getServletPath().startsWith("/savePassword") || request.getServletPath().startsWith("/swagger-ui.html") || request.getServletPath().startsWith("/swagger-ui") || request.getServletPath().startsWith("/api")) {
             filterChain.doFilter(request, response);
-        }
-        else {
+        } else {
             String authorizationToken = request.getHeader(AUTHORIZATION);
             System.out.println("Here" + authorizationToken);
-            if(authorizationToken != null && authorizationToken.startsWith("Bearer ")) {
+            if (authorizationToken != null && authorizationToken.startsWith("Bearer ")) {
                 try {
                     String token = authorizationToken.substring("Bearer ".length());
                     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
@@ -55,15 +50,13 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     errors.add(e.getMessage());
                     response.setContentType(APPLICATION_JSON_VALUE);
                     response.setStatus(HttpStatus.OK.value());
                     new ObjectMapper().writeValue(response.getOutputStream(), new ApiResponse(false, "Your request cannot be processed.", OK.value(), OK, errors));
                 }
-            }
-            else {
+            } else {
                 filterChain.doFilter(request, response);
             }
         }

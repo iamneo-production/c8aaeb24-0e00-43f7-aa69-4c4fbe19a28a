@@ -1,9 +1,9 @@
 <nb-card
-	size="tiny"
 	[nbSpinner]="loading"
-	nbSpinnerStatus="primary"
-	nbSpinnerSize="large"
 	nbSpinnerMessage=""
+	nbSpinnerSize="large"
+	nbSpinnerStatus="primary"
+	size="tiny"
 >
 	<nb-card-body>
 		<div>
@@ -11,28 +11,21 @@
 				<p>Enter your mail</p>
 			</div>
 			<div class="form">
-				<nb-form-field class="form1" appearance="outline">
+				<nb-form-field appearance="outline" class="form1">
 					<input
+						autofocus
+						name="number"
 						nbInput
-						status="primary"
 						placeholder="Enter mail address"
 						required
-						name="number"
-						autofocus
+						status="primary"
 					/>
 				</nb-form-field>
 				<br />
-				<button nbButton status="primary" color="primary" class="submit-button">
+				<button class="submit-button" color="primary" nbButton status="primary">
 					Send OTP
 				</button>
 			</div>
 		</div>
 	</nb-card-body>
 </nb-card>
-<!-- <mat-dialog-content>
-	<p>{{ data.text }}</p>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-	<button mat-button mat-dialog-close>Cancel</button>
-	<button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
-</mat-dialog-actions> -->

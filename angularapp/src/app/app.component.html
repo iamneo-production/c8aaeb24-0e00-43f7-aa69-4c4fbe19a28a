@@ -1,9 +1,9 @@
 <notifier-container></notifier-container>
 <ngx-loading-bar
+	[color]="'#00f742'"
+	[height]="'6px'"
 	[includeSpinner]="false"
-	[color]="'#0AFDC0'"
-	[height]="'5px'"
 ></ngx-loading-bar>
-<div class="container">
-	<router-outlet></router-outlet>
-</div>
+<main [@routeAnimations]="prepareRoute(outlet)" class="content">
+	<router-outlet #outlet="outlet"></router-outlet>
+</main>

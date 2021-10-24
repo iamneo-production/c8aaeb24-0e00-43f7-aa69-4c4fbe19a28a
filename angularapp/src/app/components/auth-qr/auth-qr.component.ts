@@ -16,8 +16,7 @@ export class AuthQrComponent implements OnInit {
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private http: HttpClient,
 		private notificationService: NotificationService,
-		private router: Router,
-		private route: ActivatedRoute
+		private router: Router
 	) {}
 
 	otp = '';
@@ -29,7 +28,6 @@ export class AuthQrComponent implements OnInit {
 	ngOnInit(): void {}
 
 	verify() {
-		console.log(this.otp);
 		this.http
 			.post('http://localhost:8080/verify/' + this.otp, {
 				email: this.email,
@@ -64,7 +62,6 @@ export class AuthQrComponent implements OnInit {
 						this.router.navigate(['/login']);
 						this.dialogRef.close();
 					}
-					// this.router.navigate(['..'], { relativeTo: this.route })
 				} else {
 					this.notificationService.notify(
 						'Error',

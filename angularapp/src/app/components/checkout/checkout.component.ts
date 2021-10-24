@@ -1,4 +1,6 @@
+import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
 	NbComponentStatus,
@@ -6,6 +8,7 @@ import {
 	NbToastrService,
 } from '@nebular/theme';
 import { NotificationType } from 'src/app/notification-type.enum';
+import { FormValidatorsService } from 'src/app/services/formvalidators.service';
 import { HomeApiService } from 'src/app/services/home-api.service';
 import { NotificationService } from 'src/app/services/notification.service';
 
@@ -20,7 +23,8 @@ export class CheckoutComponent implements OnInit {
 		private dialogService: NbDialogService,
 		private api: HomeApiService,
 		private notificationService: NotificationService,
-		private router: Router
+		private router: Router,
+		public formValidators: FormValidatorsService
 	) {}
 
 	cartItems = JSON.parse(localStorage.getItem('current_ordered_item') || '{}');
@@ -31,10 +35,50 @@ export class CheckoutComponent implements OnInit {
 	paymentDone: boolean = false;
 	money: number = 10;
 	item: any = [];
+	cart = JSON.parse(localStorage.getItem('cart') || '[]');
+	paymentRequest!: google.payments.api.PaymentDataRequest;
+	buttonColor: any = 'black';
+	buttonType: any = 'buy';
+	isCustomSize = false;
+	buttonWidth = 240;
+	buttonHeight = 40;
+	isTop = window === window.top;
+
+	checkOutForm = this.formValidators.checkOutForm;
 
 	ngOnInit() {
-		console.log(this.cartItems);
 		this.stripePaymentGateway();
+		this.paymentRequest = {
+			apiVersion: 2,
+			apiVersionMinor: 0,
+			allowedPaymentMethods: [
+				{
+					type: 'CARD',
+					parameters: {
+						allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+						allowedCardNetworks: ['AMEX', 'VISA', 'MASTERCARD'],
+					},
+					tokenizationSpecification: {
+						type: 'PAYMENT_GATEWAY',
+						parameters: {
+							gateway: 'example',
+							gatewayMerchantId: 'exampleGatewayMerchantId',
+						},
+					},
+				},
+			],
+			merchantInfo: {
+				merchantId: '12345678901234567890',
+				merchantName: 'Demo Merchant',
+			},
+			transactionInfo: {
+				totalPriceStatus: 'FINAL',
+				totalPriceLabel: 'Total',
+				totalPrice: '100.00',
+				currencyCode: 'USD',
+				countryCode: 'US',
+			},
+		};
 	}
 
 	togglePaid(status: boolean) {
@@ -50,7 +94,6 @@ export class CheckoutComponent implements OnInit {
 					'bottom-right',
 					'Order for this item has been placed'
 				);
-				console.log(data);
 				this.router.navigate(['/home']);
 			});
 		}
@@ -84,7 +127,6 @@ export class CheckoutComponent implements OnInit {
 					key: 'pk_test_51JmDVESFjEN8qpCc2PeNlV8XE1IojisE9Zc0G4N71kmzNWpfDCR3GjZhuvMHM1tDWE9pUCQMlnKI4qkmMSUIGize00AVNkUozF',
 					locale: 'auto',
 					token: function (token: any) {
-						console.log(token);
 						alert('Payment Successful');
 						this.paymentDone = !this.paymentDone;
 					},
@@ -104,4 +146,6 @@ export class CheckoutComponent implements OnInit {
 			context: 'this is some additional data passed to dialog',
 		});
 	}
+
+	onLoadPaymentData(event: any) {}
 }

@@ -4,39 +4,41 @@
 	<nb-layout-column>
 		<nb-card>
 			<nb-card-body>
-				<nb-stepper orientation="horizontal" disableStepNavigation>
+				<nb-stepper disableStepNavigation orientation="horizontal">
 					<nb-step [label]="labelOne">
 						<ng-template #labelOne>Details</ng-template>
 						<h4>Enter your details</h4>
 						<p class="lorem">Hii, we need your details to process the order!</p>
 						<input
-							type="text"
-							nbInput
-							status="basic"
-							placeholder="Enter your address"
+							autofocus
 							class="address"
+							nbInput
+							placeholder="Enter your address"
+							required
+							status="basic"
+							type="text"
 						/>
 						<input
-							type="text"
 							nbInput
-							status="basic"
 							placeholder="Enter your city"
+							status="basic"
+							type="text"
 						/>
 						<input
-							type="text"
 							nbInput
-							status="basic"
 							placeholder="Enter your pincode"
+							status="basic"
+							type="text"
 						/>
 						<p class="lorem"></p>
-						<button class="prev-button" nbButton disabled nbStepperNext>
+						<button class="prev-button" disabled nbButton nbStepperNext>
 							prev
 						</button>
 						<button class="next-button" nbButton nbStepperNext>next</button>
 					</nb-step>
 					<nb-step [label]="labelTwo">
 						<ng-template #labelTwo>Items</ng-template>
-						<h4>Here are items that you are interested to buy</h4>
+						<h4>Here are books that you are interested to buy</h4>
 						<div>
 							<nb-card class="products" size="medium">
 								<nb-card-header>
@@ -45,10 +47,10 @@
 									</div>
 								</nb-card-header>
 								<nb-list>
-									<nb-list-item>
+									<nb-list-item *ngFor="let e of cart">
 										<nb-card-body>
 											<div class="rows">
-												<!-- <p class="title">{{ cart.productName }}</p> -->
+												<p class="title">{{ e.productName }}</p>
 											</div>
 										</nb-card-body>
 									</nb-list-item>
@@ -60,7 +62,7 @@
 					</nb-step>
 					<nb-step label="Payment">
 						<h4>Choose payment gateway</h4>
-						<nb-card status="success" *ngIf="paymentDone">
+						<nb-card *ngIf="paymentDone" status="success">
 							<nb-card-header>
 								<p>Payment Successful</p>
 							</nb-card-header>
@@ -78,45 +80,55 @@
 						<span *ngIf="!paymentDone">
 							<div class="container"></div>
 							<button
+								(click)="checkout(money)"
+								class="payment"
 								nbButton
 								status="primary"
-								class="payment"
-								(click)="checkout(money)"
 							>
 								Stripe
 							</button>
-							<button
-								nbButton
-								status="primary"
-								class="payment"
-								(click)="togglePaid(true)"
-							>
-								Google Pay
-							</button>
-
-							<button
+							<!-- <div class="demo">
+								<button
+									nbButton
+									status="primary"
+									class="payment"
+									(click)="(paymentRequest)"
+								>
+									Google Pay
+								</button> -->
+							<!-- <google-pay-button
+									environment="TEST"
+									[buttonColor]="buttonColor"
+									[buttonType]="buttonType"
+									[paymentRequest]="paymentRequest"
+									[style.width.px]="buttonWidth"
+									[style.height.px]="buttonHeight"
+									(loadpaymentdata)="onLoadPaymentData($event)"
+								></google-pay-button> -->
+							<!-- </div> -->
+							<!-- <button
 								nbButton
 								status="primary"
 								class="payment"
 								(click)="togglePaid(true)"
 							>
 								Razor Pay
-							</button>
+							</button> -->
 						</span>
 						<div>
 							<button
+								(click)="togglePaid(true)"
 								class="prev-button"
 								nbButton
 								nbStepperPrevious
-								(click)="togglePaid(true)"
 							>
 								prev
 							</button>
 							<button
+								(click)="finalizeOrder()"
 								class="next-button"
 								nbButton
 								nbStepperNext
-								(click)="finalizeOrder()"
 							>
 								next
 							</button>
@@ -132,7 +144,7 @@
 								pack="eva"
 							></nb-icon>
 						</p>
-						<button class="prev-button" nbButton nbStepperPrevious disabled>
+						<button class="prev-button" disabled nbButton nbStepperPrevious>
 							prev
 						</button>
 						<button

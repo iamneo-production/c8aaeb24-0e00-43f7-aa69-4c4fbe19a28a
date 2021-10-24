@@ -12,17 +12,17 @@ import java.util.List;
 
 @RestController
 public class UserController {
-	
-	@Autowired
-	private UserService userService;
-	
-	@GetMapping("/users")
-	public List<UserModel> getAll() {
-		return userService.getAllUsers();
-	}
 
-	@GetMapping("/user/info/{id}")
-	public ResponseEntity<?> getInfo(@PathVariable String id) {
-		return userService.findUserDetails(id);
-	}
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/users")
+    public List<UserModel> getAll() {
+        return userService.getAllUsers();
+    }
+
+    @GetMapping("/user/info/{id}")
+    public ResponseEntity<?> getInfo(@PathVariable String id) {
+        return userService.findUserDetails(id);
+    }
 }

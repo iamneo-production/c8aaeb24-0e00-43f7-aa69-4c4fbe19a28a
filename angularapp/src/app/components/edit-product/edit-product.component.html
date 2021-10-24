@@ -10,10 +10,10 @@
 		<div class="loginForm">
 			<div class="holder disabledDiv" style="margin-top: -20%">
 				<button
+					disabled
+					id="addNewProductButton"
 					nbButton
 					status="info"
-					id="addNewProductButton"
-					disabled
 					style="color: #fff"
 				>
 					Edit Product
@@ -22,158 +22,79 @@
 			<div class="holder">
 				<nb-form-field>
 					<input
-						required
-						type="text"
+						[(ngModel)]="employee.productName"
 						nbInput
 						placeholder="Product Name"
+						required
 						shape="semi-round"
+						type="text"
 						value="{{ employee.productName }}"
-						[(ngModel)]="employee.productName"
 					/>
 				</nb-form-field>
 			</div>
 			<div class="holder">
 				<nb-form-field>
 					<input
-						required
-						type="text"
+						[(ngModel)]="employee.price"
 						nbInput
 						placeholder="Product Price"
+						required
 						shape="semi-round"
+						type="text"
 						value="{{ employee.price }}"
-						[(ngModel)]="employee.price"
 					/>
 				</nb-form-field>
 			</div>
 			<div class="holder">
 				<nb-form-field>
 					<textarea
-						nbInput
-						fullWidth
-						rows="5"
-						placeholder="Product Description"
-						style="resize: vertical; max-height: 150px"
-						shape="semi-round"
-						value="{{ employee.description }}"
 						[(ngModel)]="employee.description"
+						fullWidth
+						nbInput
+						placeholder="Product Description"
+						rows="5"
+						shape="semi-round"
+						style="resize: vertical; max-height: 150px"
+						value="{{ employee.description }}"
 					></textarea>
 				</nb-form-field>
 			</div>
 			<div class="holder">
 				<nb-form-field>
 					<input
-						required
-						type="text"
+						[(ngModel)]="employee.imageUrl"
 						nbInput
 						placeholder="Image URL"
+						required
 						shape="semi-round"
+						type="text"
 						value="{{ employee.imageUrl }}"
-						[(ngModel)]="employee.imageUrl"
 					/>
 				</nb-form-field>
 			</div>
 			<div class="holder">
 				<nb-form-field>
 					<input
-						required
-						type="text"
+						[(ngModel)]="employee.quantity"
 						nbInput
 						placeholder="Product quantity"
+						required
 						shape="semi-round"
+						type="text"
 						value="{{ employee.quantity }}"
-						[(ngModel)]="employee.quantity"
 					/>
 				</nb-form-field>
 			</div>
 			<div class="holder loginDiv">
-				<button nbButton status="info" id="addButton" (click)="OnSubmit()">
-					Edit<nb-icon
+				<button (click)="OnSubmit()" id="addButton" nbButton status="info">
+					Edit
+					<nb-icon
+						[options]="{ animation: { type: 'pulse' } }"
 						icon="edit-2-outline"
 						pack="eva"
-						[options]="{ animation: { type: 'pulse' } }"
 					></nb-icon>
 				</button>
 			</div>
 		</div>
 	</nb-layout-column>
 </nb-layout>
-
-<!-- <nb-layout>
-	<nb-layout-column left>
-		<nb-card>
-			<nb-card-header>Edit Product</nb-card-header>
-
-			<nb-form-field> </nb-form-field>
-		</nb-card>
-	</nb-layout-column>
-</nb-layout> -->
-
-<!-- <div class="page">
-	<div class="addproduct">
-		<div class="head">
-			<p>EDIT PRODUCT</p>
-		</div>
-		<form (ngSubmit)="OnSubmit()">
-			<mat-form-field appearance="outline">
-				<mat-label>Product Name</mat-label>
-				<input
-					matInput
-					value="{{ employee.productName }}"
-					[(ngModel)]="employee.productName"
-					name="productName"
-				/> </mat-form-field
-			><br />
-
-			<mat-form-field appearance="outline">
-				<mat-label>Price</mat-label>
-				<input
-					matInput
-					value="{{ employee.price }}"
-					[(ngModel)]="employee.price"
-					name="price"
-				/> </mat-form-field
-			><br />
-
-			<mat-form-field appearance="outline">
-				<mat-label>Description</mat-label>
-				<textarea
-					matInput
-					rows="3"
-					cols="40"
-					value="{{ employee.description }}"
-					[(ngModel)]="employee.description"
-					name="description"
-				></textarea></mat-form-field
-			><br />
-
-			<mat-form-field appearance="outline">
-				<mat-label>Image URL</mat-label>
-				<input
-					matInput
-					value="{{ employee.imageUrl }}"
-					[(ngModel)]="employee.imageUrl"
-					name="imageUrl"
-				/> </mat-form-field
-			><br />
-
-			<mat-form-field appearance="outline">
-				<mat-label>Quantity</mat-label>
-				<input
-					matInput
-					value="{{ employee.quantity }}"
-					[(ngModel)]="employee.quantity"
-					name="quantity"
-				/> </mat-form-field
-			><br />
-
-			<button
-				type="submit"
-				mat-raised-button
-				color="primary"
-				class="add-button"
-			>
-				EDIT
-			</button>
-		</form>
-	</div>
-</div> -->

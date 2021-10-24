@@ -24,7 +24,7 @@ public class TotpManager {
         QrData data = new QrData.Builder()
                 .label(email)
                 .secret(secret)
-                .issuer(title)
+                .issuer("EBook Store Team 2")
                 .algorithm(HashingAlgorithm.SHA1)
                 .digits(6)
                 .period(30)
@@ -36,7 +36,7 @@ public class TotpManager {
         try {
             imageData = generator.generate(data);
         } catch (QrGenerationException e) {
-            //throw new Exception("unable to generate QrCode");
+
         }
 
         String mimeType = generator.getImageMimeType();

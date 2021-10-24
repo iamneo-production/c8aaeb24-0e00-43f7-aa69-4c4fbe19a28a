@@ -15,38 +15,38 @@
 								<div class="holder">
 									<nb-form-field class="spacing">
 										<nb-icon
-											nbPrefix
 											icon="info-outline"
-											status="primary"
+											nbPrefix
 											pack="eva"
+											status="primary"
 										></nb-icon>
 										<input
-											required
-											type="text"
+											[(ngModel)]="subject"
 											nbInput
 											placeholder="Enter Subject for the message"
-											[(ngModel)]="subject"
+											required
+											type="text"
 										/>
 									</nb-form-field>
 									<nb-form-field class="spacing">
 										<nb-icon
-											nbPrefix
 											icon="text-outline"
-											status="info"
+											nbPrefix
 											pack="eva"
+											status="info"
 										></nb-icon>
 										<textarea
+											[(ngModel)]="body"
 											nbInput
 											placeholder="Enter Body of the message"
-											[(ngModel)]="body"
 										></textarea>
 									</nb-form-field>
 									<div class="spacing">
 										<button
-											nbButton
-											hero
-											status="primary"
 											(click)="sendMessage()"
+											hero
+											nbButton
+											status="primary"
 										>
 											Send
 										</button>

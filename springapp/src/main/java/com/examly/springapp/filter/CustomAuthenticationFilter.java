@@ -4,8 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.examly.springapp.mfa.TotpManager;
 import com.examly.springapp.model.LoginModel;
-import com.examly.springapp.model.UserModel;
-import com.examly.springapp.repository.UserRepository;
 import com.examly.springapp.response.ApiResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +23,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -38,7 +35,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
     private TotpManager totpManager;
@@ -52,22 +49,21 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         LoginModel loginModel = null;
         try {
             String test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-            if(test==null){
+            if (test == null) {
                 throw new UsernameNotFoundException("User not found");
             }
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(test);
             String email = jsonNode.get("email").asText();
             String password = jsonNode.get("password").asText();
-            if(email == null || email == "" || password == null || password == "")
+            if (email == null || email == "" || password == null || password == "")
                 throw new UsernameNotFoundException("User not found");
             loginModel = new LoginModel(email, password);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(loginModel == null) {
+        if (loginModel == null) {
             throw new UsernameNotFoundException("User not found");
         }
 
@@ -94,20 +90,19 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         data.remove(0);
         data.add(role);
         System.out.println(data);
-        if(isActive.equals("false")) {
+        if (isActive.equals("false")) {
             List<String> errors = new ArrayList<>();
             response.setStatus(OK.value());
             response.setContentType(APPLICATION_JSON_VALUE);
             errors.add("User blocked");
             new ObjectMapper().writeValue(response.getOutputStream(), new ApiResponse(false, "The user is disabled. Contact Administrator.", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, new ArrayList<>()));
         }
-        if(isMfa.equals("true") && isVerifiedForTOTP.equals("true")) {
+        if (isMfa.equals("true") && isVerifiedForTOTP.equals("true")) {
             response.setHeader("mfa", "true");
             response.setStatus(OK.value());
             response.setContentType(APPLICATION_JSON_VALUE);
             new ObjectMapper().writeValue(response.getOutputStream(), new ApiResponse(true, "Needed two step verification", OK.value(), OK, new ArrayList<>()));
-        }
-        else {
+        } else {
             Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
             String access_token = JWT.create()
                     .withSubject(user.getUsername())
@@ -130,12 +125,12 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         response.setContentType(APPLICATION_JSON_VALUE);
         List<String> errors = new ArrayList<>();
         errors.add("Unsuccessful authentication");
-        new ObjectMapper().writeValue(response.getOutputStream(), new ApiResponse(false,"No user was found for the above credentials", FORBIDDEN.value(), FORBIDDEN, errors));
+        new ObjectMapper().writeValue(response.getOutputStream(), new ApiResponse(false, "No user was found for the above credentials", FORBIDDEN.value(), FORBIDDEN, errors));
 
     }
 
     public String getValue(String s) {
-        String array[] = s.split("=");
+        String[] array = s.split("=");
         return array[1];
     }
 }

@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AddCart } from '../model/addcart';
 import jwt_decode from 'jwt-decode';
-import { ProductTableItem } from '../model/product_table';
 import { reports } from '../components/cart/cart.component';
 import { reports_order } from '../components/my-order/my-order.component';
 
@@ -16,7 +15,6 @@ export class HomeApiService {
 
 	getProduct() {
 		let token = localStorage.getItem('token');
-		// console.log(token);
 		let headers: HttpHeaders = new HttpHeaders().set(
 			'Authorization',
 			'Bearer ' + token
@@ -27,9 +25,6 @@ export class HomeApiService {
 			})
 		);
 	}
-	// getProductDetail(id: any): Observable<ProductTableItem>{
-	//   return this.http.get<ProductTableItem>(`${"http://localhost:8080/admin/productEdit"}/${id}`);
-	// }
 	addcart(data: AddCart) {
 		let token = localStorage.getItem('token');
 		let headers: HttpHeaders = new HttpHeaders().set(

@@ -15,7 +15,6 @@ export class CartdialogComponent implements OnInit {
 	constructor(
 		public dialogRef: MatDialogRef<CartdialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
-		// @Inject(NB_DIALOG_CONFIG) public data: any,
 		private api: HomeApiService,
 		private notificationService: NotificationService,
 		protected ref: NbDialogRef<CartdialogComponent>
@@ -28,13 +27,10 @@ export class CartdialogComponent implements OnInit {
 		this.data.item || localStorage.getItem('current_ordered_item') || '{}'
 	);
 	quantity: number = 0;
-	ngOnInit(): void {
-		console.log(this.data);
-	}
+	ngOnInit(): void {}
 
 	toggleLoadingAnimation() {
 		this.loading = !this.loading;
-		// setTimeout(() => (this.loading = false), 3000);
 	}
 	addToCart() {
 		this.toggleLoadingAnimation();
@@ -57,8 +53,6 @@ export class CartdialogComponent implements OnInit {
 						data.message
 					);
 				}
-
-				console.log(data);
 			});
 		} catch (err) {
 			this.notificationService.notify(

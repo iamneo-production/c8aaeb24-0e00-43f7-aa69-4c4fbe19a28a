@@ -52,7 +52,6 @@ export class ForgotPasswordComponent implements OnInit {
 					);
 				}
 			});
-		this.toggleLoadingAnimation();
 	}
 
 	submitCode() {
@@ -80,7 +79,6 @@ export class ForgotPasswordComponent implements OnInit {
 					);
 				}
 			});
-		this.toggleLoadingAnimation();
 	}
 
 	submitPassword() {
@@ -111,7 +109,6 @@ export class ForgotPasswordComponent implements OnInit {
 					);
 				}
 			});
-		this.toggleLoadingAnimation();
 	}
 
 	onNextStep() {
@@ -119,7 +116,7 @@ export class ForgotPasswordComponent implements OnInit {
 	}
 
 	toggleLoadingAnimation() {
-		this.loading = !this.loading;
-		// setTimeout(() => (this.loading = false), 3000);
+		this.loading = true;
+		setTimeout(() => (this.loading = false), 3000);
 	}
 }

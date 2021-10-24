@@ -24,29 +24,22 @@ export class EditProductComponent implements OnInit {
 		// take the product id from route
 		this.id = this.route.snapshot.params['id'];
 
-		this.service.GetItemById(this.id).subscribe(
-			(data) => {
-				this.employee = data;
-			},
-			(error) => console.log(error)
-		);
+		this.service.GetItemById(this.id).subscribe((data) => {
+			this.employee = data;
+		});
 	}
-	//after clicking on edit product button
 	OnSubmit() {
-		//calling the updateproduct service
-		this.service.UpdateProductDetail(this.id, this.employee).subscribe(
-			(data) => {
+		this.service
+			.UpdateProductDetail(this.id, this.employee)
+			.subscribe((data) => {
 				this.notificationService.notify(
 					'Success',
 					NotificationType.SUCCESS,
 					'bottom-right',
 					'Item has been edited'
 				);
-				console.log(data);
 				this.GoToAdminHome();
-			},
-			(error) => console.log(error)
-		);
+			});
 	}
 
 	GoToAdminHome() {

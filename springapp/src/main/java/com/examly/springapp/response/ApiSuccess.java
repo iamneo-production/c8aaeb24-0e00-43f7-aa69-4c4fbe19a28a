@@ -3,53 +3,53 @@ package com.examly.springapp.response;
 import org.springframework.http.HttpStatus;
 
 public class ApiSuccess {
-	private String message;
-	private HttpStatus httpStatus;
-	private int successCode;
-	private boolean requestProccessed;
-	
-	public ApiSuccess() {
-		
-	}
+    private String message;
+    private HttpStatus httpStatus;
+    private int successCode;
+    private boolean requestProccessed;
 
-	public ApiSuccess(String message, HttpStatus httpStatus, int successCode, boolean requestProccessed) {
-		super();
-		this.message = message;
-		this.httpStatus = httpStatus;
-		this.successCode = successCode;
-		this.requestProccessed = requestProccessed;
-	}
+    public ApiSuccess() {
 
-	public String getMessage() {
-		return message;
-	}
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public ApiSuccess(String message, HttpStatus httpStatus, int successCode, boolean requestProccessed) {
+        super();
+        this.message = message;
+        this.httpStatus = httpStatus;
+        this.successCode = successCode;
+        this.requestProccessed = requestProccessed;
+    }
 
-	public HttpStatus getHttpStatus() {
-		return httpStatus;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public void setHttpStatus(HttpStatus httpStatus) {
-		this.httpStatus = httpStatus;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	public int getSuccessCode() {
-		return successCode;
-	}
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
 
-	public void setSuccessCode(int successCode) {
-		this.successCode = successCode;
-	}
+    public void setHttpStatus(HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
+    }
 
-	public boolean isRequestProccessed() {
-		return requestProccessed;
-	}
+    public int getSuccessCode() {
+        return successCode;
+    }
 
-	public void setRequestProccessed(boolean requestProccessed) {
-		this.requestProccessed = requestProccessed;
-	}
-	
+    public void setSuccessCode(int successCode) {
+        this.successCode = successCode;
+    }
+
+    public boolean isRequestProccessed() {
+        return requestProccessed;
+    }
+
+    public void setRequestProccessed(boolean requestProccessed) {
+        this.requestProccessed = requestProccessed;
+    }
+
 }

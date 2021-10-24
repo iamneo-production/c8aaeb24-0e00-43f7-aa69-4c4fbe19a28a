@@ -1,36 +1,3 @@
-// import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-// import { MatPaginator } from '@angular/material/paginator';
-// import { MatSort } from '@angular/material/sort';
-// import { MatTable } from '@angular/material/table';
-// import { CartDataSource, CartItem } from './cart-datasource';
-// import { HomeApiService } from '../../home-api.service';
-
-// @Component({
-//   selector: 'app-cart',
-//   templateUrl: './cart.component.html',
-//   styleUrls: ['./cart.component.css']
-// })
-// export class CartComponent implements AfterViewInit {
-//   @Input() deviceXs: boolean = false;
-//   @ViewChild(MatPaginator) paginator!: MatPaginator;
-//   @ViewChild(MatSort) sort!: MatSort;
-//   @ViewChild(MatTable) table!: MatTable<CartItem>;
-//   dataSource: CartDataSource;
-
-//   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-//   displayedColumns = ['name','price','quantity','actions'];
-
-//   constructor(private api:HomeApiService) {
-//     this.dataSource = new CartDataSource();
-//   }
-
-//   ngAfterViewInit(): void {
-//     this.dataSource.sort = this.sort;
-//     this.dataSource.paginator = this.paginator;
-//     this.table.dataSource = this.dataSource;
-//   }
-// }
-
 import {
 	AfterViewInit,
 	Component,
@@ -57,7 +24,6 @@ export class CartComponent implements OnInit {
 
 	public productList: any;
 	ELEMENT_DATA: reports[] = [];
-	// columns names that we want to displayed
 	displayedColumns: string[] = ['name', 'price', 'quantity', 'actions'];
 	dataSource = new MatTableDataSource<reports>(this.ELEMENT_DATA);
 	@ViewChild(MatPaginator, { static: true })
@@ -68,12 +34,10 @@ export class CartComponent implements OnInit {
 	isempty: any;
 
 	constructor(
-		// injecting all required services
 		private service: HomeApiService,
 		private router: Router,
 		private notificationService: NotificationService
 	) {
-		// console.log(this.deviceXs);
 	}
 
 	ngOnInit() {
@@ -85,14 +49,12 @@ export class CartComponent implements OnInit {
 	public GetAllProductFromCart() {
 		this.service.GetProductsFromCart().subscribe((data) => {
 			this.dataSource.data = data as reports[];
-			// console.log('This ' + this.dataSource.data);
+			localStorage.setItem('cart', JSON.stringify(data));
 			if (data.length == 0) {
-				// console.log('hit');
 				this.isempty = true;
 			} else {
 				this.isempty = false;
 			}
-			// console.log(data);
 		});
 	}
 
@@ -106,7 +68,6 @@ export class CartComponent implements OnInit {
 				'bottom-right',
 				'Item deleted from cart'
 			);
-			// console.log(data);
 			this.GetAllProductFromCart();
 		});
 	}
@@ -120,7 +81,6 @@ export class CartComponent implements OnInit {
 				'bottom-right',
 				'All items in the cart are ordered'
 			);
-			// console.log(data);
 		});
 	}
 }
@@ -130,22 +90,3 @@ export interface reports {
 	price: string;
 	quantity: string;
 }
-/*export class ProductTableComponent implements AfterViewInit {
-  @Input() deviceXs: boolean = false;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<ProductTableItem>;
-  dataSource: ProductTableDataSource;
-
-  displayedColumns = ['id', 'name','price','quantity','icon'];
-
-  constructor() {
-    this.dataSource = new ProductTableDataSource();
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-    this.table.dataSource = this.dataSource;
-  }
-}*/

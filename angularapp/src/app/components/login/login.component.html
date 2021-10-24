@@ -7,17 +7,9 @@
 				</div>
 				<div class="holder">
 					<nb-form-field>
-						<nb-icon nbPrefix icon="at-outline" pack="eva"></nb-icon>
+						<nb-icon icon="at-outline" nbPrefix pack="eva"></nb-icon>
 						<input
-							required
-							type="email"
-							nbInput
-							placeholder="Enter Email address"
 							[(ngModel)]="Login.email"
-							autocomplete="on"
-							autofocus
-							name="email"
-							formControlName="email"
 							[class.is-invalid]="
 								loginForm.get('email')?.invalid &&
 								loginForm.get('email')?.touched
@@ -29,41 +21,43 @@
 										: 'success'
 									: 'basic'
 							"
+							autocomplete="on"
+							autofocus
+							formControlName="email"
+							name="email"
+							nbInput
+							placeholder="Enter Email address"
+							required
+							type="email"
 						/>
 					</nb-form-field>
 					<div
-						class="form-errors"
 						*ngIf="
 							(loginForm.get('email')?.invalid &&
 								loginForm.get('email')?.touched) ||
 							loginForm.get('email')?.dirty
 						"
+						class="form-errors"
 					>
 						<small
 							*ngIf="loginForm.get('email')?.errors?.required"
 							class="text-danger"
-							>Email is required</small
+						>Email is required</small
 						>
 
 						<small
 							*ngIf="loginForm.get('email')?.errors?.pattern"
 							class="text-danger"
-							>Please provide a valid email address</small
+						>Please provide a valid email address</small
 						>
 					</div>
 				</div>
 
 				<div class="holder">
 					<nb-form-field>
-						<nb-icon nbPrefix icon="lock-outline" pack="eva"></nb-icon>
+						<nb-icon icon="lock-outline" nbPrefix pack="eva"></nb-icon>
 						<input
-							required
-							id="password"
-							[type]="show ? 'text' : 'password'"
-							nbInput
-							placeholder="Enter Password"
 							[(ngModel)]="Login.password"
-							formControlName="password"
 							[class.is-invalid]="
 								loginForm.get('password')?.invalid &&
 								loginForm.get('password')?.touched
@@ -75,29 +69,35 @@
 										: 'success'
 									: 'basic'
 							"
+							[type]="show ? 'text' : 'password'"
+							formControlName="password"
+							id="password"
+							nbInput
+							placeholder="Enter Password"
+							required
 						/>
 						<nb-icon
-							nbSuffix
+							(click)="showPassword()"
 							[icon]="
 								show && Login.password ? 'eye-off-outline' : 'eye-outline'
 							"
-							pack="eva"
 							[options]="{ animation: { type: 'pulse' } }"
-							(click)="showPassword()"
+							nbSuffix
+							pack="eva"
 						></nb-icon>
 					</nb-form-field>
 					<div
-						class="form-errors"
 						*ngIf="
 							(loginForm.get('password')?.invalid &&
 								loginForm.get('password')?.touched) ||
 							loginForm.get('password')?.dirty
 						"
+						class="form-errors"
 					>
 						<small
 							*ngIf="loginForm.get('password')?.errors?.required"
 							class="text-danger"
-							>Password is required</small
+						>Password is required</small
 						>
 
 						<small
@@ -106,28 +106,29 @@
 								loginForm.get('password')?.errors?.maxlength
 							"
 							class="text-danger"
-							>The password length must be between 4 to 20 characters</small
+						>The password length must be between 4 to 20 characters</small
 						>
 					</div>
 				</div>
 				<div class="holder loginDiv">
-					<button nbButton status="info" id="loginButton" (click)="go_login()">
-						Login<nb-icon icon="done-all-outline"></nb-icon>
+					<button (click)="go_login()" id="loginButton" nbButton status="info">
+						Login
+						<nb-icon icon="done-all-outline"></nb-icon>
 					</button>
 				</div>
 				<div class="d">
 					<span>
 						New to Bookstore?
 						<a routerLink="/signup" routerLinkActive="active">Click here</a>
-						<br />
-						<br />
+						<br/>
+						<br/>
 						Did you forgot your password?
 						<a
+							(click)="onClick()"
 							routerLink="/login"
 							routerLinkActive="active"
-							(click)="onClick()"
 							style="text-align: center"
-							>Click Here</a
+						>Click Here</a
 						>
 					</span>
 				</div>
@@ -135,8 +136,8 @@
 		</form>
 	</nb-layout-column>
 	<nb-layout-column>
-		<div id="loginImage" *ngIf="!deviceXs">
-			<img src="../../../../assets/svg/logoImage.svg" />
+		<div *ngIf="!deviceXs" id="loginImage">
+			<img src="../../../../assets/svg/logoImage.svg"/>
 		</div>
 	</nb-layout-column>
 </nb-layout>

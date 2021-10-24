@@ -71,10 +71,10 @@ body {
 	width: 170px;
 }
 .empty-state__content .empty-state__message {
-	color: #38a169;
+	color: #7868e6;
 	font-size: 1.5rem;
 	font-weight: 500;
-	margin-top: 0.85rem;
+	margin-top: 50px;
 }
 .empty-state__content .empty-state__help {
 	color: #a2a5b9;

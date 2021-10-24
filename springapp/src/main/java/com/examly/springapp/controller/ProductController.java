@@ -12,47 +12,47 @@ import java.util.List;
 
 @RestController
 public class ProductController {
-	
-	@Autowired
-	private ProductService productService;
-	
-	@Autowired
-	private OrderService orderService;
-	
-	@GetMapping("/admin")
-	public List<ProductModel> getProduct() {
-		return productService.getProduct();
-	}
-	
-	//Verified
-	@GetMapping("/home")
-	public ResponseEntity<?> getHomeProduct() {
-		return productService.getHomeProduct();
-	}
-	
-	@PostMapping("/admin/addProduct")
-	public ResponseEntity<?> addProduct(@RequestBody ProductModel productModel) {
-		System.out.println(productModel.getImageUrl());
-		return productService.productSave(productModel);
-	}
-	
-	@GetMapping("/admin/delete/{id}")
-	public ResponseEntity<?> productDelete(@PathVariable String id) {
-		return productService.productDelete(id);
-	}
-	
-	@GetMapping("/admin/productEdit/{id}")
-	public ResponseEntity<?> productEditData(@PathVariable String id) {
-		return productService.productEditData(id);
-	}
-	
-	@PostMapping("/admin/productEdit/{id}")
-	public ResponseEntity<?> productEditSave(@PathVariable String id, @RequestBody ProductModel productModel) {
-		return productService.productEditSave(id, productModel);
-	}
-	
-	@GetMapping("/admin/orders")
-	public List<OrderModel> getAllOrders() {
-		return orderService.getAllOrders();
-	}
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private OrderService orderService;
+
+    @GetMapping("/admin")
+    public List<ProductModel> getProduct() {
+        return productService.getProduct();
+    }
+
+
+    @GetMapping("/home")
+    public ResponseEntity<?> getHomeProduct() {
+        return productService.getHomeProduct();
+    }
+
+    @PostMapping("/admin/addProduct")
+    public ResponseEntity<?> addProduct(@RequestBody ProductModel productModel) {
+        System.out.println(productModel.getImageUrl());
+        return productService.productSave(productModel);
+    }
+
+    @GetMapping("/admin/delete/{id}")
+    public ResponseEntity<?> productDelete(@PathVariable String id) {
+        return productService.productDelete(id);
+    }
+
+    @GetMapping("/admin/productEdit/{id}")
+    public ResponseEntity<?> productEditData(@PathVariable String id) {
+        return productService.productEditData(id);
+    }
+
+    @PostMapping("/admin/productEdit/{id}")
+    public ResponseEntity<?> productEditSave(@PathVariable String id, @RequestBody ProductModel productModel) {
+        return productService.productEditSave(id, productModel);
+    }
+
+    @GetMapping("/admin/orders")
+    public List<OrderModel> getAllOrders() {
+        return orderService.getAllOrders();
+    }
 }

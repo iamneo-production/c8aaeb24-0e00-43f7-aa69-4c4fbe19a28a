@@ -6,24 +6,23 @@
 	<span class="otpText">Enter the OTP</span><br />
 </div>
 <div class="form">
-	<nb-form-field class="otpBox" appearance="outline">
+	<nb-form-field appearance="outline" class="otpBox">
 		<input
+			#tel="ngModel"
+			[(ngModel)]="otp"
+			name="number"
 			nbInput
 			placeholder="Enter OTP"
 			required
-			name="number"
-			[(ngModel)]="otp"
-			#tel="ngModel"
 		/>
-		<!-- <mat-error *ngIf="tel.invalid">OTP is Requied</mat-error> -->
 	</nb-form-field>
 	<br />
 	<button
+		(click)="verify()"
+		class="submit-button"
+		color="primary"
 		nbButton
 		status="primary"
-		color="primary"
-		class="submit-button"
-		(click)="verify()"
 	>
 		Submit
 	</button>
@@ -32,5 +31,7 @@
 <div class="disclaimer">
 	<p class="otpDisclaimer">Lost access to your Authenticator app?</p>
 	<br />
-	<a id="adminEmail" href="mailto:admin@gmail.com">Contact Administrator</a>
+	<a href="mailto:team2.ebookstore@gmail.com" id="adminEmail"
+		>Contact Administrator</a
+	>
 </div>

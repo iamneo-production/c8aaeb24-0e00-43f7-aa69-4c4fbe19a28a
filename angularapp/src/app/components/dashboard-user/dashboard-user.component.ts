@@ -145,8 +145,6 @@ export class DashboardUserComponent implements OnInit {
 
 	sendMail() {
 		this.api = 'http://localhost:8080/mail';
-		// this.mail = this.resetCodeEmail;
-		console.log(this.emailMail);
 		if (this.body == '') {
 			this.notificationService.notify(
 				'Error',
@@ -178,9 +176,7 @@ export class DashboardUserComponent implements OnInit {
 				temp.push(e.trim());
 			});
 		}
-		console.log(temp);
 		this.token = localStorage.getItem('token');
-		console.log(this.token);
 		this.http
 			.post(
 				this.api,
@@ -255,8 +251,6 @@ export class DashboardUserComponent implements OnInit {
 		dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
 		dialogConfig.closeOnNavigation = false;
-		// dialogConfig.disableClose = false;
-		console.log(dialogConfig);
 		this.dialog.open(AuthQrComponent, {
 			height: '80%',
 			width: '50%',

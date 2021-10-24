@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SignupController {
-	
-	@Autowired
-	private SignupService signupService;
-	
-	@PostMapping("/signup")
-	public ResponseEntity<?> saveUser(@RequestBody UserModel userModel) {
-		return signupService.saveUser(userModel);
-	}
+
+    @Autowired
+    private SignupService signupService;
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> saveUser(@RequestBody UserModel userModel) {
+        return signupService.saveUser(userModel);
+    }
 }

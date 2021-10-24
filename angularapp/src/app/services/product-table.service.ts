@@ -12,12 +12,10 @@ export class ProductTableService {
 	constructor(private httpClient: HttpClient) {}
 	getEmployeesList(): Observable<ProductTableItem[]> {
 		let token = localStorage.getItem('token');
-		// console.log(token);
 		let headers: HttpHeaders = new HttpHeaders().set(
 			'Authorization',
 			'Bearer ' + token
 		);
-		// console.log(headers);
 
 		return this.httpClient.get<ProductTableItem[]>(`${this.baseURL}`, {
 			headers,
@@ -25,7 +23,6 @@ export class ProductTableService {
 	}
 	deleteEmployee(id: any): Observable<Object> {
 		let token = localStorage.getItem('token');
-		// console.log(token);
 		let headers: HttpHeaders = new HttpHeaders().set(
 			'Authorization',
 			'Bearer ' + token
@@ -37,7 +34,6 @@ export class ProductTableService {
 	}
 	GetItemById(id: any): Observable<ProductTableItem> {
 		let token = localStorage.getItem('token');
-		// console.log(token);
 		let headers: HttpHeaders = new HttpHeaders().set(
 			'Authorization',
 			'Bearer ' + token
@@ -48,9 +44,7 @@ export class ProductTableService {
 		);
 	}
 	UpdateProductDetail(id: any, employee: ProductTableItem): Observable<Object> {
-		// console.log(employee);
 		let token = localStorage.getItem('token');
-		// console.log(token);
 		let headers: HttpHeaders = new HttpHeaders().set(
 			'Authorization',
 			'Bearer ' + token

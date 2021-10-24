@@ -11,7 +11,7 @@
 img {
 	max-width: 100%;
 	max-height: 90%;
-	display: block; /* remove extra space below image */
+	display: block;
 	border-radius: 5px;
 }
 .box {
@@ -148,13 +148,9 @@ h1 {
 }
 p {
 	word-break: break-word;
+	font-size: 17px;
 }
 .blocka {
-	/* width: 80%;
-	height: 20px;
-	float: left;
-	background-color: yellow; */
-
 	float: left;
 	width: 75%;
 	height: 20px;
@@ -178,6 +174,7 @@ p {
 
 .info-holder {
 	border-radius: 17px;
-	/* background: linear-gradient(145deg, #f0f0f0, #cacaca); */
-	/* box-shadow: 18px 18px 37px #b1b1b1, -18px -18px 37px #ffffff; */
+}
+.name {
+	font-size: 25px;
 }
