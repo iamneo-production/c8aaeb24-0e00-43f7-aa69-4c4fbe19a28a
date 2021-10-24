@@ -2,6 +2,8 @@ package com.examly.springapp.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.examly.springapp.audit.RegularAuditModel;
+import com.examly.springapp.audit.RegularAuditService;
 import com.examly.springapp.mfa.TotpManager;
 import com.examly.springapp.model.LoginModel;
 import com.examly.springapp.response.ApiResponse;
@@ -14,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -47,6 +50,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         LoginModel loginModel = null;
+        String email = "";
+        String password = "";
         try {
             String test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
             if (test == null) {
@@ -54,10 +59,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             }
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(test);
-            String email = jsonNode.get("email").asText();
-            String password = jsonNode.get("password").asText();
-            if (email == null || email == "" || password == null || password == "")
+            email = jsonNode.get("email").asText();
+            password = jsonNode.get("password").asText();
+            if (email == null || email == "" || password == null || password == "") {
                 throw new UsernameNotFoundException("User not found");
+            }
             loginModel = new LoginModel(email, password);
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,17 +73,17 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             throw new UsernameNotFoundException("User not found");
         }
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginModel.getEmail(), loginModel.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginModel.getEmail(), loginModel.getPassword());;
         return authenticationManager.authenticate(authenticationToken);
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+
         String mfa = request.getHeader("mfa");
         User user = (User) authentication.getPrincipal();
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         List<String> data = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-        System.out.println(data);
         String isActive = getValue(data.get(0));
         data.remove(0);
         String isMfa = getValue(data.get(0));

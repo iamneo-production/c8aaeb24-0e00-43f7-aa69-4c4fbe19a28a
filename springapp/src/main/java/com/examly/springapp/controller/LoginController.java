@@ -2,6 +2,8 @@ package com.examly.springapp.controller;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.examly.springapp.audit.RegularAuditModel;
+import com.examly.springapp.audit.RegularAuditService;
 import com.examly.springapp.email.EmailSenderService;
 import com.examly.springapp.mfa.TotpManager;
 import com.examly.springapp.model.LoginModel;
@@ -17,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import javax.validation.constraints.Null;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,23 +49,26 @@ public class LoginController {
     @Autowired
     private EmailSenderService emailSenderService;
 
+    @Autowired
+    private RegularAuditService regularAuditService;
+
     @PostMapping("/login")
     public ResponseEntity<?> checkUser(@RequestBody LoginModel loginModel) {
         List<String> errors = new ArrayList<>();
         try {
             if (loginService.checkUser(loginModel)) {
+                regularAuditService.audit(new RegularAuditModel("Request for login", loginModel.getEmail(), "", true));
                 this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginModel.getEmail(), loginModel.getPassword()));
                 return ResponseEntity.ok().body(true);
             } else {
-                System.out.println(loginModel);
-
-
+                regularAuditService.audit(new RegularAuditModel("Request for login", loginModel.getEmail(), "Used wrong credentials", false));
                 errors.add("Bad Credentials");
                 return ResponseEntity.ok().body(new ApiResponse(false, "No user was found for the above credentials", FORBIDDEN.value(), FORBIDDEN, errors));
             }
         } catch (Exception e) {
             e.printStackTrace();
             errors.add(e.getLocalizedMessage());
+            regularAuditService.audit(new RegularAuditModel("Request for login", loginModel.getEmail(), "Login failed due to exception caused", false));
             return ResponseEntity.ok().body(new ApiResponse(false, "No user was found for the above credentials", FORBIDDEN.value(), FORBIDDEN, errors));
         }
 
@@ -71,6 +77,7 @@ public class LoginController {
 
     @PostMapping("/verify/{code}")
     public ResponseEntity<?> verify(@PathVariable String code, @RequestBody LoginModel loginModel) throws MessagingException, UnsupportedEncodingException {
+        regularAuditService.audit(new RegularAuditModel("Request for OTP verification", loginModel.getEmail(), "", true));
         List<String> errors = new ArrayList<>();
         String username = loginModel.getEmail();
         UserModel userModel = userRepository.findByEmail(username);
@@ -89,8 +96,8 @@ public class LoginController {
                     .withIssuer("http://localhost:8080/login")
                     .withClaim("user_id", userModel.getUserId())
                     .withClaim("roles", roles)
-
                     .sign(algorithm);
+
             String body = "    <h3>Dear " + userModel.getUsername() + ",</h3>\n" +
                     "    <p>This email is a response to let you know that your account has been activated for two step verification.</p>\n" +
                     "    <p>If you lose access to the Authenticator app, please contact Administrator to remove the two step verification for your account.</p>\n" +
@@ -99,10 +106,13 @@ public class LoginController {
                     "    <br>\n" +
                     "    <p>Thanks for using our services, Ebook Store (Team 2)</p><hr style=\"border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));\"></hr><a href=\"http://localhost:4200\"><img src=\"https://rukminim1.flixcart.com/flap/500/500/image/b3fe381767050079.jpg?q=100\"></img></a>";
             emailSenderService.sendMail(userModel.getEmail(), "Kudos for the security option", body);
+            regularAuditService.audit(new RegularAuditModel("OTP verification attempt successful", userModel.getEmail(), "Token generated and mail has been sent", true));
             userRepository.save(userModel);
+
             return ResponseEntity.ok().body(new ApiResponse(true, access_token, OK.value(), OK, errors));
         } else {
             errors.add("Invalid otp");
+            regularAuditService.audit(new RegularAuditModel("OTP verification attempt failed", userModel.getEmail(), "Entered invalid otp", false));
             return ResponseEntity.ok().body(new ApiResponse(false, "The OTP is not valid", FORBIDDEN.value(), FORBIDDEN, errors));
         }
 
@@ -116,12 +126,14 @@ public class LoginController {
 
     @PostMapping("/forgot")
     public ResponseEntity<?> forgot(@RequestBody LoginModel loginModel) {
+        regularAuditService.audit(new RegularAuditModel("Request for forgot password", loginModel.getEmail(), "", true));
         String email = loginModel.getEmail();
         return loginService.forgot(email);
     }
 
     @PostMapping("/verifyCode")
     public ResponseEntity<?> verifyCode(@RequestBody LoginModel loginModel) {
+        regularAuditService.audit(new RegularAuditModel("Request for verification of code for forgot password", loginModel.getEmail(), "", true));
         String email = loginModel.getEmail();
         String code = loginModel.getPassword();
         return loginService.verifyCode(email, code);
@@ -129,6 +141,7 @@ public class LoginController {
 
     @PostMapping("/savePassword")
     public ResponseEntity<?> savePassword(@RequestBody ChangePasswordModel changePasswordModel) throws MessagingException, UnsupportedEncodingException {
+        regularAuditService.audit(new RegularAuditModel("Request to save password for given otp", changePasswordModel.email, "", true));
         return loginService.savePassword(changePasswordModel.email, changePasswordModel.password, changePasswordModel.conformPassword, changePasswordModel.code);
     }
 }

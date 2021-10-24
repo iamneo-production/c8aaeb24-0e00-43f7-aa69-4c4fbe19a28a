@@ -1,5 +1,7 @@
 package com.examly.springapp.service;
 
+import com.examly.springapp.audit.RegularAuditModel;
+import com.examly.springapp.audit.RegularAuditService;
 import com.examly.springapp.mfa.TotpManager;
 import com.examly.springapp.model.UserModel;
 import com.examly.springapp.repository.UserRepository;
@@ -23,10 +25,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private TotpManager totpManager;
 
+    @Autowired
+    private RegularAuditService regularAuditService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserModel userModel = userRepository.findByEmail(username);
+        regularAuditService.audit(new RegularAuditModel("Request to load user",  username, "", true));
         if (userModel == null) {
+            regularAuditService.audit(new RegularAuditModel("Request to load user",  username, "User not found", false));
             throw new UsernameNotFoundException("User not found");
         } else {
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -36,8 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("totp=" + userModel.isVerifiedForTOTP()));
             authorities.add(new SimpleGrantedAuthority("active=" + userModel.isActive()));
             authorities.add(new SimpleGrantedAuthority("role=" + userModel.getRole()));
-            System.out.println(authorities.size());
-            System.out.println(userModel.getUserId() + " " + userModel.isMfa() + " " + userModel.isVerifiedForTOTP() + " " + userModel.getRole());
+            regularAuditService.audit(new RegularAuditModel("Request to load user",  username, "User info loaded", true));
             return new User(userModel.getEmail(), userModel.getPassword(), authorities);
         }
     }

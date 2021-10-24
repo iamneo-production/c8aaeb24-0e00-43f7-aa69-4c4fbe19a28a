@@ -67,6 +67,7 @@ public class SpringappApplication {
             productService.productSave(new ProductModel("", "https://rukminim1.flixcart.com/image/416/416/kij6f0w0-0/book/b/d/e/susegad-original-imafyarfvwmrqej8.jpeg?q=100", "Susegad", "253", "'Susegad' is a Konkani word that has no exact translation in English. Goans use it to convey the sense of contentment, fulfilment and relaxation that everyone associates with Goa and its culture. Clyde D'Souza, bestselling author and proud Goan, shows us the wonderful, unique elements that help Goans achieve susegad, and what you can do to add a pinch of this magic to your life, no matter where you live. As Clyde takes us on a journey through Goa's beautiful beaches, lush greenery, exquisite cuisine, mix of Portuguese and Konkani culture, its history, festivals, music and architecture, you'll learn what makes Goans tick and how they've created habits and routines that lend happiness and calm to their lives.", "39"));
 
 
+            System.out.println("To login to admin account use these credentials:\nEmail: admin@gmail.com\nPassword: admin");
         };
     }
 
