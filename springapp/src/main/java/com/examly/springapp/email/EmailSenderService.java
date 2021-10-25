@@ -3,6 +3,7 @@ package com.examly.springapp.email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -15,6 +16,7 @@ public class EmailSenderService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Async
     public void sendMail(String toEmail, String subject, String body) throws MessagingException, UnsupportedEncodingException {
 
         MimeMessage message = mailSender.createMimeMessage();

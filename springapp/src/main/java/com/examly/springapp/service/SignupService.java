@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,8 @@ public class SignupService {
 
     @Autowired
     private RegularAuditService regularAuditService;
+
+    private UserModel userModel;
 
     public ResponseEntity<?> saveUser(@Valid UserModel userModel) {
         boolean emailExists = userExistsWithEmail(userModel.getEmail());

@@ -2,11 +2,18 @@ package com.examly.springapp.email;
 
 import com.examly.springapp.audit.RegularAuditModel;
 import com.examly.springapp.audit.RegularAuditService;
+import com.examly.springapp.controller.SignupController;
 import com.examly.springapp.model.UserModel;
 import com.examly.springapp.repository.UserRepository;
 import com.examly.springapp.response.ApiResponse;
+import com.examly.springapp.service.SignupService;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +28,7 @@ import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
+@Aspect
 public class EmailController {
 
     @Autowired
@@ -83,5 +91,20 @@ public class EmailController {
 
         regularAuditService.audit(new RegularAuditModel("Request to send mail to all - success", email, "", true));
         return ResponseEntity.ok().body(new ApiResponse(true, "The mails are sent successfully", OK.value(), OK, errors));
+    }
+
+    @Async
+    @AfterReturning(pointcut = "execution(* com.examly.springapp.service.SignupService.saveUser(..))", returning = "result")
+    public void afterReturningSignupMail(JoinPoint joinPoint, ResponseEntity<?> result) throws MessagingException, UnsupportedEncodingException {
+        ApiResponse res = (ApiResponse) result.getBody();
+        Integer status = (Integer) result.getStatusCodeValue();
+        String response = joinPoint.getSignature().toShortString();
+        if(200 != res.getStatus()) {
+            return;
+        }
+        else {
+            List<String> messages = res.getErrors();
+
+        }
     }
 }
