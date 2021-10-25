@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NbToastrService } from '@nebular/theme';
-import { SignupService } from 'src/app/services/signup.service';
+import { SignupService } from '../../apis/signup.service';
 import { signup } from 'src/app/model/signup';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { AuthQrComponent } from '../auth-qr/auth-qr.component';
-import { NotificationType } from 'src/app/notification-type.enum';
-import { NotificationService } from '../../services/notification.service';
+import { AuthQrComponent } from '../../components/public/auth-qr/auth-qr.component';
+import { NotificationType } from 'src/app/services/notification/notification-type.enum';
+import { NotificationService } from '../../services/notification/notification.service';
+import { Title } from '@angular/platform-browser';
 @Component({
 	selector: 'app-signup',
 	templateUrl: './signup.component.html',
@@ -18,8 +18,11 @@ export class SignupComponent implements OnInit {
 		private router: Router,
 		private signupservice: SignupService,
 		private dialog: MatDialog,
-		private notificationService: NotificationService
-	) {}
+		private notificationService: NotificationService,
+		private title: Title
+	) {
+		this.title.setTitle('EBook Store - Signup');
+	}
 
 	ngOnInit(): void {}
 
@@ -44,26 +47,20 @@ export class SignupComponent implements OnInit {
 			this.signupservice.createSignup(this.Signup).subscribe((data: any) => {
 				if (data.result == true && this.Signup.mfa == false) {
 					this.notificationService.notify(
-						'Success',
 						NotificationType.SUCCESS,
-						'bottom-right',
 						data.message
 					);
 					this.router.navigate(['/login']);
 				} else if (data.result == true && this.Signup.mfa == true) {
 					this.notificationService.notify(
-						'Success',
 						NotificationType.SUCCESS,
-						'bottom-right',
 						'Scan the QR code for setup'
 					);
 					this.onCreate(data.message);
 				} else {
 					for (let t = 0; t < data.errors.length; ++t) {
 						this.notificationService.notify(
-							'Error',
 							NotificationType.DANGER,
-							'bottom-right',
 							data.errors[t]
 						);
 					}
@@ -71,9 +68,7 @@ export class SignupComponent implements OnInit {
 			});
 		} else {
 			this.notificationService.notify(
-				'Error',
 				NotificationType.DANGER,
-				'bottom-right',
 				'Passwords did not match'
 			);
 		}

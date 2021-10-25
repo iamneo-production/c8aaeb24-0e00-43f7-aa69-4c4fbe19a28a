@@ -1,9 +1,15 @@
 package com.examly.springapp.dao;
 
+import javax.validation.constraints.NotBlank;
+
 public class ProductTempModel {
 
+    @NotBlank(message = "Invalid product id")
     private String productId;
+
+    @NotBlank(message = "Invalid quantity")
     private String quantity;
+
 
     public ProductTempModel() {
 

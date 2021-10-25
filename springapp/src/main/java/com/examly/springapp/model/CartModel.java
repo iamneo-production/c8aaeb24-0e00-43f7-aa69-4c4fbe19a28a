@@ -33,10 +33,8 @@ public class CartModel {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String cartItemId;
 
-
-    @NotEmpty(message = "Product name cannot be empty")
     @NotBlank(message = "Product name cannot be blank")
-    @Length(message = "Product name must be between 5 and 50 characters", min = 5)
+    @Length(message = "Product name must be between 5 to 50 characters", min = 5)
     @NotNull(message = "Product name is mandatory")
     @Column(name = "product_name", columnDefinition = "VARCHAR(50)")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -46,12 +44,14 @@ public class CartModel {
     @Convert(converter = StringToIntegerConverter.class)
     @Column(name = "quantity")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotBlank(message = "Invalid quantity")
     private String quantity;
 
 
     @Convert(converter = StringToFloatConverter.class)
     @Column(name = "price")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotBlank(message = "Invalid price")
     private String price;
 
     @ElementCollection(targetClass = CartTempModel.class)

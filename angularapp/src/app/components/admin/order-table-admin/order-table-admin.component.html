@@ -1,0 +1,91 @@
+<app-navbar-admin></app-navbar-admin>
+<div *ngIf="this.dataSource.data.length == 0; else elseBlock">
+	<div class="empty-state">
+		<div class="empty-state__content">
+			<div class="empty-state__icon">
+				<img alt="" src="../../../../assets/fast-delivery.png" />
+			</div>
+			<div style="color: #7868e6" class="empty-state__message">
+				No orders are made
+			</div>
+		</div>
+	</div>
+</div>
+<ng-template #elseBlock>
+	<div class="mat-elevation-z8">
+		<table
+			[dataSource]="dataSource"
+			aria-label="Elements"
+			class="full-width-table"
+			mat-table
+			matSort
+		>
+			<ng-container matColumnDef="id">
+				<th *matHeaderCellDef mat-header-cell mat-sort-header>Order Id</th>
+				<td
+					style="text-align: left; font-weight: 400"
+					*matCellDef="let row"
+					mat-cell
+				>
+					{{ row.orderId }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="uid">
+				<th *matHeaderCellDef mat-header-cell mat-sort-header>User ID</th>
+				<td
+					style="text-align: left; font-weight: 400"
+					*matCellDef="let row"
+					mat-cell
+				>
+					{{ row.userId }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="bname">
+				<th *matHeaderCellDef mat-header-cell mat-sort-header>Book Name</th>
+				<td
+					style="text-align: left; font-weight: 400"
+					*matCellDef="let row"
+					mat-cell
+				>
+					{{ row.prodcutName }}
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="price">
+				<th *matHeaderCellDef mat-header-cell mat-sort-header>Total Price</th>
+				<td
+					style="text-align: left; font-weight: 400"
+					*matCellDef="let row"
+					mat-cell
+				>
+					{{ row.totalPrice }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="quant">
+				<th *matHeaderCellDef mat-header-cell mat-sort-header>Quantity</th>
+				<td
+					style="text-align: left; font-weight: 400"
+					*matCellDef="let row"
+					mat-cell
+				>
+					{{ row.quantity }}
+				</td>
+			</ng-container>
+
+			<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+			<tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+		</table>
+
+		<mat-paginator
+			#paginator
+			[length]="dataSource?.data?.length"
+			[pageIndex]="0"
+			[pageSizeOptions]="[10, 20, 30]"
+			[pageSize]="8"
+			aria-label="Select page"
+		>
+		</mat-paginator>
+	</div>
+</ng-template>

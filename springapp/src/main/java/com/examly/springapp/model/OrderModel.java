@@ -5,6 +5,8 @@ import com.examly.springapp.converter.StringToIntegerConverter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Embeddable
@@ -17,16 +19,21 @@ public class OrderModel {
     private String orderId;
 
     private String userId;
+
+    @NotBlank(message = "Invalid product name")
     private String productName;
 
     @Convert(converter = StringToIntegerConverter.class)
+    @NotBlank(message = "Invalid quantity")
     private String quantity;
 
     @Convert(converter = StringToFloatConverter.class)
+    @NotBlank(message = "Invalid total price")
     private String totalPrice;
     private String status;
 
     @Convert(converter = StringToFloatConverter.class)
+    @NotBlank(message = "Invalid price")
     private String price;
 
     public OrderModel() {

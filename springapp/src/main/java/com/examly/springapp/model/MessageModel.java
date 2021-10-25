@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -18,12 +19,15 @@ public class MessageModel {
     private String messageId;
 
     @Column(name = "subject")
+    @NotBlank(message = "Invalid subject for the mail")
     private String subject;
 
     @Column(name = "body")
+    @NotBlank(message = "Invalid body for the mail")
     private String body;
 
     @Column(name = "user_email")
+    @NotBlank(message = "Invalid email")
     private String userEmail;
 
     @Column(name = "time_stamp")

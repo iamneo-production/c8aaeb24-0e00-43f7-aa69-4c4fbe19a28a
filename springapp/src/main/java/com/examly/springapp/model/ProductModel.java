@@ -18,12 +18,13 @@ public class ProductModel {
 
 
     @Id
-
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Convert(converter = StringToIntegerConverter.class)
     private String productId;
-    private String imageUrl = "https://media.istockphoto.com/vectors/open-book-top-view-icon-logo-vector-id1217261353?k=20&m=1217261353&s=612x612&w=0&h=11IDdaTrRDu3Ct2rZCcFQ8MSeJLOG3aD8wyRiOxk_vg=";
+
+
+    private String imageUrl = "https://media.istockphoto.com/vectors/open-book-thin-line-icon-vector-design-illustration-vector-id941224020?k=20&m=941224020&s=612x612&w=0&h=iRG_6G5UcKKa1gWKRLCO7NQ33chgwfU3THaQ6Bk4fRw=";
 
     @NotBlank(message = "Product name is mandatory")
     private String productName;

@@ -17,8 +17,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.OK;
@@ -44,8 +46,28 @@ public class UserActionsService {
     @Autowired
     private RegularAuditService regularAuditService;
 
-    public ResponseEntity<?> saveMessage(MessageUserModel messageUserModel) {
+
+    public ResponseEntity<?> saveMessage(@Valid MessageUserModel messageUserModel) {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<String> errors = new ArrayList<>();
+        try {
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<MessageUserModel>> violations = validator.validate(messageUserModel);
+            for (ConstraintViolation<MessageUserModel> violation : violations) {
+
+                errors.add(violation.getMessage());
+            }
+            if (errors.size() > 0)
+            {
+                regularAuditService.audit(new RegularAuditModel("Request to send message to admin",  email, "Validation failed", false));
+                return ResponseEntity.ok().body(new ApiResponse(false, "Invalid data entered", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+            }
+        } catch (ConstraintViolationException e) {
+            regularAuditService.audit(new RegularAuditModel("Request to send message to admin",  email, "Constraint error was caused", false));
+            errors.add(e.getMessage());
+            return ResponseEntity.ok().body(new ApiResponse(false, "Constraint Error", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+        }
         MessageModel messageModel = new MessageModel(messageUserModel.getSubject(), messageUserModel.getBody(), messageUserModel.getUserEmail());
         if (email.equals(messageModel.getUserEmail())) {
             messageRepository.save(messageModel);

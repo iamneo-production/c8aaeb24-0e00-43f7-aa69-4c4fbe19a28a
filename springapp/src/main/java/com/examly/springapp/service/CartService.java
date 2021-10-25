@@ -4,6 +4,7 @@ import com.examly.springapp.audit.RegularAuditModel;
 import com.examly.springapp.audit.RegularAuditService;
 import com.examly.springapp.dao.CartTempModel;
 import com.examly.springapp.dao.ProductTempModel;
+import com.examly.springapp.exception.PriceInvalidException;
 import com.examly.springapp.exception.QuantityInvalidException;
 import com.examly.springapp.model.CartModel;
 import com.examly.springapp.model.ProductModel;
@@ -21,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.*;
+import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -105,10 +107,30 @@ public class CartService {
         return ResponseEntity.ok().body(cartModel.getItems());
     }
 
-    public ResponseEntity<?> addProduct(String id, ProductTempModel productTempModel) {
+    public ResponseEntity<?> addProduct(String id, @Valid ProductTempModel productTempModel) {
         List<String> errors = new ArrayList<>();
+        System.out.println(productTempModel.getProductId());
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserModel userModel = userRepository.findByUserId(id);
+        System.out.println(userModel.getUserId());
+        try {
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<ProductTempModel>> violations = validator.validate(productTempModel);
+            for (ConstraintViolation<ProductTempModel> violation : violations) {
+
+                errors.add(violation.getMessage());
+            }
+            if (errors.size() > 0)
+            {
+                regularAuditService.audit(new RegularAuditModel("Request to add product",  email, "Validation failed", false));
+                return ResponseEntity.ok().body(new ApiResponse(false, "Invalid data entered", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+            }
+        } catch (ConstraintViolationException e) {
+            regularAuditService.audit(new RegularAuditModel("Request to add new cart",  email, "Constraint error was caused", false));
+            errors.add(e.getMessage());
+            return ResponseEntity.ok().body(new ApiResponse(false, "Constraint Error", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+        }
         String quantity = productTempModel.getQuantity();
         regularAuditService.audit(new RegularAuditModel("Request to add product to cart",  email, "", true));
         if (!checkNumber(quantity) || quantity == null || quantity == "") throw new QuantityInvalidException();
@@ -146,7 +168,7 @@ public class CartService {
             cartModel.addItem(cartTempModel);
             cartRepository.save(cartModel);
             regularAuditService.audit(new RegularAuditModel("Request to add product to cart",  email, "Product added to cart", true));
-            return new ResponseEntity<Object>(productModel, OK);
+            return ResponseEntity.ok().body(new ApiResponse(true, "Item has been added to cart", OK.value(), OK, errors));
         } catch (Exception e) {
             errors.add("Unknown error");
             regularAuditService.audit(new RegularAuditModel("Request to add product to cart",  email, "Unknown error occurred", false));
@@ -154,42 +176,60 @@ public class CartService {
         }
     }
 
-    public ResponseEntity<?> deleteCartItem(String email, ProductTempModel productTempModel) {
+    public ResponseEntity<?> deleteCartItem(String email, @Valid ProductTempModel productTempModel) {
+        List<String> errors = new ArrayList<>();
         String quantity = productTempModel.getQuantity();
         regularAuditService.audit(new RegularAuditModel("Request to delete product from cart",  email, "", true));
+        try {
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<ProductTempModel>> violations = validator.validate(productTempModel);
+            for (ConstraintViolation<ProductTempModel> violation : violations) {
+
+                errors.add(violation.getMessage());
+            }
+            if (errors.size() > 0)
+            {
+                regularAuditService.audit(new RegularAuditModel("Request to delete cart item",  email, "Validation failed", false));
+                return ResponseEntity.ok().body(new ApiResponse(false, "Invalid data entered", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+            }
+        } catch (ConstraintViolationException e) {
+            regularAuditService.audit(new RegularAuditModel("Request to add new cart",  email, "Constraint error was caused", false));
+            errors.add(e.getMessage());
+            return ResponseEntity.ok().body(new ApiResponse(false, "Constraint Error", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+        }
         if (!checkNumber(quantity) || quantity == null || quantity == "") throw new QuantityInvalidException();
-        List<String> errors = new ArrayList<>();
         try {
             UserModel userModel = userRepository.findByEmail(email);
             if (userModel == null) {
                 errors.add("Invalid user id ");
                 regularAuditService.audit(new RegularAuditModel("Request to delete product from cart",  email, "Invalid user id", false));
-                return new ResponseEntity<Object>(new ApiResponse(false, "No user found for the given user id", FORBIDDEN.value(), FORBIDDEN, errors), OK);
+                return ResponseEntity.ok().body(new ApiResponse(false, "No user found for the given user id", FORBIDDEN.value(), FORBIDDEN, errors));
             }
             CartModel cartModel = userModel.getCartModel();
             if (cartModel == null) {
                 errors.add("Failed to fetch the cart");
                 regularAuditService.audit(new RegularAuditModel("Request to delete product from cart",  email, "Failed to fetch cart", false));
-                return new ResponseEntity<Object>(new ApiResponse(false, "No cart found for the given user id", FORBIDDEN.value(), FORBIDDEN, errors), OK);
+                return ResponseEntity.ok().body(new ApiResponse(false, "No cart found for the given user id", FORBIDDEN.value(), FORBIDDEN, errors));
             }
             ProductModel productModel = productRepository.findByProductId(productTempModel.getProductId());
             if (productModel == null) {
                 errors.add("Invalid product id");
                 regularAuditService.audit(new RegularAuditModel("Request to delete product from cart",  email, "Invalid product id", false));
-                return new ResponseEntity<Object>(new ApiResponse(false, "No product found for the given product id", FORBIDDEN.value(), FORBIDDEN, errors), OK);
+                return ResponseEntity.ok().body(new ApiResponse(false, "No product found for the given product id", FORBIDDEN.value(), FORBIDDEN, errors));
             }
             if (cartModel.removeItem(productModel.getProductName())) {
                 regularAuditService.audit(new RegularAuditModel("Request to delete product from cart",  email, "Item was deleted from the cart", true));
-                return new ResponseEntity<Object>(new ApiResponse(true, "Item removed from the cart.", OK.value(), OK, errors), OK);
+                return ResponseEntity.ok().body(new ApiResponse(true, "Item removed from the cart.", OK.value(), OK, errors));
             } else {
                 errors.add("Not found");
                 regularAuditService.audit(new RegularAuditModel("Request to delete product from cart",  email, "Not found", false));
-                return new ResponseEntity<Object>(new ApiResponse(false, "Item not found in the cart", FORBIDDEN.value(), FORBIDDEN, errors), OK);
+                return ResponseEntity.ok().body(new ApiResponse(false, "Item not found in the cart", FORBIDDEN.value(), FORBIDDEN, errors));
             }
         } catch (Exception e) {
             errors.add("Unknown error");
             regularAuditService.audit(new RegularAuditModel("Request to delete product from cart",  email, "Unknown error", false));
-            return new ResponseEntity<Object>(new ApiResponse(false, e.getLocalizedMessage(), FORBIDDEN.value(), FORBIDDEN, errors), OK);
+            return ResponseEntity.ok().body(new ApiResponse(false, e.getLocalizedMessage(), FORBIDDEN.value(), FORBIDDEN, errors));
         }
     }
 }

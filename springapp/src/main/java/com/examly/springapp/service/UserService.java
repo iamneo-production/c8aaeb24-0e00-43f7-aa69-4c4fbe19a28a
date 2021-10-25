@@ -2,6 +2,7 @@ package com.examly.springapp.service;
 
 import com.examly.springapp.audit.RegularAuditModel;
 import com.examly.springapp.audit.RegularAuditService;
+import com.examly.springapp.dao.UserTempModel;
 import com.examly.springapp.model.UserModel;
 import com.examly.springapp.repository.UserRepository;
 import com.examly.springapp.response.ApiResponse;
@@ -41,6 +42,11 @@ public class UserService {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         regularAuditService.audit(new RegularAuditModel("Request to find user details using id", email, "Fetching user from database", true));
         UserModel userModel = userRepository.findByUserId(id);
+        if (userModel == null) {
+            errors.add("Invalid user id");
+            regularAuditService.audit(new RegularAuditModel("Request to find user details", email, "No user found", false));
+            return ResponseEntity.ok().body(new ApiResponse(false, "No user found for the provided email", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+        }
         if (email.equals(userModel.getEmail())) {
             regularAuditService.audit(new RegularAuditModel("Request to find user details using id", email, "User details sent", true));
             UserTempModel userTempModel = new UserTempModel(userModel.getUsername(), userModel.getMobileNumber(), userModel.isActive(), userModel.getEmail());
@@ -49,56 +55,6 @@ public class UserService {
             errors.add("Invalid request");
             regularAuditService.audit(new RegularAuditModel("Request to find user details using id", email, "Unauthorized request", false));
             return ResponseEntity.ok().body(new ApiResponse(false, "Your request cannot be processed.", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
-        }
-    }
-
-    class UserTempModel {
-        private String username;
-        private String mobileNumber;
-        private boolean active;
-        private String email;
-
-        public UserTempModel() {
-
-        }
-
-        public UserTempModel(String username, String mobileNumber, boolean active, String email) {
-            this.username = username;
-            this.mobileNumber = mobileNumber;
-            this.active = active;
-            this.email = email;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getMobileNumber() {
-            return mobileNumber;
-        }
-
-        public void setMobileNumber(String mobileNumber) {
-            this.mobileNumber = mobileNumber;
-        }
-
-        public boolean isActive() {
-            return active;
-        }
-
-        public void setActive(boolean active) {
-            this.active = active;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
         }
     }
 }

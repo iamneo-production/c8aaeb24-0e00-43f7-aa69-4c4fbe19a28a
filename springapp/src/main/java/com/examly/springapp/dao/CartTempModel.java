@@ -3,6 +3,7 @@ package com.examly.springapp.dao;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Embeddable
@@ -10,8 +11,14 @@ public class CartTempModel {
 
     @Id
     private String productId;
+
+    @NotBlank(message = "Invalid product name")
     private String productName;
+
+    @NotBlank(message = "Invalid price")
     private String price;
+
+    @NotBlank(message = "Invalid quantity")
     private String quantity;
 
     public CartTempModel() {

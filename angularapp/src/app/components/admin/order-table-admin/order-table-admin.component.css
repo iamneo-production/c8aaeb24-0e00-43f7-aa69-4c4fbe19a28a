@@ -1,0 +1,159 @@
+.gap {
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+	text-align: left;
+	margin-bottom: -30px;
+	font-weight: bold;
+	font-size: 20px;
+}
+.sample {
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+	margin-top: -20px;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.full-width-table {
+	margin-top: 4%;
+	width: 100%;
+	font-weight: 850;
+}
+.mat-elevation-z8 {
+	margin-left: 15%;
+	margin-top: 5%;
+	margin-right: 10%;
+	width: 70%;
+}
+
+th {
+	height: 50px;
+	font-weight: bold;
+	text-align: center;
+	font-size: 10px auto;
+	padding: auto;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-weight: bold;
+	background-color: transparent;
+	color: #fff;
+	border-radius: 0px;
+	margin: auto;
+	background: linear-gradient(180deg, #8572ff, #5746d4);
+	color: white;
+}
+table {
+	width: 60%;
+	height: 90%;
+}
+body {
+	background: #ebedf2;
+	font-family: "Poppins", sans-serif;
+}
+.empty-state {
+	width: 750px;
+	margin: 40px auto;
+	background: #ffffff;
+	box-shadow: 1px 2px 10px #e1e3ec;
+	border-radius: 4px;
+}
+.empty-state__content {
+	padding: 48px;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+.empty-state__content .empty-state__icon {
+	width: 200px;
+	height: 200px;
+	display: flex;
+	align-items: center;
+	border-radius: 200px;
+	justify-content: center;
+	background-color: #f7fafc;
+	box-shadow: 0px 2px 1px #e1e3ec;
+}
+.empty-state__content .empty-state__icon img {
+	width: 170px;
+}
+.empty-state__content .empty-state__message {
+	color: #38a169;
+	font-size: 1.5rem;
+	font-weight: 500;
+	margin-top: 0.85rem;
+}
+.empty-state__content .empty-state__help {
+	color: #a2a5b9;
+	font-size: 0.875rem;
+}
+.credit {
+	color: #a2a5b9;
+	font-size: 0.75rem;
+	text-align: center;
+}
+.credit a {
+	color: #444;
+}
+
+.draw-border {
+	box-shadow: inset 0 0 0 4px #58afd1;
+	color: #58afd1;
+	transition: color 0.25s 0.0833333333s;
+	position: relative;
+}
+.draw-border::before,
+.draw-border::after {
+	border: 0 solid transparent;
+	box-sizing: border-box;
+	content: "";
+	pointer-events: none;
+	position: absolute;
+	width: 0;
+	height: 0;
+	bottom: 0;
+	right: 0;
+}
+.draw-border::before {
+	border-bottom-width: 4px;
+	border-left-width: 4px;
+}
+.draw-border::after {
+	border-top-width: 4px;
+	border-right-width: 4px;
+}
+.draw-border:hover {
+	color: #ffe593;
+}
+.draw-border:hover::before,
+.draw-border:hover::after {
+	border-color: #ffe593;
+	transition: border-color 0s, width 0.25s, height 0.25s;
+	width: 100%;
+	height: 100%;
+}
+.draw-border:hover::before {
+	transition-delay: 0s, 0s, 0.25s;
+}
+.draw-border:hover::after {
+	transition-delay: 0s, 0.25s, 0s;
+}
+.btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	line-height: 1.5;
+	font: 700 1.2rem "Roboto Slab", sans-serif;
+	padding: 1em 2em;
+	letter-spacing: 0.05rem;
+}
+.btn:focus {
+	outline: 2px dotted #55d7dc;
+}
+body {
+	display: flex;
+	align-items: center;
+	min-height: 100vh;
+}
+.btn1 {
+	margin-top: -10%;
+}
+.b1 {
+	margin-top: 10%;
+}

@@ -1,21 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MailComponent } from './components/mail/mail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './routing/app-routing.module';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { AddProductComponent } from './components/add-product/add-product.component';
-import { EditProductComponent } from './components/edit-product/edit-product.component';
-import { ProductTableComponent } from './components/product-table/product-table.component';
-import { HomePageComponent } from './components/home-page/home-page.component';
-import { OrderTableAdminComponent } from './components/order-table-admin/order-table-admin.component';
-import { CartComponent } from './components/cart/cart.component';
-import { MyOrderComponent } from './components/my-order/my-order.component';
+import { AddProductComponent } from './components/admin/add-product/add-product.component';
+import { EditProductComponent } from './components/admin/edit-product/edit-product.component';
+import { ProductTableComponent } from './components/admin/product-table/product-table.component';
+import { HomePageComponent } from './components/user/home-page/home-page.component';
+import { OrderTableAdminComponent } from './components/admin/order-table-admin/order-table-admin.component';
+import { CartComponent } from './components/user/cart/cart.component';
+import { MyOrderComponent } from './components/user/my-order/my-order.component';
 import { CommonModule } from '@angular/common';
-import { ProductPageComponent } from './components/product-page/product-page.component';
+import { ProductPageComponent } from './components/user/product-page/product-page.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -55,18 +54,16 @@ import { MatTableModule } from '@angular/material/table';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.component';
-import { NavbarUserComponent } from './components/navbar-user/navbar-user.component';
+import { NavbarAdminComponent } from './components/admin/navbar-admin/navbar-admin.component';
+import { NavbarUserComponent } from './components/user/navbar-user/navbar-user.component';
 
-import { AuthGuard } from './auth.guard';
-import { AdminGuard } from './admin.guard';
-import { UserGuard } from './user.guard';
-import { AuthQrComponent } from './components/auth-qr/auth-qr.component';
-import { AuthOtpComponent } from './components/auth-otp/auth-otp.component';
-import { NotificationModule } from './notification.module';
+import { AuthGuard } from './guards/auth/auth.guard';
+import { AdminGuard } from './guards/admin/admin.guard';
+import { UserGuard } from './guards/user/user.guard';
+import { AuthQrComponent } from './components/public/auth-qr/auth-qr.component';
+import { AuthOtpComponent } from './components/public/auth-otp/auth-otp.component';
 
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ForgotPasswordComponent } from './components/public/forgot-password/forgot-password.component';
 
 import {
 	NbThemeModule,
@@ -91,30 +88,26 @@ import {
 	NbWindowModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
-import { CheckoutComponent } from './components/checkout/checkout.component';
-import { GpayComponent } from './components/checkout/gpay/gpay.component';
+import { CheckoutComponent } from './components/user/checkout/checkout.component';
+import { GpayComponent } from './components/user/checkout/gpay/gpay.component';
 import { GooglePayButtonModule } from '@google-pay/button-angular';
-import { InterceptorService } from './components/loader/interceptor.service';
+import { InterceptorService } from './services/interceptor/interceptor.service';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-import { CartdialogComponent } from './components/cartdialog/cartdialog.component';
+import { CartdialogComponent } from './components/user/cartdialog/cartdialog.component';
 import {
 	FullscreenOverlayContainer,
 	OverlayContainer,
 } from '@angular/cdk/overlay';
-import { DashboardUserComponent } from './components/dashboard-user/dashboard-user.component';
-import { RoleService } from './services/role.service';
-import { AddtocartComponent } from './components/addtocart/addtocart.component';
-import { FormValidatorsService } from './services/formvalidators.service';
+import { DashboardUserComponent } from './components/user/dashboard-user/dashboard-user.component';
+import { FormValidatorsService } from './services/formvalidators/formvalidators.service';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { SearchFilterPipe } from './search-filter.pipe';
 
 @NgModule({
 	declarations: [
-		MailComponent,
 		AppComponent,
 		SignupComponent,
 		AddProductComponent,
@@ -136,7 +129,6 @@ import { SearchFilterPipe } from './search-filter.pipe';
 		GpayComponent,
 		CartdialogComponent,
 		DashboardUserComponent,
-		SearchFilterPipe,
 	],
 	imports: [
 		NbSidebarModule,
@@ -184,7 +176,6 @@ import { SearchFilterPipe } from './search-filter.pipe';
 		MatTableModule,
 		ScrollingModule,
 		HttpClientModule,
-		NotificationModule,
 		NbThemeModule.forRoot({ name: 'default' }),
 		NbLayoutModule,
 		NbEvaIconsModule,
@@ -236,7 +227,6 @@ import { SearchFilterPipe } from './search-filter.pipe';
 
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
-		NotificationModule,
 		AuthGuard,
 		AdminGuard,
 		UserGuard,
@@ -244,7 +234,6 @@ import { SearchFilterPipe } from './search-filter.pipe';
 		NbToastrModule,
 		NbDialogService,
 		NbDialogModule,
-		RoleService,
 		FormValidatorsService,
 		{
 			provide: OverlayContainer,
@@ -252,12 +241,6 @@ import { SearchFilterPipe } from './search-filter.pipe';
 		},
 	],
 	bootstrap: [AppComponent],
-	entryComponents: [
-		AuthQrComponent,
-		AuthOtpComponent,
-		MailComponent,
-		CartdialogComponent,
-		AddtocartComponent,
-	],
+	entryComponents: [AuthQrComponent, AuthOtpComponent, CartdialogComponent],
 })
 export class AppModule {}

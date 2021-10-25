@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.validation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -85,9 +87,27 @@ public class AdminActionsService {
         }
     }
 
-    public ResponseEntity<?> removeVerification(LoginModel loginModel) {
+    public ResponseEntity<?> removeVerification(@Valid LoginModel loginModel) {
         List<String> errors = new ArrayList<>();
         UserModel userModel = userRepository.findByEmail(loginModel.getEmail());
+        try {
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<LoginModel>> violations = validator.validate(loginModel);
+            for (ConstraintViolation<LoginModel> violation : violations) {
+
+                errors.add(violation.getMessage());
+            }
+            if (errors.size() > 0)
+            {
+                regularAuditService.audit(new RegularAuditModel("Request to remove verification",  loginModel.getEmail(), "Validation failed", false));
+                return ResponseEntity.ok().body(new ApiResponse(false, "Invalid data entered", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+            }
+        } catch (ConstraintViolationException e) {
+            regularAuditService.audit(new RegularAuditModel("Request to add new cart", loginModel.getEmail(), "Constraint error was caused", false));
+            errors.add(e.getMessage());
+            return ResponseEntity.ok().body(new ApiResponse(false, "Constraint Error", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+        }
         if (userModel == null) {
             errors.add("Invalid user");
             regularAuditService.audit(new RegularAuditModel("User not found",  loginModel.getEmail(), "", false));

@@ -1,4 +1,9 @@
 export class AddCart {
-    productId?: string;
-    quantity?: string;
+	constructor(productId: string, quantity: string) {
+		this.productId = productId;
+		this.quantity = quantity;
+	}
+
+	productId?: string;
+	quantity?: string;
 }

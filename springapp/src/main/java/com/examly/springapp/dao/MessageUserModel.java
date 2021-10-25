@@ -1,9 +1,17 @@
 package com.examly.springapp.dao;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class MessageUserModel {
 
     private String subject;
+
+    @NotBlank(message = "Invalid body of mail")
     private String body;
+
+    @NotBlank(message = "Invalid mail")
     private String userEmail;
 
     public MessageUserModel() {

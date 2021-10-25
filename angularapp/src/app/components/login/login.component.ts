@@ -3,12 +3,13 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
 import { login } from 'src/app/model/login';
-import { NotificationType } from 'src/app/notification-type.enum';
-import { LoginService } from 'src/app/services/login.service';
-import { NotificationService } from 'src/app/services/notification.service';
-import { AuthOtpComponent } from '../auth-otp/auth-otp.component';
-import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
-import { FormValidatorsService } from 'src/app/services/formvalidators.service';
+import { NotificationType } from 'src/app/services/notification/notification-type.enum';
+import { LoginService } from '../../apis/login.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
+import { AuthOtpComponent } from '../../components/public/auth-otp/auth-otp.component';
+import { ForgotPasswordComponent } from '../../components/public/forgot-password/forgot-password.component';
+import { FormValidatorsService } from '../../services/formvalidators/formvalidators.service';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
 	selector: 'app-login',
@@ -23,8 +24,12 @@ export class LoginComponent implements OnInit {
 		private router: Router,
 		private dialog: MatDialog,
 		private notificationService: NotificationService,
-		public formValidators: FormValidatorsService
-	) {}
+		public formValidators: FormValidatorsService,
+		private title: Title,
+		private meta: Meta
+	) {
+		this.title.setTitle('EBook Store - Login');
+	}
 
 	pass: any = '';
 	show: boolean = false;
@@ -62,37 +67,26 @@ export class LoginComponent implements OnInit {
 	go_login() {
 		if (this.loginForm.get('email')?.invalid) {
 			this.notificationService.notify(
-				'Error',
 				NotificationType.DANGER,
-				'bottom-right',
 				'Email address in not valid'
 			);
 			return;
 		} else if (this.loginForm.get('password')?.invalid) {
 			this.notificationService.notify(
-				'Error',
 				NotificationType.DANGER,
-				'bottom-right',
 				'Password should have 6 to 20 characters only'
 			);
 			return;
 		}
 		this.loginservice.createLogin(this.Login).subscribe((data: any) => {
 			if (data.result == false) {
-				this.notificationService.notify(
-					'Error',
-					NotificationType.DANGER,
-					'bottom-right',
-					data.message
-				);
+				this.notificationService.notify(NotificationType.DANGER, data.message);
 			} else if (
 				data.result == true &&
 				data.message === 'Needed two step verification'
 			) {
 				this.notificationService.notify(
-					'Info',
 					NotificationType.INFO,
-					'bottom-right',
 					'Enter OTP for validation'
 				);
 				this.onCreate(this.Login.email, this.Login.password);
@@ -105,9 +99,7 @@ export class LoginComponent implements OnInit {
 					this.ans = null;
 				}
 				this.notificationService.notify(
-					'Success',
 					NotificationType.SUCCESS,
-					'bottom-right',
 					'Login Successful'
 				);
 				if (this.ans.roles[0] == 'admin') {
