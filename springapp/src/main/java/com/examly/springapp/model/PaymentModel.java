@@ -6,8 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 
 @Entity(name = "payments")
 @Table(name = "payments")
@@ -18,20 +16,14 @@ public class PaymentModel {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
-    @NotBlank(message = "Invalid payment id")
     private String paymentId;
 
-    @NotBlank(message = "Invalid user id")
     private String userId;
 
-    @NotBlank(message = "Invalid amount")
     private String amount;
 
-    @Email(message = "Invalid email")
-    @NotBlank(message = "Invalid email")
     private String email;
 
-    @NotBlank(message = "Invalid provider")
     private String provider;
 
     public PaymentModel() {

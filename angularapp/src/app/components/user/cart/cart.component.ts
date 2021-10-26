@@ -26,6 +26,7 @@ export class CartComponent implements OnInit {
 	sort: MatSort = new MatSort();
 	var_del!: AddCart;
 	isempty: any;
+	price: any;
 
 	constructor(
 		private router: Router,
@@ -73,6 +74,11 @@ export class CartComponent implements OnInit {
 					NotificationType.SUCCESS,
 					'Continue to checkout to conform payment'
 				);
+				this.price = 0;
+				for (let t = 0; t < data.length; ++t) {
+					this.price += data[0].price * data[0].quantity;
+				}
+				localStorage.setItem('price', this.price);
 				this.router.navigate(['/checkout']);
 			} else {
 				this.notificationService.notify(

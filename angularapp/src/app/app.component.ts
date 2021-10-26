@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 import { Meta } from '@angular/platform-browser';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { fader } from './services/routeanimation/route-animations';
 @Component({
@@ -14,7 +14,11 @@ export class AppComponent implements OnInit, OnDestroy {
 	title = 'EBook Store';
 	mediaSub: Subscription = new Subscription();
 	deviceXs: boolean = false;
-	constructor(public mediaObserver: MediaObserver, private meta: Meta) {
+	constructor(
+		public mediaObserver: MediaObserver,
+		private meta: Meta,
+		private router: Router
+	) {
 		this.meta.addTags([
 			{
 				name: 'keywords',
@@ -35,6 +39,9 @@ export class AppComponent implements OnInit, OnDestroy {
 				this.deviceXs = result.mqAlias === 'xs' ? true : false;
 			}
 		);
+		if (!!localStorage.getItem('token')) {
+			this.router.navigate(['/home']);
+		}
 	}
 	ngOnDestroy() {
 		this.mediaSub.unsubscribe();

@@ -134,6 +134,7 @@ export class HomePageComponent implements OnInit {
 				return;
 			}
 			this.cartItem = new AddCart(item.productId, result.needed);
+			localStorage.setItem('price', (result.quantity * item.price).toString());
 			this.userApi.addItemToCart(this.cartItem).subscribe((data: any) => {
 				if (data.result == true) {
 					this.notificationService.notify(

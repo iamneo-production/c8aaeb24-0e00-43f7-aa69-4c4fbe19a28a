@@ -174,10 +174,14 @@ export class CheckoutComponent implements OnInit {
 	}
 	options = {
 		key: 'rzp_test_X2G3s0urP83jWN',
-		amount: '50000',
+		amount: parseFloat(localStorage.getItem('price') || '0') * 100,
 		currency: 'INR',
 		name: 'EBook Store - Team 2',
-		description: 'Test Transaction',
+		description:
+			JSON.parse(
+				localStorage.getItem('current_ordered_item') ||
+					`{productName: 'Payment for Book'}`
+			).productName || 'Payment for book',
 		image: '',
 		callback_url: '',
 		handler: async (res: any) => {
@@ -200,19 +204,12 @@ export class CheckoutComponent implements OnInit {
 					}
 				)
 				.subscribe(async (data: any) => {
-					if (data.result == true) {
-						this.notificationService.notify(
-							NotificationType.SUCCESS,
-							'Payment Successful'
-						);
-						await localStorage.removeItem('pay');
-						await this.router.navigate(['/home']);
-					} else {
-						this.notificationService.notify(
-							NotificationType.DANGER,
-							'Payment failure'
-						);
-					}
+					this.notificationService.notify(
+						NotificationType.SUCCESS,
+						'Payment Successful'
+					);
+					await localStorage.removeItem('pay');
+					await this.router.navigate(['/home']);
 				});
 		},
 		prefill: {

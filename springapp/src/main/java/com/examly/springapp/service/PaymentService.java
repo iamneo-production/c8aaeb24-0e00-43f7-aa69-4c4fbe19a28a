@@ -27,28 +27,10 @@ public class PaymentService {
     @Autowired
     private RegularAuditService regularAuditService;
 
-    public ResponseEntity<?> savePayment(@Valid PaymentModel paymentModel) {
+    public ResponseEntity<?> savePayment(PaymentModel paymentModel) {
         List<String> errors = new ArrayList<>();
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        try {
-            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-            Validator validator = factory.getValidator();
-            Set<ConstraintViolation<PaymentModel>> violations = validator.validate(paymentModel);
-            for (ConstraintViolation<PaymentModel> violation : violations) {
-
-                errors.add(violation.getMessage());
-            }
-            if (errors.size() > 0)
-            {
-                regularAuditService.audit(new RegularAuditModel("Request to add payment order",  email, "Validation failed", false));
-                return ResponseEntity.ok().body(new ApiResponse(false, "Invalid data entered", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
-            }
-        } catch (ConstraintViolationException e) {
-            regularAuditService.audit(new RegularAuditModel("Request to add payment order",  email, "Constraint error was caused", false));
-            errors.add(e.getMessage());
-            return ResponseEntity.ok().body(new ApiResponse(false, "Constraint Error", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
-        }
         paymentRepository.save(paymentModel);
-        return ResponseEntity.ok().body(new ApiResponse(true, "The payment is saved", OK.value(), OK, new ArrayList<>()));
+        return ResponseEntity.ok().body(new ApiResponse(true, "Payment successful", OK.value(), OK, new ArrayList<>()));
     }
 }
