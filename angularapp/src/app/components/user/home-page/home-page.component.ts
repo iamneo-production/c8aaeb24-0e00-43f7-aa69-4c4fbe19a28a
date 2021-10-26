@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import Fuse from 'fuse.js';
 import { Title } from '@angular/platform-browser';
 import { UserApiService } from '../../../apis/userApi.service';
+import { MatDialog } from '@angular/material/dialog';
+import { QuantityboxComponent } from '../quantitybox/quantitybox.component';
 
 @Component({
 	selector: 'app-home-page',
@@ -35,6 +37,8 @@ export class HomePageComponent implements OnInit {
 	public value: any;
 	public test: any;
 	public searchItems: any;
+	public quantity: any;
+	public needed: any;
 	options = {
 		keys: [
 			{
@@ -50,10 +54,11 @@ export class HomePageComponent implements OnInit {
 	@Input() deviceXs: boolean = false;
 	constructor(
 		private router: Router,
-		private notificationService: NotificationService,
 		private http: HttpClient,
 		private title: Title,
-		private userApi: UserApiService
+		private userApi: UserApiService,
+		public dialog: MatDialog,
+		private notificationService: NotificationService
 	) {
 		this.title.setTitle('EBook Store - Home');
 	}
@@ -108,19 +113,40 @@ export class HomePageComponent implements OnInit {
 	}
 
 	addToCart(item: any) {
-		this.cartItem = new AddCart(item.productId, '1');
-		this.userApi.addItemToCart(this.cartItem).subscribe((data: any) => {
-			if (data.result == true) {
+		this.cartItem = item;
+		this.productName = item.productName;
+		this.quantity = item.quantity;
+		this.needed = 1;
+		const dialogRef = this.dialog.open(QuantityboxComponent, {
+			width: '20%',
+			data: {
+				name: this.productName,
+				quantity: this.quantity,
+				needed: this.needed,
+			},
+		});
+		dialogRef.afterClosed().subscribe((result) => {
+			if (result.quantity < result.needed) {
 				this.notificationService.notify(
-					NotificationType.SUCCESS,
-					'Item added to the cart'
+					NotificationType.DANGER,
+					'Insufficient quantity'
 				);
-			} else {
-				this.notificationService.notify(
-					NotificationType.SUCCESS,
-					'You have added maximum available stock to your cart'
-				);
+				return;
 			}
+			this.cartItem = new AddCart(item.productId, result.needed);
+			this.userApi.addItemToCart(this.cartItem).subscribe((data: any) => {
+				if (data.result == true) {
+					this.notificationService.notify(
+						NotificationType.SUCCESS,
+						'Item added to the cart'
+					);
+				} else {
+					this.notificationService.notify(
+						NotificationType.SUCCESS,
+						'You have added maximum available stock to your cart'
+					);
+				}
+			});
 		});
 	}
 	lowToHigh() {

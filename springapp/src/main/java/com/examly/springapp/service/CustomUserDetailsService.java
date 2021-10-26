@@ -37,7 +37,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         } else {
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            System.out.println(username);
             authorities.add(new SimpleGrantedAuthority("u_id=" + userModel.getUserId()));
             authorities.add(new SimpleGrantedAuthority("mfa=" + userModel.isMfa()));
             authorities.add(new SimpleGrantedAuthority("totp=" + userModel.isVerifiedForTOTP()));

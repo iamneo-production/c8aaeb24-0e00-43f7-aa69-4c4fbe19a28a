@@ -133,6 +133,7 @@ td {
 	transition-delay: 0s, 0.25s, 0s;
 }
 .btn {
+	position: absolute;
 	background: none;
 	border: none;
 	cursor: pointer;
@@ -140,6 +141,7 @@ td {
 	font: 700 1.2rem "Roboto Slab", sans-serif;
 	padding: 1em 2em;
 	letter-spacing: 0.05rem;
+	margin-top: 20%;
 }
 .btn:focus {
 	outline: 2px dotted #55d7dc;

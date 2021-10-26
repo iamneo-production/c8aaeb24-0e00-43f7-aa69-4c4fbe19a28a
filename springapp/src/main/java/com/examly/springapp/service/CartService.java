@@ -109,10 +109,8 @@ public class CartService {
 
     public ResponseEntity<?> addProduct(String id, @Valid ProductTempModel productTempModel) {
         List<String> errors = new ArrayList<>();
-        System.out.println(productTempModel.getProductId());
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserModel userModel = userRepository.findByUserId(id);
-        System.out.println(userModel.getUserId());
         try {
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();

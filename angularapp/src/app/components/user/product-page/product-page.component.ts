@@ -6,6 +6,8 @@ import { NotificationType } from 'src/app/services/notification/notification-typ
 import { NotificationService } from '../../../services/notification/notification.service';
 import { Title } from '@angular/platform-browser';
 import { UserApiService } from '../../../apis/userApi.service';
+import { MatDialog } from '@angular/material/dialog';
+import { QuantityboxComponent } from '../quantitybox/quantitybox.component';
 @Component({
 	selector: 'app-product-page',
 	templateUrl: './product-page.component.html',
@@ -28,13 +30,17 @@ export class ProductPageComponent implements OnInit {
 	loc: string = '';
 	port: string = '';
 	item: any;
+	public productName: any;
+	public quantity: any;
+	public needed: any;
 
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		private notificationService: NotificationService,
 		private title: Title,
-		private userApi: UserApiService
+		private userApi: UserApiService,
+		public dialog: MatDialog
 	) {
 		this.title.setTitle('EBook Store - Product Page');
 	}
@@ -55,19 +61,40 @@ export class ProductPageComponent implements OnInit {
 	}
 
 	onaddcart(item: any) {
-		this.cartItem = new AddCart(item.productId, '1');
-		this.userApi.addItemToCart(this.cartItem).subscribe((data: any) => {
-			if (data.productId) {
-				this.notificationService.notify(
-					NotificationType.SUCCESS,
-					'Item added to the cart'
-				);
-			} else {
+		this.productName = item.productName;
+		this.quantity = item.quantity;
+		this.needed = 1;
+		const dialogRef = this.dialog.open(QuantityboxComponent, {
+			width: '20%',
+			data: {
+				name: this.productName,
+				quantity: this.quantity,
+				needed: this.needed,
+			},
+		});
+
+		dialogRef.afterClosed().subscribe((result) => {
+			if (result.quantity < result.needed) {
 				this.notificationService.notify(
 					NotificationType.DANGER,
-					'Error while adding item to the cart'
+					'Insufficient quantity'
 				);
+				return;
 			}
+			this.cartItem = new AddCart(item.productId, result.needed);
+			this.userApi.addItemToCart(this.cartItem).subscribe((data: any) => {
+				if (data.result == true) {
+					this.notificationService.notify(
+						NotificationType.SUCCESS,
+						'Item added to the cart'
+					);
+				} else {
+					this.notificationService.notify(
+						NotificationType.SUCCESS,
+						'You have added maximum available stock to your cart'
+					);
+				}
+			});
 		});
 	}
 

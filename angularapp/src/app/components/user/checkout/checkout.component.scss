@@ -1,6 +1,10 @@
 @import "../../../../themes.scss";
 
 @include nb-install-component() {
+	.holder {
+		margin-top: 50px;
+	}
+
 	input {
 		margin-right: 30px;
 		margin-top: 10px;

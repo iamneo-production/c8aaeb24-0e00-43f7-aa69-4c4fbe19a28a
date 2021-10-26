@@ -105,6 +105,7 @@ import {
 import { DashboardUserComponent } from './components/user/dashboard-user/dashboard-user.component';
 import { FormValidatorsService } from './services/formvalidators/formvalidators.service';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { QuantityboxComponent } from './components/user/quantitybox/quantitybox.component';
 
 @NgModule({
 	declarations: [
@@ -129,6 +130,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 		GpayComponent,
 		CartdialogComponent,
 		DashboardUserComponent,
+		QuantityboxComponent,
 	],
 	imports: [
 		NbSidebarModule,

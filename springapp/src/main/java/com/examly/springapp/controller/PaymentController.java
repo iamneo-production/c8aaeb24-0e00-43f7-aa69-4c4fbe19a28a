@@ -17,8 +17,6 @@ public class PaymentController {
 
     @PostMapping("/user/pay")
     public ResponseEntity<?> savePayment(@RequestBody PaymentModel paymentModel) {
-        System.out.println(paymentModel.getEmail());
-        System.out.println(paymentModel.getProvider());
         return paymentService.savePayment(paymentModel);
     }
 

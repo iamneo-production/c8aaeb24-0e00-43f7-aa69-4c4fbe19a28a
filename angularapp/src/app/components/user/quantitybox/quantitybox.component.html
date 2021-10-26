@@ -1,0 +1,23 @@
+<nb-card>
+	<nb-card-header>Enter Quantity</nb-card-header>
+	<nb-card-body>
+		<p>How many {{ data.name }} books do you want?</p>
+		<p
+			style="display: block; position: absolute"
+			*ngIf="data.needed > data.quantity"
+			style="color: red"
+		>
+			Insufficient quantity
+		</p>
+		<mat-form-field appearance="fill">
+			<mat-label>Quantity</mat-label>
+			<input matInput type="number" [(ngModel)]="data.needed" />
+		</mat-form-field>
+	</nb-card-body>
+
+	<nb-card-body>
+		<button nbButton (click)="onNoClick()">Cancel</button>
+		<span style="margin-right: 30px"></span>
+		<button nbButton [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+	</nb-card-body>
+</nb-card>

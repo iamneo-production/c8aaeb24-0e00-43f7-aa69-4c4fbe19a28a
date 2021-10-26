@@ -95,7 +95,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String userId = getValue(data.get(0));
         data.remove(0);
         data.add(role);
-        System.out.println(data);
         if (isActive.equals("false")) {
             List<String> errors = new ArrayList<>();
             response.setStatus(OK.value());

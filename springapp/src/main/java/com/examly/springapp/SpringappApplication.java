@@ -1,16 +1,17 @@
 package com.examly.springapp;
 
+import com.examly.springapp.crypto.AES;
 import com.examly.springapp.model.CartModel;
 import com.examly.springapp.model.ProductModel;
 import com.examly.springapp.model.UserModel;
 import com.examly.springapp.service.ProductService;
 import com.examly.springapp.service.SignupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -24,9 +25,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableAsync
 public class SpringappApplication {
 
+    @Value("${crypto.key}")
+    private static String key;
+
     public static void main(String[] args) {
         SpringApplication.run(SpringappApplication.class, args);
         System.out.println("To login to admin account use these credentials:\nEmail: admin@gmail.com\nPassword: admin");
+        String e = AES.encrypt("Vineeth Kumar Komma", "secret");
     }
 
     @Bean

@@ -19,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
-import javax.validation.constraints.Null;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,7 +88,6 @@ public class LoginController {
             String role = userModel.getRole();
             List<String> roles = new ArrayList<>();
             roles.add(role);
-            System.out.println(roles);
             String access_token = JWT.create()
                     .withSubject(userModel.getEmail())
                     .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 1000))
