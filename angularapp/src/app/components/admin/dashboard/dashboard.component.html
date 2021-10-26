@@ -152,9 +152,8 @@
 						<p><strong>List of messages</strong>.</p>
 						<nb-card>
 							<nb-card-header
-							>Format: Subject - Body - User Email - Timestamp
-							</nb-card-header
-							>
+								>Format: Subject - Body - User Email - Timestamp
+							</nb-card-header>
 							<nb-card-body>
 								<nb-list>
 									<nb-list-item *ngFor="let message of messages">
@@ -174,7 +173,7 @@
 											</button>
 										</span>
 									</nb-list-item>
-									<nb-list-item>
+									<nb-list-item *ngIf="messages.length == 0">
 										<p>
 											<nb-icon
 												icon="bell-off-outline"

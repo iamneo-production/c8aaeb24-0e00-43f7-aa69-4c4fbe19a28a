@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { AuthOtpComponent } from '../../components/public/auth-otp/auth-otp.comp
 import { ForgotPasswordComponent } from '../../components/public/forgot-password/forgot-password.component';
 import { FormValidatorsService } from '../../services/formvalidators/formvalidators.service';
 import { Meta, Title } from '@angular/platform-browser';
+import { NgForm } from '@angular/forms';
 
 @Component({
 	selector: 'app-login',
@@ -41,7 +42,9 @@ export class LoginComponent implements OnInit {
 	showMessages: any = [];
 	emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
 	loginForm = this.formValidators.loginForm;
+	@ViewChild('myNgForm') myNgForm: any;
 	ngOnInit(): void {
+		this.myNgForm.resetForm();
 		if (!!localStorage.getItem('token')) {
 			this.token = localStorage.getItem('token') || '{}';
 			try {
@@ -98,6 +101,7 @@ export class LoginComponent implements OnInit {
 				} catch (Error) {
 					this.ans = null;
 				}
+				this.loginForm.reset();
 				this.notificationService.notify(
 					NotificationType.SUCCESS,
 					'Login Successful'

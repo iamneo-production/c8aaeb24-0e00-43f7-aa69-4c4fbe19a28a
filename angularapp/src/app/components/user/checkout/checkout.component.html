@@ -40,7 +40,7 @@
 						<ng-template #labelTwo>Items</ng-template>
 						<h4>Here are books that you are interested to buy</h4>
 						<div>
-							<nb-card class="products" size="medium">
+							<nb-card class="products" size="medium" style="max-height: 250px">
 								<nb-card-header>
 									<div class="rows">
 										<p class="title">Product Name</p>
@@ -48,9 +48,11 @@
 								</nb-card-header>
 								<nb-list>
 									<nb-list-item *ngFor="let e of cart">
-										<nb-card-body>
+										<nb-card-body class="itemholder">
 											<div class="rows">
-												<p class="title">{{ e.productName }}</p>
+												<p class="title">
+													{{ e.productName }} (x{{ e.quantity }})
+												</p>
 											</div>
 										</nb-card-body>
 									</nb-list-item>

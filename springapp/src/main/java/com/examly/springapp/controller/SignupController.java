@@ -20,8 +20,6 @@ public class SignupController {
     @Autowired
     private RegularAuditService regularAuditService;
 
-    private UserModel userModel;
-
     @PostMapping("/signup")
     public ResponseEntity<?> saveUser(@RequestBody UserModel userModel) {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

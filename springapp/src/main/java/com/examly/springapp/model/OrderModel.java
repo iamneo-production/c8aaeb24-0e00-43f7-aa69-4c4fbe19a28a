@@ -6,12 +6,10 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Embeddable
 public class OrderModel {
-
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -41,7 +39,7 @@ public class OrderModel {
     }
 
     public OrderModel(String userId, String productName, String quantity, String totalPrice, String status,
-                      String price) {
+            String price) {
         super();
 
         this.userId = userId;

@@ -8,10 +8,11 @@ import com.examly.springapp.model.CartModel;
 import com.examly.springapp.model.OrderModel;
 import com.examly.springapp.model.ProductModel;
 import com.examly.springapp.model.UserModel;
-import com.examly.springapp.repository.CartRepository;
 import com.examly.springapp.repository.OrderRepository;
 import com.examly.springapp.repository.ProductRepository;
 import com.examly.springapp.repository.UserRepository;
+import com.examly.springapp.response.ApiResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,16 +21,14 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.OK;
+
 @Service
 
 public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
-
-    @Autowired
-    private CartRepository cartRepository;
-
     @Autowired
     private ProductRepository productRepository;
 
@@ -42,7 +41,7 @@ public class OrderService {
     public List<OrderModel> getUserProducts() {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserModel userModel = userRepository.findByEmail(email);
-        regularAuditService.audit(new RegularAuditModel("Request to get home products",  email, "", true));
+        regularAuditService.audit(new RegularAuditModel("Request to get home products", email, "", true));
         return orderRepository.findByUserId(userModel.getUserId());
     }
 
@@ -50,7 +49,8 @@ public class OrderService {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserModel user = userRepository.findByEmail(email);
         if (user == null) {
-            regularAuditService.audit(new RegularAuditModel("Request to order cart items",  email, "No user found", false));
+            regularAuditService
+                    .audit(new RegularAuditModel("Request to order cart items", email, "No user found", false));
         }
         CartModel cart = user.getCartModel();
         List<CartTempModel> cartItems = cart.getItems();
@@ -59,11 +59,14 @@ public class OrderService {
         for (int i = 0; i < cartItems.size(); ++i) {
             CartTempModel cartItem = cartItems.get(i);
             ProductModel productModel = productRepository.findByProductId(cartItem.getProductId());
-            if (Integer.parseInt(productModel.getQuantity()) < Integer.parseInt(cartItem.getQuantity())) continue;
+            if (Integer.parseInt(productModel.getQuantity()) < Integer.parseInt(cartItem.getQuantity()))
+                continue;
             Float totalPrice = Integer.parseInt(cartItem.getQuantity()) * Float.parseFloat(cartItem.getPrice());
-            productModel.setQuantity(String.valueOf(Integer.parseInt(productModel.getQuantity()) - Integer.parseInt(cartItem.getQuantity())));
+            productModel.setQuantity(String
+                    .valueOf(Integer.parseInt(productModel.getQuantity()) - Integer.parseInt(cartItem.getQuantity())));
             productRepository.save(productModel);
-            tempModel = new OrderModel(user.getUserId(), cartItem.getProductName(), cartItem.getQuantity(), String.valueOf(totalPrice), "Ordered", cartItem.getPrice());
+            tempModel = new OrderModel(user.getUserId(), cartItem.getProductName(), cartItem.getQuantity(),
+                    String.valueOf(totalPrice), "Ordered", cartItem.getPrice());
             orderRepository.save(tempModel);
             user.addItems(tempModel);
             ordersList.add(tempModel);
@@ -73,27 +76,35 @@ public class OrderService {
         cart.setQuantity("0");
         cart.resetItems();
         userRepository.save(user);
-        regularAuditService.audit(new RegularAuditModel("Request to order cart items",  email, "Added cart items to cart", true));
+        regularAuditService
+                .audit(new RegularAuditModel("Request to order cart items", email, "Added cart items to cart", true));
         return ordersList;
     }
 
     public List<OrderModel> getAllOrders() {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        regularAuditService.audit(new RegularAuditModel("Request to get all orders",  email, "Fetched all orders", true));
+        regularAuditService
+                .audit(new RegularAuditModel("Request to get all orders", email, "Fetched all orders", true));
         return orderRepository.findAll();
     }
 
     public ResponseEntity<?> placeOrder(ProductTempModel productTempModel) {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserModel user = userRepository.findByEmail(email);
+        List<String> errors = new ArrayList<>();
         ProductModel productModel = productRepository.findByProductId(productTempModel.getProductId());
         Float totalPrice = Integer.parseInt(productModel.getQuantity()) * Float.parseFloat(productModel.getPrice());
-        regularAuditService.audit(new RegularAuditModel("Request to place order",  email, "", true));
-        OrderModel tempModel = new OrderModel(user.getUserId(), productModel.getProductName(), productModel.getQuantity(), String.valueOf(totalPrice), "Ordered", productModel.getPrice());
+        regularAuditService.audit(new RegularAuditModel("Request to place order", email, "", true));
+        if (Integer.parseInt(productModel.getQuantity()) < Integer.parseInt(productTempModel.getQuantity())) {
+            return ResponseEntity.ok().body(new ApiResponse(false, "Insufficient stock", OK.value(), OK, errors));
+        }
+        productModel.setQuantity(String.valueOf(Integer.parseInt(productModel.getQuantity()) - Integer.parseInt(productTempModel.getQuantity())));
+        OrderModel tempModel = new OrderModel(user.getUserId(), productModel.getProductName(),
+                productModel.getQuantity(), String.valueOf(totalPrice), "Ordered", productModel.getPrice());
         orderRepository.save(tempModel);
         user.addItems(tempModel);
         userRepository.save(user);
-        regularAuditService.audit(new RegularAuditModel("Request to place order",  email, "Order was placed", false));
+        regularAuditService.audit(new RegularAuditModel("Request to place order", email, "Order was placed", false));
         return ResponseEntity.ok().body(tempModel);
     }
 }

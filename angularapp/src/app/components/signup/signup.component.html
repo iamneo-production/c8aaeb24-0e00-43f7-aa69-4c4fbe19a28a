@@ -85,12 +85,17 @@
 				</nb-form-field>
 				<div id="checkBox">
 					<nb-checkbox [(ngModel)]="Signup.mfa" status="primary"
-					>Enable Two Step Authentication
-					</nb-checkbox
-					>
+						>Enable Two Step Authentication
+					</nb-checkbox>
 				</div>
 				<div class="holder loginDiv">
-					<button (click)="checkMfa()" id="loginButton" nbButton status="info">
+					<button
+						(click)="checkMfa()"
+						id="loginButton"
+						nbButton
+						status="info"
+						[disabled]="stop"
+					>
 						Signup
 						<nb-icon icon="arrowhead-right-outline"></nb-icon>
 					</button>
@@ -107,7 +112,7 @@
 
 	<nb-layout-column right>
 		<div id="signupImage">
-			<img src="../../../assets/svg/signupImage.svg"/>
+			<img src="../../../assets/svg/signupImage.svg" />
 		</div>
 	</nb-layout-column>
 </nb-layout>

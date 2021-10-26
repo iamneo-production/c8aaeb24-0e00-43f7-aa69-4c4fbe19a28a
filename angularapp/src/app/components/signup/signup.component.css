@@ -16,11 +16,13 @@ input:focus {
 	width: 90px;
 	display: inline;
 }
+
 #loginButton {
 	width: 150px;
 	display: block;
 	background-color: #7868e6;
 }
+
 .loginDiv {
 	padding-left: 20%;
 	padding-top: 5%;

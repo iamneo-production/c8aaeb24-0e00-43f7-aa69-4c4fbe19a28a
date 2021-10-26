@@ -27,9 +27,6 @@ public class AdminActionsService {
     private UserRepository userRepository;
 
     @Autowired
-    private LoginService loginService;
-
-    @Autowired
     private MessageRepository messageRepository;
 
     @Autowired
@@ -39,15 +36,18 @@ public class AdminActionsService {
         List<String> errors = new ArrayList<>();
         UserModel userModel = userRepository.findByEmail(email);
         if (userModel == null) {
-            regularAuditService.audit(new RegularAuditModel("User not found",  email, "", false));
+            regularAuditService.audit(new RegularAuditModel("User not found", email, "", false));
             errors.add("Invalid user");
-            return ResponseEntity.ok().body(new ApiResponse(false, "No user exists for this email", FORBIDDEN.value(), FORBIDDEN, errors));
+            return ResponseEntity.ok().body(
+                    new ApiResponse(false, "No user exists for this email", FORBIDDEN.value(), FORBIDDEN, errors));
         } else if (userModel.isActive()) {
-            regularAuditService.audit(new RegularAuditModel("User is enabled",  email, "", true));
-            return ResponseEntity.ok().body(new ApiResponse(true, "The user is in enabled state.", OK.value(), OK, errors));
+            regularAuditService.audit(new RegularAuditModel("User is enabled", email, "", true));
+            return ResponseEntity.ok()
+                    .body(new ApiResponse(true, "The user is in enabled state.", OK.value(), OK, errors));
         } else {
-            regularAuditService.audit(new RegularAuditModel("User is disabled",  email, "", true));
-            return ResponseEntity.ok().body(new ApiResponse(true, "The user is in disabled state.", OK.value(), OK, errors));
+            regularAuditService.audit(new RegularAuditModel("User is disabled", email, "", true));
+            return ResponseEntity.ok()
+                    .body(new ApiResponse(true, "The user is in disabled state.", OK.value(), OK, errors));
         }
     }
 
@@ -55,17 +55,20 @@ public class AdminActionsService {
         List<String> errors = new ArrayList<>();
         UserModel userModel = userRepository.findByEmail(email);
         if (userModel == null) {
-            regularAuditService.audit(new RegularAuditModel("User not found",  email, "", false));
+            regularAuditService.audit(new RegularAuditModel("User not found", email, "", false));
             errors.add("Invalid user");
-            return ResponseEntity.ok().body(new ApiResponse(false, "No user exists for this email", FORBIDDEN.value(), FORBIDDEN, errors));
+            return ResponseEntity.ok().body(
+                    new ApiResponse(false, "No user exists for this email", FORBIDDEN.value(), FORBIDDEN, errors));
         } else if (!userModel.isActive()) {
-            regularAuditService.audit(new RegularAuditModel("User is already disabled",  email, "", false));
-            return ResponseEntity.ok().body(new ApiResponse(false, "The user is already disabled", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+            regularAuditService.audit(new RegularAuditModel("User is already disabled", email, "", false));
+            return ResponseEntity.ok().body(new ApiResponse(false, "The user is already disabled",
+                    NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
         } else {
             userModel.setActive(false);
             userRepository.save(userModel);
-            regularAuditService.audit(new RegularAuditModel("User is now disabled",  email, "", true));
-            return ResponseEntity.ok().body(new ApiResponse(true, "The user has been disabled", OK.value(), OK, errors));
+            regularAuditService.audit(new RegularAuditModel("User is now disabled", email, "", true));
+            return ResponseEntity.ok()
+                    .body(new ApiResponse(true, "The user has been disabled", OK.value(), OK, errors));
         }
     }
 
@@ -73,16 +76,18 @@ public class AdminActionsService {
         List<String> errors = new ArrayList<>();
         UserModel userModel = userRepository.findByEmail(email);
         if (userModel == null) {
-            regularAuditService.audit(new RegularAuditModel("User not found",  email, "", false));
+            regularAuditService.audit(new RegularAuditModel("User not found", email, "", false));
             errors.add("Invalid user");
-            return ResponseEntity.ok().body(new ApiResponse(false, "No user exists for this email", FORBIDDEN.value(), FORBIDDEN, errors));
+            return ResponseEntity.ok().body(
+                    new ApiResponse(false, "No user exists for this email", FORBIDDEN.value(), FORBIDDEN, errors));
         } else if (userModel.isActive()) {
-            regularAuditService.audit(new RegularAuditModel("User is already enabled",  email, "", false));
-            return ResponseEntity.ok().body(new ApiResponse(false, "The user is already enabled", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+            regularAuditService.audit(new RegularAuditModel("User is already enabled", email, "", false));
+            return ResponseEntity.ok().body(new ApiResponse(false, "The user is already enabled",
+                    NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
         } else {
             userModel.setActive(true);
             userRepository.save(userModel);
-            regularAuditService.audit(new RegularAuditModel("User is now enables",  email, "", true));
+            regularAuditService.audit(new RegularAuditModel("User is now enables", email, "", true));
             return ResponseEntity.ok().body(new ApiResponse(true, "The user has been enabled", OK.value(), OK, errors));
         }
     }
@@ -98,36 +103,46 @@ public class AdminActionsService {
 
                 errors.add(violation.getMessage());
             }
-            if (errors.size() > 0)
-            {
-                regularAuditService.audit(new RegularAuditModel("Request to remove verification",  loginModel.getEmail(), "Validation failed", false));
-                return ResponseEntity.ok().body(new ApiResponse(false, "Invalid data entered", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+            if (errors.size() > 0) {
+                regularAuditService.audit(new RegularAuditModel("Request to remove verification", loginModel.getEmail(),
+                        "Validation failed", false));
+                return ResponseEntity.ok().body(
+                        new ApiResponse(false, "Invalid data entered", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
             }
         } catch (ConstraintViolationException e) {
-            regularAuditService.audit(new RegularAuditModel("Request to add new cart", loginModel.getEmail(), "Constraint error was caused", false));
+            regularAuditService.audit(new RegularAuditModel("Request to add new cart", loginModel.getEmail(),
+                    "Constraint error was caused", false));
             errors.add(e.getMessage());
-            return ResponseEntity.ok().body(new ApiResponse(false, "Constraint Error", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+            return ResponseEntity.ok()
+                    .body(new ApiResponse(false, "Constraint Error", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
         }
         if (userModel == null) {
             errors.add("Invalid user");
-            regularAuditService.audit(new RegularAuditModel("User not found",  loginModel.getEmail(), "", false));
-            return ResponseEntity.ok().body(new ApiResponse(false, "No user exists for this email", FORBIDDEN.value(), FORBIDDEN, errors));
+            regularAuditService.audit(new RegularAuditModel("User not found", loginModel.getEmail(), "", false));
+            return ResponseEntity.ok().body(
+                    new ApiResponse(false, "No user exists for this email", FORBIDDEN.value(), FORBIDDEN, errors));
         } else if (!userModel.isActive()) {
-            regularAuditService.audit(new RegularAuditModel("User is disabled but requested for removal of verification",  loginModel.getEmail(), "", false));
-            return ResponseEntity.ok().body(new ApiResponse(false, "The user is disabled", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+            regularAuditService.audit(new RegularAuditModel(
+                    "User is disabled but requested for removal of verification", loginModel.getEmail(), "", false));
+            return ResponseEntity.ok().body(
+                    new ApiResponse(false, "The user is disabled", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
         } else if (!userModel.isVerifiedForTOTP()) {
-            regularAuditService.audit(new RegularAuditModel("User has not mfa but requested for removal", loginModel.getEmail(), "", false));
-            return ResponseEntity.ok().body(new ApiResponse(false, "User doesn't have multi-factor authentication", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+            regularAuditService.audit(new RegularAuditModel("User has not mfa but requested for removal",
+                    loginModel.getEmail(), "", false));
+            return ResponseEntity.ok().body(new ApiResponse(false, "User doesn't have multi-factor authentication",
+                    NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
         } else {
             userModel.setVerifiedForTOTP(false);
             userRepository.save(userModel);
-            regularAuditService.audit(new RegularAuditModel("Removed two step verification for user", loginModel.getEmail(), "", false));
-            return ResponseEntity.ok().body(new ApiResponse(true, "Multi-factor authentication removed.", OK.value(), OK, errors));
+            regularAuditService.audit(
+                    new RegularAuditModel("Removed two step verification for user", loginModel.getEmail(), "", false));
+            return ResponseEntity.ok()
+                    .body(new ApiResponse(true, "Multi-factor authentication removed.", OK.value(), OK, errors));
         }
     }
 
     public ResponseEntity<?> getMessages() {
-        regularAuditService.audit(new RegularAuditModel("Fetched messages from database",  "", "", true));
+        regularAuditService.audit(new RegularAuditModel("Fetched messages from database", "", "", true));
         return ResponseEntity.ok().body(messageRepository.findAll());
     }
 
@@ -135,12 +150,14 @@ public class AdminActionsService {
         List<String> errors = new ArrayList<>();
         Optional<MessageModel> messageModel = messageRepository.findById(messageId);
         if (messageModel == null) {
-            regularAuditService.audit(new RegularAuditModel("Request for delete with invalid message id",  "", "", false));
+            regularAuditService
+                    .audit(new RegularAuditModel("Request for delete with invalid message id", "", "", false));
             errors.add("Invalid message id");
-            return ResponseEntity.ok().body(new ApiResponse(false, "No message was for the given id", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+            return ResponseEntity.ok().body(new ApiResponse(false, "No message was for the given id",
+                    NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
         }
         messageRepository.deleteById(messageId);
-        regularAuditService.audit(new RegularAuditModel("Request to delete a message",  "", "", true));
+        regularAuditService.audit(new RegularAuditModel("Request to delete a message", "", "", true));
         return ResponseEntity.ok().body(new ApiResponse(true, "The message was deleted", OK.value(), OK, errors));
     }
 

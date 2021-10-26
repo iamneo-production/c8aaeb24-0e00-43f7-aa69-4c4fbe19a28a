@@ -1,5 +1,9 @@
 package com.examly.springapp.controller;
 
+import java.io.UnsupportedEncodingException;
+
+import javax.mail.MessagingException;
+
 import com.examly.springapp.audit.RegularAuditModel;
 import com.examly.springapp.audit.RegularAuditService;
 import com.examly.springapp.dao.MessageUserModel;
@@ -21,7 +25,6 @@ public class UserActionsController {
     @Autowired
     private RegularAuditService regularAuditService;
 
-
     @PostMapping("/user/message")
     public ResponseEntity<?> saveMessage(@RequestBody MessageUserModel messageUserModel) {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -34,5 +37,13 @@ public class UserActionsController {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         regularAuditService.audit(new RegularAuditModel("Request to activate mfa", email, "", true));
         return userActionsService.enableTOTP(loginModel.getEmail(), loginModel.getPassword());
+    }
+
+    @PostMapping("/user/disablemfa")
+    public ResponseEntity<?> disableMFA(@RequestBody LoginModel loginModel)
+            throws UnsupportedEncodingException, MessagingException {
+        String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        regularAuditService.audit(new RegularAuditModel("Request to disable mfa", email, "", true));
+        return userActionsService.disableMFA(loginModel.getEmail(), loginModel.getPassword());
     }
 }

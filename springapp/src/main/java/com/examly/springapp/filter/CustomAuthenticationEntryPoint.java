@@ -1,12 +1,8 @@
 package com.examly.springapp.filter;
 
-import com.examly.springapp.audit.RegularAuditModel;
-import com.examly.springapp.audit.RegularAuditService;
 import com.examly.springapp.response.ApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.stereotype.Component;
 
@@ -24,10 +20,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CustomAuthenticationEntryPoint extends Http403ForbiddenEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException arg2) throws IOException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException arg2)
+            throws IOException {
         List<String> errors = new ArrayList<>();
         errors.add("Unauthorized");
-        ApiResponse apiResponse = new ApiResponse(false, "You are not authorized to perform this action", FORBIDDEN.value(), FORBIDDEN, errors);
+        ApiResponse apiResponse = new ApiResponse(false, "You are not authorized to perform this action",
+                FORBIDDEN.value(), FORBIDDEN, errors);
         response.setContentType(APPLICATION_JSON_VALUE);
         response.setStatus(200);
         OutputStream outputStream = response.getOutputStream();

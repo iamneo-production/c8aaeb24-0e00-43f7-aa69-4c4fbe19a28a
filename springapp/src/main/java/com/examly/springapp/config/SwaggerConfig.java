@@ -1,6 +1,5 @@
 package com.examly.springapp.config;
 
-
 import com.google.common.base.Predicate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +18,8 @@ public class SwaggerConfig {
 
     @Bean
     public Docket postsApi() {
-        return new Docket(DocumentationType.SWAGGER_2).groupName("public-api")
-                .apiInfo(apiInfo()).select().paths(postPaths()).build();
+        return new Docket(DocumentationType.SWAGGER_2).groupName("public-api").apiInfo(apiInfo()).select()
+                .paths(postPaths()).build();
     }
 
     private Predicate<String> postPaths() {
@@ -28,11 +27,9 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("EBook Store API")
-                .description("EBook Store API for Team 2")
-                .termsOfServiceUrl("http://localhost:8081")
-                .contact("team2.ebookstore@gmail.com").license("Virtusa Team 2")
-                .licenseUrl("team2.ebookstore@gmail.com").version("1.0").build();
+        return new ApiInfoBuilder().title("EBook Store API").description("EBook Store API for Team 2")
+                .termsOfServiceUrl("http://localhost:8081").licenseUrl("team2.ebookstore@gmail.com").version("1.0")
+                .build();
     }
 
 }

@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -40,9 +39,6 @@ public class LoginController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private TotpManager totpManager;
 
     @Autowired
@@ -57,90 +53,99 @@ public class LoginController {
         try {
             if (loginService.checkUser(loginModel)) {
                 regularAuditService.audit(new RegularAuditModel("Request for login", loginModel.getEmail(), "", true));
-                this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginModel.getEmail(), loginModel.getPassword()));
+                this.authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(loginModel.getEmail(), loginModel.getPassword()));
                 return ResponseEntity.ok().body(true);
             } else {
-                regularAuditService.audit(new RegularAuditModel("Request for login", loginModel.getEmail(), "Used wrong credentials", false));
+                regularAuditService.audit(new RegularAuditModel("Request for login", loginModel.getEmail(),
+                        "Used wrong credentials", false));
                 errors.add("Bad Credentials");
-                return ResponseEntity.ok().body(new ApiResponse(false, "No user was found for the above credentials", FORBIDDEN.value(), FORBIDDEN, errors));
+                return ResponseEntity.ok().body(new ApiResponse(false, "No user was found for the above credentials",
+                        FORBIDDEN.value(), FORBIDDEN, errors));
             }
         } catch (Exception e) {
             e.printStackTrace();
             errors.add(e.getLocalizedMessage());
-            regularAuditService.audit(new RegularAuditModel("Request for login", loginModel.getEmail(), "Login failed due to exception caused", false));
-            return ResponseEntity.ok().body(new ApiResponse(false, "No user was found for the above credentials", FORBIDDEN.value(), FORBIDDEN, errors));
+            regularAuditService.audit(new RegularAuditModel("Request for login", loginModel.getEmail(),
+                    "Login failed due to exception caused", false));
+            return ResponseEntity.ok().body(new ApiResponse(false, "No user was found for the above credentials",
+                    FORBIDDEN.value(), FORBIDDEN, errors));
         }
 
     }
 
-
     @PostMapping("/verify/{code}")
-    public ResponseEntity<?> verify(@PathVariable String code, @RequestBody LoginModel loginModel) throws MessagingException, UnsupportedEncodingException {
-        regularAuditService.audit(new RegularAuditModel("Request for OTP verification", loginModel.getEmail(), "", true));
+    public ResponseEntity<?> verify(@PathVariable String code, @RequestBody LoginModel loginModel)
+            throws MessagingException, UnsupportedEncodingException {
+        regularAuditService
+                .audit(new RegularAuditModel("Request for OTP verification", loginModel.getEmail(), "", true));
         List<String> errors = new ArrayList<>();
         String username = loginModel.getEmail();
         UserModel userModel = userRepository.findByEmail(username);
         String secret = userModel.getSecret();
-        String pass = passwordEncoder.encode(loginModel.getPassword());
         if (totpManager.verifyCode(code, secret)) {
+            userModel.setMfa(true);
             userModel.setVerifiedForTOTP(true);
             Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
             String role = userModel.getRole();
             List<String> roles = new ArrayList<>();
             roles.add(role);
-            String access_token = JWT.create()
-                    .withSubject(userModel.getEmail())
+            String access_token = JWT.create().withSubject(userModel.getEmail())
                     .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 1000))
-                    .withIssuer("http://localhost:8080/login")
-                    .withClaim("user_id", userModel.getUserId())
-                    .withClaim("roles", roles)
-                    .sign(algorithm);
+                    .withIssuer("http://localhost:8080/login").withClaim("user_id", userModel.getUserId())
+                    .withClaim("roles", roles).sign(algorithm);
 
-            String body = "    <h3>Dear " + userModel.getUsername() + ",</h3>\n" +
-                    "    <p>This email is a response to let you know that your account has been activated for two step verification.</p>\n" +
-                    "    <p>If you lose access to the Authenticator app, please contact Administrator to remove the two step verification for your account.</p>\n" +
-                    "    <p>Thanks for visiting our store, happy reading!\n" +
-                    "    </p>\n" +
-                    "    <br>\n" +
-                    "    <p>Thanks for using our services, Ebook Store (Team 2)</p><hr style=\"border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));\"></hr><a href=\"http://localhost:4200\"><img src=\"https://rukminim1.flixcart.com/flap/500/500/image/b3fe381767050079.jpg?q=100\"></img></a>";
+            String body = "    <h3>Dear " + userModel.getUsername() + ",</h3>\n"
+                    + "    <p>This email is a response to let you know that your account has been activated for two step verification.</p>\n"
+                    + "    <p>If you lose access to the Authenticator app, please contact Administrator to remove the two step verification for your account.</p>\n"
+                    + "    <p>Thanks for visiting our store, happy reading!\n" + "    </p>\n" + "    <br>\n"
+                    + "    <p>Thanks for using our services, Ebook Store (Team 2)</p><hr style=\"border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));\"></hr><a href=\"http://localhost:4200\"><img src=\"https://rukminim1.flixcart.com/flap/500/500/image/b3fe381767050079.jpg?q=100\"></img></a>";
             emailSenderService.sendMail(userModel.getEmail(), "Kudos for the security option", body);
-            regularAuditService.audit(new RegularAuditModel("OTP verification attempt successful", userModel.getEmail(), "Token generated and mail has been sent", true));
+            regularAuditService.audit(new RegularAuditModel("OTP verification attempt successful", userModel.getEmail(),
+                    "Token generated and mail has been sent", true));
             userRepository.save(userModel);
 
             return ResponseEntity.ok().body(new ApiResponse(true, access_token, OK.value(), OK, errors));
         } else {
             errors.add("Invalid otp");
-            regularAuditService.audit(new RegularAuditModel("OTP verification attempt failed", userModel.getEmail(), "Entered invalid otp", false));
-            return ResponseEntity.ok().body(new ApiResponse(false, "The OTP is not valid", FORBIDDEN.value(), FORBIDDEN, errors));
+            regularAuditService.audit(new RegularAuditModel("OTP verification attempt failed", userModel.getEmail(),
+                    "Entered invalid otp", false));
+            return ResponseEntity.ok()
+                    .body(new ApiResponse(false, "The OTP is not valid", FORBIDDEN.value(), FORBIDDEN, errors));
         }
-
 
     }
 
     @GetMapping("/generate/{id}")
     public ResponseEntity<?> generate(@PathVariable String id) {
-        return ResponseEntity.ok().body(new ApiResponse(true, totpManager.getUriForImage(id, "", ""), OK.value(), OK, new ArrayList<>()));
+        return ResponseEntity.ok()
+                .body(new ApiResponse(true, totpManager.getUriForImage(id, "", ""), OK.value(), OK, new ArrayList<>()));
     }
 
     @PostMapping("/forgot")
     public ResponseEntity<?> forgot(@RequestBody LoginModel loginModel) {
-        regularAuditService.audit(new RegularAuditModel("Request for forgot password", loginModel.getEmail(), "", true));
+        regularAuditService
+                .audit(new RegularAuditModel("Request for forgot password", loginModel.getEmail(), "", true));
         String email = loginModel.getEmail();
         return loginService.forgot(email);
     }
 
     @PostMapping("/verifyCode")
     public ResponseEntity<?> verifyCode(@RequestBody LoginModel loginModel) {
-        regularAuditService.audit(new RegularAuditModel("Request for verification of code for forgot password", loginModel.getEmail(), "", true));
+        regularAuditService.audit(new RegularAuditModel("Request for verification of code for forgot password",
+                loginModel.getEmail(), "", true));
         String email = loginModel.getEmail();
         String code = loginModel.getPassword();
         return loginService.verifyCode(email, code);
     }
 
     @PostMapping("/savePassword")
-    public ResponseEntity<?> savePassword(@RequestBody ChangePasswordModel changePasswordModel) throws MessagingException, UnsupportedEncodingException {
-        regularAuditService.audit(new RegularAuditModel("Request to save password for given otp", changePasswordModel.email, "", true));
-        return loginService.savePassword(changePasswordModel.email, changePasswordModel.password, changePasswordModel.conformPassword, changePasswordModel.code);
+    public ResponseEntity<?> savePassword(@RequestBody ChangePasswordModel changePasswordModel)
+            throws MessagingException, UnsupportedEncodingException {
+        regularAuditService.audit(
+                new RegularAuditModel("Request to save password for given otp", changePasswordModel.email, "", true));
+        return loginService.savePassword(changePasswordModel.email, changePasswordModel.password,
+                changePasswordModel.conformPassword, changePasswordModel.code);
     }
 }
 

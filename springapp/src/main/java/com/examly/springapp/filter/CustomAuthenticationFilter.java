@@ -2,9 +2,6 @@ package com.examly.springapp.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.examly.springapp.audit.RegularAuditModel;
-import com.examly.springapp.audit.RegularAuditService;
-import com.examly.springapp.mfa.TotpManager;
 import com.examly.springapp.model.LoginModel;
 import com.examly.springapp.response.ApiResponse;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,8 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -27,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,15 +34,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Autowired
     private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private TotpManager totpManager;
-
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException {
         LoginModel loginModel = null;
         String email = "";
         String password = "";
@@ -73,17 +65,18 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             throw new UsernameNotFoundException("User not found");
         }
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginModel.getEmail(), loginModel.getPassword());;
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                loginModel.getEmail(), loginModel.getPassword());
+        ;
         return authenticationManager.authenticate(authenticationToken);
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
-
-        String mfa = request.getHeader("mfa");
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+            Authentication authentication) throws IOException, ServletException {
         User user = (User) authentication.getPrincipal();
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        List<String> data = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        List<String> data = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
         String isActive = getValue(data.get(0));
         data.remove(0);
         String isMfa = getValue(data.get(0));
@@ -100,37 +93,40 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             response.setStatus(OK.value());
             response.setContentType(APPLICATION_JSON_VALUE);
             errors.add("User blocked");
-            new ObjectMapper().writeValue(response.getOutputStream(), new ApiResponse(false, "The user is disabled. Contact Administrator.", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, new ArrayList<>()));
+            new ObjectMapper().writeValue(response.getOutputStream(),
+                    new ApiResponse(false, "The user is disabled. Contact Administrator.", NOT_ACCEPTABLE.value(),
+                            NOT_ACCEPTABLE, new ArrayList<>()));
         }
         if (isMfa.equals("true") && isVerifiedForTOTP.equals("true")) {
             response.setHeader("mfa", "true");
             response.setStatus(OK.value());
             response.setContentType(APPLICATION_JSON_VALUE);
-            new ObjectMapper().writeValue(response.getOutputStream(), new ApiResponse(true, "Needed two step verification", OK.value(), OK, new ArrayList<>()));
+            new ObjectMapper().writeValue(response.getOutputStream(),
+                    new ApiResponse(true, "Needed two step verification", OK.value(), OK, new ArrayList<>()));
         } else {
             Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-            String access_token = JWT.create()
-                    .withSubject(user.getUsername())
+            String access_token = JWT.create().withSubject(user.getUsername())
                     .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 1000))
-                    .withIssuer(request.getRequestURL().toString())
-                    .withClaim("user_id", userId)
-                    .withClaim("roles", data)
-                    .sign(algorithm);
+                    .withIssuer(request.getRequestURL().toString()).withClaim("user_id", userId)
+                    .withClaim("roles", data).sign(algorithm);
             response.setHeader("Authorization", access_token);
             response.setHeader("mfa", "false");
             response.setStatus(OK.value());
             response.setContentType(APPLICATION_JSON_VALUE);
-            new ObjectMapper().writeValue(response.getOutputStream(), new ApiResponse(true, access_token, OK.value(), OK, new ArrayList<>()));
+            new ObjectMapper().writeValue(response.getOutputStream(),
+                    new ApiResponse(true, access_token, OK.value(), OK, new ArrayList<>()));
         }
     }
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException failed) throws IOException, ServletException {
         response.setStatus(OK.value());
         response.setContentType(APPLICATION_JSON_VALUE);
         List<String> errors = new ArrayList<>();
         errors.add("Unsuccessful authentication");
-        new ObjectMapper().writeValue(response.getOutputStream(), new ApiResponse(false, "No user was found for the above credentials", FORBIDDEN.value(), FORBIDDEN, errors));
+        new ObjectMapper().writeValue(response.getOutputStream(), new ApiResponse(false,
+                "No user was found for the above credentials", FORBIDDEN.value(), FORBIDDEN, errors));
 
     }
 

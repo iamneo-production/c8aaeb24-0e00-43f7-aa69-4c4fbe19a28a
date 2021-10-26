@@ -2,16 +2,13 @@ package com.examly.springapp.email;
 
 import com.examly.springapp.audit.RegularAuditModel;
 import com.examly.springapp.audit.RegularAuditService;
-import com.examly.springapp.controller.SignupController;
 import com.examly.springapp.model.UserModel;
 import com.examly.springapp.repository.UserRepository;
 import com.examly.springapp.response.ApiResponse;
-import com.examly.springapp.service.SignupService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,12 +44,15 @@ public class EmailController {
         ArrayList<String> emails = emailModel.getEmails();
         List<String> errors = new ArrayList<>();
         if (emailModel.getSubject() == "") {
-            regularAuditService.audit(new RegularAuditModel("Request for sending mail", email, "Subject was empty but then added default subject", true));
+            regularAuditService.audit(new RegularAuditModel("Request for sending mail", email,
+                    "Subject was empty but then added default subject", true));
             emailModel.setSubject("EBook Store - Administrator");
         } else if (emailModel.getBody() == "") {
             errors.add("No body is present");
-            regularAuditService.audit(new RegularAuditModel("Request for sending mail", email, "Failed due to empty body", false));
-            return ResponseEntity.ok().body(new ApiResponse(false, "The body was empty", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
+            regularAuditService
+                    .audit(new RegularAuditModel("Request for sending mail", email, "Failed due to empty body", false));
+            return ResponseEntity.ok()
+                    .body(new ApiResponse(false, "The body was empty", NOT_ACCEPTABLE.value(), NOT_ACCEPTABLE, errors));
         }
         if (emails.size() == 0 || emails.get(0) == "") {
             List<UserModel> users = userRepository.findAll();
@@ -62,12 +62,15 @@ public class EmailController {
                 if (user.getRole().equals("user")) {
                     try {
                         emailSenderService.sendMail(user.getEmail(), emailModel.getSubject(), emailModel.getBody());
-                        regularAuditService.audit(new RegularAuditModel("Request to send mail - success", email, user.getEmail(), true));
+                        regularAuditService.audit(
+                                new RegularAuditModel("Request to send mail - success", email, user.getEmail(), true));
                     } catch (MessagingException e) {
                         e.printStackTrace();
-                        regularAuditService.audit(new RegularAuditModel("Request to send mail", email, user.getEmail(), false));
+                        regularAuditService
+                                .audit(new RegularAuditModel("Request to send mail", email, user.getEmail(), false));
                     } catch (UnsupportedEncodingException e) {
-                        regularAuditService.audit(new RegularAuditModel("Request to send email mail", email, user.getEmail(), false));
+                        regularAuditService.audit(
+                                new RegularAuditModel("Request to send email mail", email, user.getEmail(), false));
                         e.printStackTrace();
                     }
                 }
@@ -77,7 +80,8 @@ public class EmailController {
                 try {
                     regularAuditService.audit(new RegularAuditModel("Request to send mail", email, userMail, true));
                     emailSenderService.sendMail(userMail, emailModel.getSubject(), emailModel.getBody());
-                    regularAuditService.audit(new RegularAuditModel("Request to send mail - success", email, userMail, true));
+                    regularAuditService
+                            .audit(new RegularAuditModel("Request to send mail - success", email, userMail, true));
                 } catch (MessagingException e) {
                     regularAuditService.audit(new RegularAuditModel("Request to send mail", email, userMail, false));
                     e.printStackTrace();
@@ -90,20 +94,18 @@ public class EmailController {
         }
 
         regularAuditService.audit(new RegularAuditModel("Request to send mail to all - success", email, "", true));
-        return ResponseEntity.ok().body(new ApiResponse(true, "The mails are sent successfully", OK.value(), OK, errors));
+        return ResponseEntity.ok()
+                .body(new ApiResponse(true, "The mails are sent successfully", OK.value(), OK, errors));
     }
 
     @Async
     @AfterReturning(pointcut = "execution(* com.examly.springapp.service.SignupService.saveUser(..))", returning = "result")
-    public void afterReturningSignupMail(JoinPoint joinPoint, ResponseEntity<?> result) throws MessagingException, UnsupportedEncodingException {
+    public void afterReturningSignupMail(JoinPoint joinPoint, ResponseEntity<?> result)
+            throws MessagingException, UnsupportedEncodingException {
         ApiResponse res = (ApiResponse) result.getBody();
-        Integer status = (Integer) result.getStatusCodeValue();
-        String response = joinPoint.getSignature().toShortString();
-        if(200 != res.getStatus()) {
+        if (200 != res.getStatus()) {
             return;
-        }
-        else {
-            List<String> messages = res.getErrors();
+        } else {
 
         }
     }

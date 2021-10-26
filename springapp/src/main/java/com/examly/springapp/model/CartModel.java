@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +17,8 @@ import java.util.List;
 @Entity(name = "carts")
 @EntityScan
 @Embeddable
-@Table(indexes = {
-        @Index(name = "idx_cartmodel_cartitemid", columnList = "cartItemId")
-})
+@Table(indexes = { @Index(name = "idx_cartmodel_cartitemid", columnList = "cartItemId") })
 public class CartModel {
-
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -40,13 +36,11 @@ public class CartModel {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String productName;
 
-
     @Convert(converter = StringToIntegerConverter.class)
     @Column(name = "quantity")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "Invalid quantity")
     private String quantity;
-
 
     @Convert(converter = StringToFloatConverter.class)
     @Column(name = "price")

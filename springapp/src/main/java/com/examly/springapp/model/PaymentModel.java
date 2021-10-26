@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity(name = "payments")
 @Table(name = "payments")
@@ -62,7 +61,6 @@ public class PaymentModel {
     public void setPaymentId(String paymentId) {
         this.paymentId = paymentId;
     }
-
 
     public String getUserId() {
         return userId;

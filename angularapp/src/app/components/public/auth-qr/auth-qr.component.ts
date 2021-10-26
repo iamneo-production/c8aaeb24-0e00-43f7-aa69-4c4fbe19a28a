@@ -39,7 +39,7 @@ export class AuthQrComponent implements OnInit {
 						NotificationType.SUCCESS,
 						'OTP validation successful'
 					);
-					if (this.add) {
+					if (this.add == true) {
 						this.notificationService.notify(
 							NotificationType.SUCCESS,
 							'Login successful'
@@ -49,10 +49,10 @@ export class AuthQrComponent implements OnInit {
 						this.dialogRef.close();
 					} else {
 						this.notificationService.notify(
-							NotificationType.SUCCESS,
-							'Logout successful'
+							NotificationType.INFO,
+							'Setup complete - You need to sign in again'
 						);
-						localStorage.removeItem('token');
+						localStorage.clear();
 						this.router.navigate(['/login']);
 						this.dialogRef.close();
 					}

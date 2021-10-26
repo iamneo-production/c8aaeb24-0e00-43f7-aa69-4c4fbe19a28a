@@ -40,6 +40,8 @@ export class DashboardUserComponent implements OnInit {
 	token: any = localStorage.getItem('token');
 	jwt: any = '';
 	pass: any = '';
+	disableMail: any;
+	disablePass: any;
 
 	ngOnInit(): void {}
 	transactions: any = [
@@ -106,12 +108,13 @@ export class DashboardUserComponent implements OnInit {
 			});
 	}
 
-	enable() {
+	enableMFA() {
 		this.api = 'http://localhost:8080/user/activatemfa';
 		this.token = localStorage.getItem('token') || '{}';
 		this.jwt = jwtDecode(this.token);
 		if (this.jwt == null) {
 			this.notificationService.notify(NotificationType.DANGER, 'Token invalid');
+			localStorage.clear();
 			this.router.navigate(['/login']);
 			return;
 		} else {
@@ -119,7 +122,7 @@ export class DashboardUserComponent implements OnInit {
 				.post(
 					this.api,
 					{
-						email: this.jwt.sub,
+						email: this.mail,
 						password: this.pass,
 					},
 					{
@@ -146,23 +149,42 @@ export class DashboardUserComponent implements OnInit {
 	}
 
 	onCreate(qrcode: any) {
-		const dialogConfig = new MatDialogConfig();
-		dialogConfig.disableClose = true;
-		dialogConfig.autoFocus = true;
-		dialogConfig.closeOnNavigation = false;
-		this.dialog.open(AuthQrComponent, {
+		const dialogRef = this.dialog.open(AuthQrComponent, {
 			height: '80%',
 			width: '50%',
+			disableClose: false,
+			autoFocus: true,
+			closeOnNavigation: true,
 			data: {
 				qrcode: qrcode,
-				email: this.enableEmail,
 				password: this.pass,
-				add: true,
+				email: this.mail,
+				add: false,
 			},
 		});
+		dialogRef.afterClosed().subscribe((result) => {});
 	}
 
-	sendTOTP() {}
+	disableMFA() {
+		this.http
+			.post('http://localhost:8080/user/disablemfa', {
+				email: this.disableMail,
+				password: this.disablePass,
+			})
+			.subscribe((data: any) => {
+				if (data.result == true) {
+					this.notificationService.notify(
+						NotificationType.SUCCESS,
+						data.message
+					);
+				} else {
+					this.notificationService.notify(
+						NotificationType.DANGER,
+						data.message
+					);
+				}
+			});
+	}
 
 	showToast(
 		add: any,

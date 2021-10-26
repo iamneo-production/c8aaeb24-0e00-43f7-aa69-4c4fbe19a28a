@@ -101,9 +101,42 @@ export class ProductPageComponent implements OnInit {
 	placeitem(productList: any) {
 		console.log(productList);
 		localStorage.setItem('current_ordered_item', JSON.stringify(this.item));
+		this.productName = productList.productName;
+		this.quantity = productList.quantity;
+		this.needed = 1;
 		localStorage.setItem('pay', 'true');
-		this.additem = new AddCart(productList.productId, productList.quantity);
-		this.router.navigate(['/checkout']);
+		const dialogRef = this.dialog.open(QuantityboxComponent, {
+			width: '20%',
+			data: {
+				name: this.productName,
+				quantity: this.quantity,
+				needed: this.needed,
+			},
+		});
+		dialogRef.afterClosed().subscribe((result) => {
+			if (result.quantity < result.needed) {
+				this.notificationService.notify(
+					NotificationType.DANGER,
+					'Insufficient quantity'
+				);
+				return;
+			}
+			this.cartItem = new AddCart(productList.productId, result.needed);
+			this.userApi.placeOrder(this.cartItem).subscribe((data: any) => {
+				if (data.status == 'Ordered') {
+					this.router.navigate(['/checkout']);
+					this.notificationService.notify(
+						NotificationType.SUCCESS,
+						'Items added to orders, please conform your payment for shipping'
+					);
+				} else {
+					this.notificationService.notify(
+						NotificationType.SUCCESS,
+						'You have added maximum available stock to your cart'
+					);
+				}
+			});
+		});
 	}
 
 	see(data: any) {

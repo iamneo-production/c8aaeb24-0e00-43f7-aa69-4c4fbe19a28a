@@ -38,12 +38,14 @@ export class SignupComponent implements OnInit {
 	password = '';
 	loading: boolean = false;
 	Signup: signup = new signup();
+	stop: any = false;
 
 	checkMfa() {
 		this.Signup.password = this.pass;
 		this.Signup.mobileNumber = this.mobile;
 		this.toggleLoading();
 		if (this.pass == this.conformPass) {
+			this.stop = !this.stop;
 			this.signupservice.createSignup(this.Signup).subscribe((data: any) => {
 				if (data.result == true && this.Signup.mfa == false) {
 					this.notificationService.notify(
@@ -58,6 +60,11 @@ export class SignupComponent implements OnInit {
 					);
 					this.onCreate(data.message);
 				} else {
+					this.stop = !this.stop;
+					this.notificationService.notify(
+						NotificationType.DANGER,
+						data.message
+					);
 					for (let t = 0; t < data.errors.length; ++t) {
 						this.notificationService.notify(
 							NotificationType.DANGER,
@@ -67,6 +74,7 @@ export class SignupComponent implements OnInit {
 				}
 			});
 		} else {
+			this.stop = !this.stop;
 			this.notificationService.notify(
 				NotificationType.DANGER,
 				'Passwords did not match'
@@ -86,6 +94,7 @@ export class SignupComponent implements OnInit {
 				qrcode: qrcode,
 				email: this.Signup.email,
 				password: this.Signup.password,
+				add: true,
 			},
 		});
 	}

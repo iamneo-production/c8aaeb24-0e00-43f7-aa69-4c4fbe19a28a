@@ -29,8 +29,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     private RegularAuditService regularAuditService;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        String email = "", password = "";
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException exception) throws IOException, ServletException {
+        String email = "";
         try {
             String test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
             if (test == null) {
@@ -40,9 +41,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(test);
             email = jsonNode.get("email").asText();
-            password = jsonNode.get("password").asText();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             regularAuditService.audit(new RegularAuditModel("Authetication failed", "", "Exception caused", false));
         }
 
@@ -53,7 +52,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         OutputStream outputStream = response.getOutputStream();
         ObjectMapper objectMapper = new ObjectMapper();
         errors.add("Authentication failed");
-        objectMapper.writeValue(outputStream, new ApiResponse(false, "You are not authenticated", FORBIDDEN.value(), FORBIDDEN, errors));
+        objectMapper.writeValue(outputStream,
+                new ApiResponse(false, "You are not authenticated", FORBIDDEN.value(), FORBIDDEN, errors));
         outputStream.flush();
     }
 }

@@ -1,8 +1,8 @@
 <app-navbar-user></app-navbar-user>
 <nb-layout>
 	<nb-layout-column>
-		<nb-card>
-			<nb-card-body style="margin-top: 15px">
+		<nb-card style="margin-top: 60px">
+			<nb-card-body>
 				<nb-tabset fullWidth>
 					<nb-tab tabIcon="email-outline">
 						<p><strong>Send message to Admin</strong>.</p>
@@ -44,6 +44,120 @@
 									<div class="spacing">
 										<button
 											(click)="sendMessage()"
+											hero
+											nbButton
+											status="primary"
+										>
+											Send
+										</button>
+									</div>
+								</div>
+							</nb-card-body>
+						</nb-card>
+					</nb-tab>
+					<nb-tab tabIcon="shield-outline">
+						<p><strong>Enable two step verification</strong>.</p>
+						<nb-card>
+							<nb-card-header>
+								<p>Enter your details to enable two step verification</p>
+							</nb-card-header>
+							<nb-card-body>
+								<p>
+									Please contact admin to disable your account, if you find any
+									suspicious actions done on your account
+								</p>
+								<div class="holder">
+									<nb-form-field class="spacing">
+										<nb-icon
+											icon="at-outline"
+											nbPrefix
+											pack="eva"
+											status="primary"
+										></nb-icon>
+										<input
+											[(ngModel)]="mail"
+											nbInput
+											placeholder="Enter your mail"
+											required
+											type="email"
+										/>
+									</nb-form-field>
+									<nb-form-field class="spacing">
+										<nb-icon
+											icon="lock-outline"
+											nbPrefix
+											pack="eva"
+											status="info"
+										></nb-icon>
+										<input
+											[(ngModel)]="pass"
+											nbInput
+											placeholder="Enter your password"
+											required
+											type="email"
+											(keydown.enter)="enableMFA()"
+										/>
+									</nb-form-field>
+									<div class="spacing">
+										<button
+											(click)="enableMFA()"
+											hero
+											nbButton
+											status="primary"
+										>
+											Send
+										</button>
+									</div>
+								</div>
+							</nb-card-body>
+						</nb-card>
+					</nb-tab>
+					<nb-tab tabIcon="shield-off-outline">
+						<p><strong>Disable two step verification</strong>.</p>
+						<nb-card>
+							<nb-card-header>
+								<p>Enter your details to disable two step verification</p>
+							</nb-card-header>
+							<nb-card-body>
+								<p>
+									Please contact admin to disable your account, if you find any
+									suspicious actions done on your account
+								</p>
+								<div class="holder">
+									<nb-form-field class="spacing">
+										<nb-icon
+											icon="at-outline"
+											nbPrefix
+											pack="eva"
+											status="primary"
+										></nb-icon>
+										<input
+											[(ngModel)]="disableMail"
+											nbInput
+											placeholder="Enter your mail"
+											required
+											type="email"
+										/>
+									</nb-form-field>
+									<nb-form-field class="spacing">
+										<nb-icon
+											icon="lock-outline"
+											nbPrefix
+											pack="eva"
+											status="info"
+										></nb-icon>
+										<input
+											[(ngModel)]="pass"
+											nbInput
+											placeholder="Enter your password"
+											required
+											type="email"
+											(keydown.enter)="disableMFA()"
+										/>
+									</nb-form-field>
+									<div class="spacing">
+										<button
+											(click)="disableMFA()"
 											hero
 											nbButton
 											status="primary"
