@@ -1,73 +1,79 @@
 <app-navbar-user></app-navbar-user>
-<div
-	*ngIf="dataSource.data.length == 0; else elseBlock"
-	style="position: absolute; margin-top: 20px; display: block"
-	class="card"
->
-	<div class="empty-state">
-		<div class="empty-state__content">
-			<div class="empty-state__icon">
-				<img alt="" src="../../../assets/fast-delivery.png" />
-			</div>
-			<div class="empty-state__message">Your order list empty.</div>
-			<div class="empty-state__help b1">
-				<button
-					hero
-					nbButton
-					routerLink="/home"
-					routerLinkActive="active"
-					status="warning"
-				>
-					Buy Now!
-				</button>
+<nb-layout>
+	<nb-layout-column
+		*ngIf="dataSource.data.length == 0; else elseBlock"
+		style="position: absolute; margin-top: -30px; display: block"
+		class="card"
+	>
+		<div class="empty-state">
+			<div class="empty-state__content">
+				<div class="empty-state__icon">
+					<img alt="" src="../../../assets/fast-delivery.png" />
+				</div>
+				<div class="empty-state__message">Your order list empty.</div>
+				<div class="empty-state__help b1">
+					<button
+						hero
+						nbButton
+						routerLink="/home"
+						routerLinkActive="active"
+						status="warning"
+					>
+						Buy Now!
+					</button>
+				</div>
 			</div>
 		</div>
-	</div>
-</div>
-<ng-template #elseBlock>
-	<div class="mat-elevation-z8">
-		<table
-			[dataSource]="dataSource"
-			aria-label="Elements"
-			class="full-width-table"
-			mat-table
-			matSort
-		>
-			<ng-container matColumnDef="price">
-				<th *matHeaderCellDef mat-header-cell mat-sort-header>Id</th>
-				<td *matCellDef="let row" mat-cell>{{ row.orderId }}</td>
-			</ng-container>
-			<ng-container matColumnDef="name">
-				<th
-					*matHeaderCellDef
-					mat-header-cell
-					mat-sort-header
-					style="align-items: center"
+	</nb-layout-column>
+	<nb-layout-column>
+		<ng-template #elseBlock>
+			<div class="mat-elevation-z8">
+				<table
+					[dataSource]="dataSource"
+					aria-label="Elements"
+					class="full-width-table"
+					mat-table
+					matSort
 				>
-					Name
-				</th>
-				<td *matCellDef="let row" mat-cell>{{ row.prodcutName }}</td>
-			</ng-container>
-			<ng-container matColumnDef="quantity">
-				<th *matHeaderCellDef mat-header-cell mat-sort-header>Quantity</th>
-				<td *matCellDef="let row" mat-cell>{{ row.quantity }}</td>
-			</ng-container>
-			<ng-container matColumnDef="TotalPrice">
-				<th *matHeaderCellDef mat-header-cell mat-sort-header>TotalPrice</th>
-				<td *matCellDef="let row" mat-cell>{{ row.totalPrice }}</td>
-			</ng-container>
-			<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-			<tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
-		</table>
+					<ng-container matColumnDef="price">
+						<th *matHeaderCellDef mat-header-cell mat-sort-header>Id</th>
+						<td *matCellDef="let row" mat-cell>{{ row.orderId }}</td>
+					</ng-container>
+					<ng-container matColumnDef="name">
+						<th
+							*matHeaderCellDef
+							mat-header-cell
+							mat-sort-header
+							style="align-items: center"
+						>
+							Name
+						</th>
+						<td *matCellDef="let row" mat-cell>{{ row.prodcutName }}</td>
+					</ng-container>
+					<ng-container matColumnDef="quantity">
+						<th *matHeaderCellDef mat-header-cell mat-sort-header>Quantity</th>
+						<td *matCellDef="let row" mat-cell>{{ row.quantity }}</td>
+					</ng-container>
+					<ng-container matColumnDef="TotalPrice">
+						<th *matHeaderCellDef mat-header-cell mat-sort-header>
+							TotalPrice
+						</th>
+						<td *matCellDef="let row" mat-cell>{{ row.totalPrice }}</td>
+					</ng-container>
+					<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+					<tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+				</table>
 
-		<mat-paginator
-			#paginator
-			[length]="dataSource?.data?.length"
-			[pageIndex]="0"
-			[pageSizeOptions]="[5, 10, 20]"
-			[pageSize]="10"
-			aria-label="Select page"
-		>
-		</mat-paginator>
-	</div>
-</ng-template>
+				<mat-paginator
+					#paginator
+					[length]="dataSource?.data?.length"
+					[pageIndex]="0"
+					[pageSizeOptions]="[5, 10, 20]"
+					[pageSize]="10"
+					aria-label="Select page"
+				>
+				</mat-paginator>
+			</div>
+		</ng-template>
+	</nb-layout-column>
+</nb-layout>

@@ -11,6 +11,7 @@ import { ForgotPasswordComponent } from '../../components/public/forgot-password
 import { FormValidatorsService } from '../../services/formvalidators/formvalidators.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { NgForm } from '@angular/forms';
+import { NbThemeService } from '@nebular/theme';
 
 @Component({
 	selector: 'app-login',
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit {
 		private notificationService: NotificationService,
 		public formValidators: FormValidatorsService,
 		private title: Title,
-		private meta: Meta
+		private meta: Meta,
+		private themeService: NbThemeService
 	) {
 		this.title.setTitle('EBook Store - Login');
 	}
@@ -43,6 +45,8 @@ export class LoginComponent implements OnInit {
 	emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
 	loginForm = this.formValidators.loginForm;
 	@ViewChild('myNgForm') myNgForm: any;
+	theme: any = false;
+
 	ngOnInit(): void {
 		this.myNgForm.resetForm();
 		if (!!localStorage.getItem('token')) {
@@ -138,5 +142,15 @@ export class LoginComponent implements OnInit {
 		dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
 		this.dialog.open(ForgotPasswordComponent, { height: '38%', width: '25%' });
+	}
+
+	toggleTheme() {
+		if (this.theme == false) {
+			this.theme = !this.theme;
+			this.themeService.changeTheme('dark');
+		} else {
+			this.theme = !this.theme;
+			this.themeService.changeTheme('default');
+		}
 	}
 }

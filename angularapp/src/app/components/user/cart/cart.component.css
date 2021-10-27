@@ -45,7 +45,6 @@ td {
 }
 
 .empty-state {
-	width: 750px;
 	margin: 40px auto;
 	margin-left: 20%;
 	background: #ffffff;
@@ -141,7 +140,7 @@ td {
 	font: 700 1.2rem "Roboto Slab", sans-serif;
 	padding: 1em 2em;
 	letter-spacing: 0.05rem;
-	margin-top: 20%;
+	margin-top: 30%;
 }
 .btn:focus {
 	outline: 2px dotted #55d7dc;
@@ -155,4 +154,10 @@ td {
 
 .card {
 	margin-left: 20%;
+}
+
+.empty-cart {
+	position: relative;
+	width: 600%;
+	margin-left: -40%;
 }

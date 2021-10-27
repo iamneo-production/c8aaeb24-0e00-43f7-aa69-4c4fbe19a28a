@@ -39,9 +39,6 @@ export class AppComponent implements OnInit, OnDestroy {
 				this.deviceXs = result.mqAlias === 'xs' ? true : false;
 			}
 		);
-		if (!!localStorage.getItem('token')) {
-			this.router.navigate(['/home']);
-		}
 	}
 	ngOnDestroy() {
 		this.mediaSub.unsubscribe();

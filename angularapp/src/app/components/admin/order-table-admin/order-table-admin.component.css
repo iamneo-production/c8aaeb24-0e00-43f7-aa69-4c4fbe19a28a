@@ -24,6 +24,10 @@
 	width: 70%;
 }
 
+.picholder {
+	margin-left: 50%;
+}
+
 th {
 	height: 50px;
 	font-weight: bold;

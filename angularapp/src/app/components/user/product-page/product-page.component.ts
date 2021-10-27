@@ -84,6 +84,7 @@ export class ProductPageComponent implements OnInit {
 			this.cartItem = new AddCart(item.productId, result.needed);
 			this.userApi.addItemToCart(this.cartItem).subscribe((data: any) => {
 				if (data.result == true) {
+					localStorage.setItem('cart', JSON.stringify(this.cartItem));
 					this.notificationService.notify(
 						NotificationType.SUCCESS,
 						'Item added to the cart'
@@ -123,12 +124,13 @@ export class ProductPageComponent implements OnInit {
 			}
 			this.cartItem = new AddCart(productList.productId, result.needed);
 			this.userApi.placeOrder(this.cartItem).subscribe((data: any) => {
+				localStorage.setItem('cart', JSON.stringify(this.cartItem));
 				if (data.status == 'Ordered') {
-					this.router.navigate(['/checkout']);
 					this.notificationService.notify(
 						NotificationType.SUCCESS,
 						'Items added to orders, please conform your payment for shipping'
 					);
+					this.router.navigate(['/checkout']);
 				} else {
 					this.notificationService.notify(
 						NotificationType.SUCCESS,
@@ -137,11 +139,5 @@ export class ProductPageComponent implements OnInit {
 				}
 			});
 		});
-	}
-
-	see(data: any) {
-		this.loc = 'http://localhost:' + this.port + '/view/' + data.productId;
-		window.location.href = this.loc;
-		window.location.reload();
 	}
 }

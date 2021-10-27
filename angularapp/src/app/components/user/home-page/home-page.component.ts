@@ -77,7 +77,7 @@ export class HomePageComponent implements OnInit {
 		}
 		this.time = new Date().getTime();
 		if (this.jwt == null || this.jwt.exp * 100 > this.time) {
-			localStorage.removeItem('token');
+			localStorage.clear();
 			this.router.navigate(['/login']);
 		}
 		this.userApi.getHomeProducts().subscribe(
@@ -133,10 +133,13 @@ export class HomePageComponent implements OnInit {
 				);
 				return;
 			}
+			localStorage.setItem('current_ordered_item', JSON.stringify(item));
 			this.cartItem = new AddCart(item.productId, result.needed);
+			localStorage.setItem('pay', 'true');
 			localStorage.setItem('price', (result.quantity * item.price).toString());
 			this.userApi.addItemToCart(this.cartItem).subscribe((data: any) => {
 				if (data.result == true) {
+					localStorage.setItem('cart', JSON.stringify(this.cartItem));
 					this.notificationService.notify(
 						NotificationType.SUCCESS,
 						'Item added to the cart'

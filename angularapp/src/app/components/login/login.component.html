@@ -1,5 +1,14 @@
 <nb-layout>
 	<nb-layout-column left>
+		<button
+			(click)="toggleTheme()"
+			nbButton
+			hero
+			status="primary"
+			style="float: left"
+		>
+			Toggle Theme
+		</button>
 		<form [formGroup]="loginForm" #myNgForm>
 			<div class="loginForm">
 				<div class="holder">

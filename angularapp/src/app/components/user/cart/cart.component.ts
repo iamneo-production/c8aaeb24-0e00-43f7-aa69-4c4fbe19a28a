@@ -69,6 +69,7 @@ export class CartComponent implements OnInit {
 	placeOrder() {
 		localStorage.setItem('pay', 'true');
 		this.userApi.saveOrder().subscribe((data: any) => {
+			localStorage.setItem('current_ordered_item', JSON.stringify(data));
 			if (data.length > 0) {
 				this.notificationService.notify(
 					NotificationType.SUCCESS,
@@ -79,6 +80,7 @@ export class CartComponent implements OnInit {
 					this.price += data[0].price * data[0].quantity;
 				}
 				localStorage.setItem('price', this.price);
+				localStorage.setItem('pay', 'true');
 				this.router.navigate(['/checkout']);
 			} else {
 				this.notificationService.notify(

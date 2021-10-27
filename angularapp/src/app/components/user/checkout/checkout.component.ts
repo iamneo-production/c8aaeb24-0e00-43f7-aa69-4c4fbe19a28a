@@ -32,15 +32,19 @@ export class CheckoutComponent implements OnInit {
 		this.title.setTitle('EBook Store - Checkout');
 	}
 
-	cartItems = JSON.parse(localStorage.getItem('current_ordered_item') || '{}');
+	cartItems =
+		JSON.parse(
+			localStorage.getItem('current_ordered_item') ||
+				`[{"productId":"40285d257cc06fcc017cc06feacf0005","productName":"Sapiens","price":"319.0","quantity":"1"}]`
+		) || [];
 
 	strikeCheckout: any = null;
 	paid: boolean = false;
 
 	paymentDone: boolean = false;
-	money: number = JSON.parse(localStorage.getItem('cart') || '[]')[0].price;
+	money: number = parseFloat(localStorage.getItem('price') || '5000');
 	item: any = [];
-	cart = JSON.parse(localStorage.getItem('cart') || '[]');
+	cart = JSON.parse(localStorage.getItem('cart') || '[]') || [];
 	paymentRequest!: google.payments.api.PaymentDataRequest;
 	buttonColor: any = 'black';
 	buttonType: any = 'buy';
@@ -54,9 +58,6 @@ export class CheckoutComponent implements OnInit {
 	checkOutForm = this.formValidators.checkOutForm;
 
 	ngOnInit() {
-		if (!localStorage.getItem('pay')) {
-			this.router.navigate(['/home']);
-		}
 		this.stripePaymentGateway();
 		this.paymentRequest = {
 			apiVersion: 2,
@@ -189,7 +190,7 @@ export class CheckoutComponent implements OnInit {
 			const data = {
 				paymentId: res.razorpay_payment_id,
 				userId: jwt.user_id,
-				amount: '',
+				amount: localStorage.getItem('price'),
 				email: jwt.sub,
 				provider: 'razorpay',
 			};

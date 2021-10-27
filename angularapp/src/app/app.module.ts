@@ -86,6 +86,7 @@ import {
 	NbAlertModule,
 	NbUserModule,
 	NbWindowModule,
+	NbThemeService,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
@@ -178,7 +179,7 @@ import { QuantityboxComponent } from './components/user/quantitybox/quantitybox.
 		MatTableModule,
 		ScrollingModule,
 		HttpClientModule,
-		NbThemeModule.forRoot({ name: 'default' }),
+		NbThemeModule.forRoot({ name: 'dark' }),
 		NbLayoutModule,
 		NbEvaIconsModule,
 		NbCardModule,
@@ -187,7 +188,6 @@ import { QuantityboxComponent } from './components/user/quantitybox/quantitybox.
 		NbStepperModule,
 		NbToastrModule.forRoot(),
 		NbDialogModule.forRoot(),
-		NbThemeModule.forRoot({ name: 'default' }),
 		NbLayoutModule,
 		NbEvaIconsModule,
 		NbIconModule,
@@ -195,7 +195,6 @@ import { QuantityboxComponent } from './components/user/quantitybox/quantitybox.
 		NbListModule,
 		NbToastrModule.forRoot(),
 		NbStepperModule,
-		NbThemeModule.forRoot({ name: 'default' }),
 		NbLayoutModule,
 		NbEvaIconsModule,
 		NbButtonModule,
@@ -236,6 +235,7 @@ import { QuantityboxComponent } from './components/user/quantitybox/quantitybox.
 		NbToastrModule,
 		NbDialogService,
 		NbDialogModule,
+		NbThemeService,
 		FormValidatorsService,
 		{
 			provide: OverlayContainer,

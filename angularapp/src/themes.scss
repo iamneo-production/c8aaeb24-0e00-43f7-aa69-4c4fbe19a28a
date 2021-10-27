@@ -1,5 +1,5 @@
 @import "~@nebular/theme/styles/theming";
-@import "~@nebular/theme/styles/themes/default";
+@import "~@nebular/theme/styles/themes/dark";
 @import "~angular-notifier/styles";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
@@ -16,6 +16,6 @@ $nb-themes: nb-register-theme(
 		// color-primary-800: #102694,
 		// color-primary-900: #091c7a,
 	),
-	default,
-	default
+	dark,
+	dark
 );
