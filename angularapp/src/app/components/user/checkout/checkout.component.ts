@@ -58,6 +58,10 @@ export class CheckoutComponent implements OnInit {
 	checkOutForm = this.formValidators.checkOutForm;
 
 	ngOnInit() {
+		if (!!!localStorage.getItem('pay')) {
+			this.router.navigate(['home']);
+		}
+
 		this.stripePaymentGateway();
 		this.paymentRequest = {
 			apiVersion: 2,

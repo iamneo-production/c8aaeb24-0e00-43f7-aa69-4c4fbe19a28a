@@ -124,6 +124,7 @@ export class ProductPageComponent implements OnInit {
 			}
 			this.cartItem = new AddCart(productList.productId, result.needed);
 			this.userApi.placeOrder(this.cartItem).subscribe((data: any) => {
+				localStorage.setItem('pay', 'true');
 				localStorage.setItem('cart', JSON.stringify(this.cartItem));
 				if (data.status == 'Ordered') {
 					this.notificationService.notify(
